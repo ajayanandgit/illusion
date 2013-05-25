@@ -19,4 +19,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		$this->em = $em;
 		return $this;
 	}
+
+	/* Logout function */
+	public function handleSignOut()
+	{
+		$this->getUser()->logout();
+		$this->redirect('Sign:in');
+	}
 }

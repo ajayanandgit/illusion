@@ -1,9 +1,9 @@
 <?php
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping;
 
 /**
- * @ORM\Entity
+ * @Entity
  * 
  * @property-read int $id
  * @property-read string $username
@@ -14,32 +14,43 @@ use Doctrine\ORM\Mapping as ORM;
 class User extends \Nette\Object
 {
 	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue
+	 * @Id
+	 * @Column(type="integer")
+	 * @GeneratedValue
 	 * @var int
 	 */
 	private $id;
+
 	/**
-	 * @ORM\Column(unique=true)
+	 * @Column(unique=true)
 	 * @var string
 	 */
 	private $username;
+
 	/**
-	 * @ORM\Column
+	 * @Column
 	 * @var string
 	 */
 	private $email;
+
 	/**
-	 * @ORM\Column
+	 * @Column
 	 * @var string
 	 */
 	private $password;
+
 	/**
-	 * @ORM\Column
+	 * @Column
 	 * @var string
 	 */
 	private $role;
+
+	/**
+	 * @OneToOne(targetEntity="Company", mappedBy="user")
+	 */
+	private $company;
+
+
 	
 	/**
 	 * @param string
@@ -50,6 +61,8 @@ class User extends \Nette\Object
 		$this->username = static::normalizeString($username);
 	}
 	
+
+
 	/**
 	 * @return int
 	 */

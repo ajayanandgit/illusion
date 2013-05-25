@@ -27,6 +27,7 @@ common:
 
 	doctrine:
 		connection: %database%
+		useSimpleAnnotation: true
 
 		console: true
 
