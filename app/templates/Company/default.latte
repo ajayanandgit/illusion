@@ -22,7 +22,7 @@
 	<li class="nav-header">Možnosti</li>
 
 	{if $company != 'nic'}
-		<li><a href="{$basePath}/company/edit/">Upraviť profil</a></li>
+		<li><a n:href="Company:edit">Upraviť profil</a></li>
 	{else}
 		<li><a n:href="Company:create">Vytvoriť profil</a></li>
 	{/if}

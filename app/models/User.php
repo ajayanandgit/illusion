@@ -103,7 +103,7 @@ class User extends \Nette\Object
 	 */
 	public function setPassword($password)
 	{
-		$this->password = static::normalizeString($password);
+		$this->password = md5($password);
 		return $this;
 	}
 	
