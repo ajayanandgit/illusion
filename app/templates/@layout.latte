@@ -1,7 +1,7 @@
 {**
  * My Application layout template.
  *
- * @copyright  Copyright (c) 2010 John Doe
+ * @copyright  Copyright (c) 2013 Daniel Misina
  * @package    MyApplication
  *
  * @param string   $basePath web base path
@@ -17,22 +17,121 @@
 	<meta name="description" content="Nette Framework web application skeleton">
 	<meta name="robots" content="{$robots}" n:ifset="$robots">
 
-	<title>Nette Application Skeleton</title>
+	<title>Účtovný systém</title>
 
-	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css" type="text/css">
-	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css" type="text/css">
-	<link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="{$basePath}/css/style.css" type="text/css">
+	<link rel="stylesheet" href="{$basePath}/css/bootstrap.css" type="text/css">
+	<link rel="stylesheet" href="{$basePath}/css/bootstrap-responsive.css" type="text/css">
+	<style type="text/css">
+		body {
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
+		.sidebar-nav {
+			padding: 9px 0;
+		}
+
+		@media (max-width: 980px) {
+			/* Enable use of floated navbar text */
+			.navbar-text.pull-right {
+				float: none;
+				padding-left: 5px;
+				padding-right: 5px;
+			}
+		}
+	</style>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-	<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+	<!--<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>-->
+	<script type="text/javascript" src="{$basePath}/js/bootstrap.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", { packages:["corechart"] });
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+
+        var options = {
+          title: 'Company Performance'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
 	{block head}{/block}
 </head>
 
 <body>
 	<script> document.body.className+=' js' </script>
 
-	<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+	<div n:foreach="$flashes as $flash" class="flash {$flash->type}" id="flashmess">{$flash->message}</div>
 
-	{include #content}
+	{if $user->isLoggedIn()}
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div class="nav-collapse collapse">
+
+					<div class="btn-group pull-right">
+						<button class="btn dropdown-toggle" data-toggle="dropdown">
+							{$user->getIdentity()->username}
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+						<li><a href="#">Profil</a></li>
+						<li><a href="#">Nastavenia</a></li>
+						<li><a href="#">Jazyk</a></li>
+						<li class="divider"></li>
+						<li><a n:href="signOut!">Odhlásiť</a></li>
+						</ul>
+					</div>
+
+					<ul class="nav">
+						<li><a n:href="Homepage:">Úvod</a></li>
+						<li><a n:href="Company:">Moja firma</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+	{/if}
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			{if $user->isLoggedIn()}
+			<div class="span2">
+				<div class="well sidebar-nav">
+					<ul class="nav nav-list">
+						{include #sidebar}
+					</ul>
+				</div><!--/.well -->
+			</div><!--/span-->
+			{/if}
+
+			<div class="span9">
+				{include #content}
+			</div><!--/span-->
+		</div><!--/row-->
+
+		<hr>
+
+		<footer>
+			<p> Company &copy; 2013</p>
+		</footer>
+
+	</div><!--/.fluid-container-->
+
 </body>
 </html>

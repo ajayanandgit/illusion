@@ -45,7 +45,7 @@ class company extends \Nette\Object
 	 */
 	public function getCompanyName()
 	{
-		return $this->username;
+		return $this->companyName;
 	}
 
 	/**
@@ -56,6 +56,24 @@ class company extends \Nette\Object
 	{
 		$this->companyName = static::normalizeString($companyName);
 		return $this;
+	}
+
+	/**
+	 * Set User
+	 * @param User
+	 * @return Company
+	 */
+	public function setUser(User $user) {
+		$this->user = $user;
+		return $this;
+	}
+
+	/**
+	 * Get User
+	 * @return User
+	 */
+	public function getUser() {
+		return $this->user;
 	}
 
 	/**

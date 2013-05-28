@@ -1,6 +1,33 @@
 {block content}
 
-	<p>Wheee</p>
-	<p><a n:href="signOut!">Sign out</a></p>
+	<div class="hero-unit">
+		<h1>Vitaj, {$user->getIdentity()->username} ... </h1>
+		<p>&nbsp;</p>
+		<p>&nbsp;&nbsp;&nbsp;Info o tom, že sa používateľ nachádza na úvodnej stránke, kde vidí cashflow firmy, poslednú vystavenú faktúru, zoznam najväčších dlžníkov a najlepších zákazníkov firmy.</p>
+		<p>&nbsp;&nbsp;&nbsp;Ďalej si používateľ môže nastaviť zobrazovanie aktuálnych kurzov, z toho vyplýva, že musím vyhútať implementáciu aplikácie <i>kurzy.danielmisina.sk</i> do tohto chaosu.</p>
+
+		<p><a href="#" class="btn btn-primary btn-large">Čítaj viac &raquo;</a></p>
+	</div>
+
+	<div id="chart_div" style="width: 900px; height: 500px;"></div>
 	
+{/block}
+
+{block sidebar}
+	<li class="nav-header">Menu</li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li class="nav-header">Sidebar</li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li class="nav-header">Sidebar</li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
+	<li><a href="#">Link</a></li>
 {/block}

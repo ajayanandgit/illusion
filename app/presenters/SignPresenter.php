@@ -7,8 +7,8 @@ use Nette\Application\UI,
 /**
  * Sign in/out presenters.
  *
- * @author     John Doe
- * @package    MyApplication
+ * @author     Daniel Misina
+ * @package    UctovnySystem
  */
 class SignPresenter extends BasePresenter
 {
@@ -21,17 +21,22 @@ class SignPresenter extends BasePresenter
 	protected function createComponentSignInForm()
 	{
 		$form = new UI\Form;
-		$form->addText('username', 'Username:')
-			->setRequired('Please provide a username.');
+		$form->addText('username', '')
+			 ->setRequired('Please provide a username.')
+			 ->setAttribute('placeholder', 'login');
 
-		$form->addPassword('password', 'Password:')
-			->setRequired('Please provide a password.');
+		$form->addPassword('password', '')
+			 ->setRequired('Please provide a password.')
+			 ->setAttribute('placeholder', 'heslo');
 
-		$form->addCheckbox('remember', 'Remember me on this computer');
+		$form->addCheckbox('remember', 'Zapamätať si ma na tomto počítači')
+			 ->setAttribute('class', 'checkbox');;
 
-		$form->addSubmit('send', 'Sign in');
+		$form->addSubmit('send', 'Prihlásiť')
+			 ->setAttribute('class', 'btn btn-info');
 
 		$form->onSuccess[] = callback($this, 'signInFormSubmitted');
+
 		return $form;
 	}
 

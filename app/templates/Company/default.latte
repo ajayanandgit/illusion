@@ -1,0 +1,31 @@
+{block content}
+
+	<h1>Profil firmy</h1>
+	
+	<h2></h2>
+	{if $company != 'nic'}
+	<table>
+		<tbody>
+			<tr>
+				<td>Názov firmy</td>
+				<td>&nbsp;&nbsp;&nbsp;&nbsp;{$company->getCompanyName()}</td>
+			</tr><!-- Table Row -->
+		</tbody>
+	</table>
+	{else}
+		<p>Zatiaľ nemáte založený profil firmy.</p>
+	{/if}
+	
+{/block}
+
+{block sidebar}
+	<li class="nav-header">Možnosti</li>
+
+	{if $company != 'nic'}
+		<li><a href="{$basePath}/company/edit/">Upraviť profil</a></li>
+	{else}
+		<li><a n:href="Company:create">Vytvoriť profil</a></li>
+	{/if}
+	
+{/block}
+

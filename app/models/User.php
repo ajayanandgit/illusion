@@ -56,10 +56,10 @@ class User extends \Nette\Object
 	 * @param string
 	 * @return User
 	 */
-	public function __construct($username)
-	{
-		$this->username = static::normalizeString($username);
-	}
+	// public function __construct($username)
+	// {
+	// 	$this->username = static::normalizeString($username);
+	// }
 	
 
 
@@ -77,6 +77,16 @@ class User extends \Nette\Object
 	public function getUsername()
 	{
 		return $this->username;
+	}
+
+	/**
+	 * @param string
+	 * @return User
+	 */
+	public function setUsername($username)
+	{
+		$this->username = static::normalizeString($username);
+		return $this;
 	}
 	
 	/**
@@ -131,6 +141,14 @@ class User extends \Nette\Object
 	{
 		$this->role = static::normalizeString($role);
 		return $this;
+	}
+
+	/**
+	 * Get User's company
+	 * @return Company
+	 */
+	public function getCompany() {
+		return $this->company;
 	}
 	
 	/**

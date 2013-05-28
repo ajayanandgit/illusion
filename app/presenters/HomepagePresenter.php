@@ -3,11 +3,21 @@
 /**
  * Homepage presenter.
  *
- * @author     John Doe
- * @package    MyApplication
+ * @author     Daniel Misina
+ * @package    UctovnySystem
  */
 class HomepagePresenter extends BasePresenter
 {
+
+	protected function startup()
+	{
+		parent::startup();
+
+		if (!$this->getUser()->isLoggedIn()) {
+			$this->redirect('Sign:in');
+		}
+	}
+
 	public function actionCreateDefaultUser()
 	{
 		$user = new User('admin');
