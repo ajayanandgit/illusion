@@ -48,19 +48,12 @@ class User extends \Nette\Object
 	/**
 	 * @OneToOne(targetEntity="Company", mappedBy="user")
 	 */
-	private $company;
+	private $company;	
 
-
-	
 	/**
-	 * @param string
-	 * @return User
+	 * @OneToOne(targetEntity="AddressBook", mappedBy="user")
 	 */
-	// public function __construct($username)
-	// {
-	// 	$this->username = static::normalizeString($username);
-	// }
-	
+	private $addressBook;	
 
 
 	/**

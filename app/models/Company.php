@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping;
  * @property-read int $id
  * @property-read string $companyName
  */
-class company extends \Nette\Object
+class Company extends \Nette\Object
 {
 	/**
 	 * @Id
@@ -29,8 +29,7 @@ class company extends \Nette\Object
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	private $user;
-
-
+	
 
 	/**
 	 * @return int
