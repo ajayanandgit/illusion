@@ -3,7 +3,7 @@
 	<h1>Profil firmy</h1>
 	
 	<h2></h2>
-	{if $company != 'nic'}
+	{if $company != NULL}
 	<table>
 		<tbody>
 			<tr>
@@ -21,7 +21,7 @@
 {block sidebar}
 	<li class="nav-header">Možnosti</li>
 
-	{if $company != 'nic'}
+	{if $company != NULL}
 		<li><a n:href="Company:edit">Upraviť profil</a></li>
 	{else}
 		<li><a n:href="Company:create">Vytvoriť profil</a></li>

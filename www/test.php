@@ -3,8 +3,23 @@
 $container = require_once __DIR__ . '/bootstrap.php';
 
 $user = new User;
-$user->setName('vinco')
-	 ->setPassword('vinco');
+$user->setName('zofre')
+	 ->setPassword('zofre');
+
+$company = new Company;
+$company->setCompanyName('ZofreMedia')
+		->setUser($user);
+
+$contact1 = new Contact;
+$contact1->setContactName('Zofreho kontakticek 1');
+
+$contact2 = new Contact;
+$contact2->setContactName('Zofreho kontakticek 2');
+
+$addressBook = new addressBook;
+$addressBook->setUser($user)
+			->addContact($contact1)
+			->addContact($contact2);
 
 
 /*

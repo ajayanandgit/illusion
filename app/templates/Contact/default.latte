@@ -1,0 +1,46 @@
+{block content}
+
+	<h2>Pridať kontakt do adresára</h2>
+	{control contactForm}
+	
+{/block}
+
+{block sidebar}
+	
+	<li class="nav-header">Adresár</li>
+	
+	{if $contacts != NULL}
+		<div class="contact-list">
+			{foreach $contacts as $contact}
+				<li class="contact">{$contact->getName()}</li>
+				<li class="options"><small><a n:href="User:Remove">Upraviť</a><a>Vymazať</a></small></li>
+			{/foreach}
+		</div>
+	{else}
+		<li>Žiadne kontakty</li>
+	{/if}
+	
+{/block}
+
+{block script}
+
+	<script>
+
+		$('.options').hide();
+
+		$('.contact').click(function()
+		{
+			var contactsList = $(this).parent(),
+				options = $(this).next();
+				
+			contactsList.find('.options').slideUp();
+			options.not(':visible').slideDown();
+			
+			return false;
+				
+		});
+
+	</script>
+
+{/block}
+

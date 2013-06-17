@@ -39,6 +39,9 @@ common:
 
 		authenticator: Authenticator( @database::getRepository('User') )
 
+		costsRepository:
+			class: \Repositories\CostsRepository( @doctrine.entityManager, @database::getClassMetadata('Costs') )
+
 
 	factories:
 

@@ -29,6 +29,16 @@ class Company extends \Nette\Object
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	private $user;
+
+	/**
+	 * @OneToMany(targetEntity="Costs", mappedBy="company")
+	 */
+	private $costs;
+
+
+	public function __construct() {
+		$this->costs = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 	
 
 	/**
@@ -53,7 +63,7 @@ class Company extends \Nette\Object
 	 */
 	public function setCompanyName($companyName)
 	{
-		$this->companyName = static::normalizeString($companyName);
+		$this->companyName = $companyName;
 		return $this;
 	}
 
@@ -62,8 +72,10 @@ class Company extends \Nette\Object
 	 * @param User
 	 * @return Company
 	 */
-	public function setUser(User $user) {
+	public function setUser(User $user) 
+	{
 		$this->user = $user;
+		$cashBook->setCompany($this);
 		return $this;
 	}
 
@@ -71,17 +83,17 @@ class Company extends \Nette\Object
 	 * Get User
 	 * @return User
 	 */
-	public function getUser() {
+	public function getUser() 
+	{
 		return $this->user;
 	}
 
 	/**
-	 * @param string
-	 * @return string
+	 * Get Costs
+	 * @return ArrayCollection
 	 */
-	protected static function normalizeString($s)
+	public function getCosts()
 	{
-		$s = trim($s);
-		return $s === "" ? NULL : $s;
+		return $this->costs;
 	}
 }

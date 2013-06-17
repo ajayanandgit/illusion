@@ -1,0 +1,42 @@
+{block content}
+
+	<h2>Náklady</h2>
+	{control costForm}
+
+	<h3>Prehľad</h3>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Popis nákladu</th>
+				<th>Suma</th>
+			</tr>
+		</thead>
+		<tbody>
+		{foreach $costs as $cost}			
+			<tr>
+				<td>{$cost->getId()}</td>
+				<td>{$cost->getDescription()}</td>
+				<td>{$cost->getValue()} €</td>
+			</tr>
+		{/foreach}
+		</tbody>
+	</table>
+
+	{foreach $balance as $bal}
+	<h4>Celkové náklady spolu: {$bal}</h4>
+	{/foreach}
+
+
+	
+	
+{/block}
+
+{block sidebar}
+	
+	<li class="nav-header">Adresár</li>
+	
+{/block}
+
+

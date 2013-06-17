@@ -6,6 +6,9 @@ body {
 }
 
 a img { border: none; }
+a {
+	cursor: pointer;
+}
 
 #ajax-spinner {
 	display: none;
@@ -45,3 +48,25 @@ div.flash.error {
 	box-shadow: 0 0 5px #c33;
 	-moz-box-shadow: 0 0 5px #c33;
 	-webkit-box-shadow: 0 0 5px #c33;
+}
+
+/* Forms styling */
+input[class=checkbox] + label {
+	position: static;
+	margin-top: -20px;
+	margin-left: 25px;
+}
+
+label {
+	padding-right: 10px;
+	margin-top: -5px;
+}
+
+/* ===== Contacts ===== */
+.contact-list .contact {
+	cursor: pointer;
+}
+
+.contact-list a {
+	padding-right: 10px;
+}

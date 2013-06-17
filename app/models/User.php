@@ -1,15 +1,10 @@
 <?php
 
-use Doctrine\ORM\Mapping;
+use Doctrine\ORM\Mapping,
+		Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
- * 
- * @property-read int $id
- * @property-read string $username
- * @property string $email
- * @property string $password
- * @property string $role
  */
 class User extends \Nette\Object
 {
@@ -51,9 +46,17 @@ class User extends \Nette\Object
 	private $company;	
 
 	/**
-	 * @OneToOne(targetEntity="AddressBook", mappedBy="user")
-	 */
-	private $addressBook;	
+	 * @OneToMany(targetEntity="Contact", mappedBy="user")
+	 **/
+	private $contacts;
+
+
+
+	public function __construct() 
+	{
+		$this->contacts = new ArrayCollection;
+	}
+
 
 
 	/**
@@ -130,9 +133,9 @@ class User extends \Nette\Object
 	 * @param string
 	 * @return User
 	 */
-	public function setRole($role)
+	public function setRole()
 	{
-		$this->role = static::normalizeString($role);
+		$this->role = 'user';
 		return $this;
 	}
 
@@ -140,17 +143,28 @@ class User extends \Nette\Object
 	 * Get User's company
 	 * @return Company
 	 */
-	public function getCompany() {
+	public function getCompany() 
+	{
 		return $this->company;
+	}
+
+	/**
+	 * Get contacts
+	 * @return ArrayCollection
+	 */	
+	public function getContacts() 
+	{
+		return $this->contacts;
 	}
 	
 	/**
-	 * @param string
-	 * @return string
+	 * Remove contact
+	 * @param Contact
+	 * @return User
 	 */
-	protected static function normalizeString($s)
+	public function removeContact(Contact $contact)
 	{
-		$s = trim($s);
-		return $s === "" ? NULL : $s;
+		$this->contacts->removeElement($contact);
+		return $this;
 	}
 }

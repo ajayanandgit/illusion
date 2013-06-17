@@ -4,8 +4,6 @@ use Doctrine\ORM\Mapping;
 
 /**
  * @Entity
- * 
- * @property-read int $id
  */
 class Contact extends \Nette\Object
 {
@@ -17,18 +15,19 @@ class Contact extends \Nette\Object
 	 */
 	private $id;
 
+	/** @Column(type="text", length=20) */
+	private $name;
+
 	/**
-	 * @ManyToMany(targetEntity="AddressBook", mappedBy="contacts")
+     * @ManyToOne(targetEntity="User", inversedBy="contacts")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
 	 **/
-	private $addressBooks;
+	private $user;
 
-    public function __construct() 
-    {
-        $this->addressBooks = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 
 	/**
+	 * Get ID
 	 * @return int
 	 */
 	public function getId()
@@ -40,38 +39,39 @@ class Contact extends \Nette\Object
 	 * Get contact name
 	 * @return string
 	 */
-	public function getContactName() {
+	public function getName() 
+	{
 		return $this->name;
 	}
 	
 	/**
 	 * Set contact name
 	 * @param string
-	 * @return Tag
+	 * @return Contact
 	 */
-	public function setContactName($name) 
+	public function setName($name) 
 	{
 		$this->name = (string)$name;
 		return $this;
 	}
 
 	/**
-	 * Get address books
-	 * @return ArrayCollection
-	 */
-	public function getAddressBooks() 
+	 * Get user
+	 * @return User
+	 */	
+	public function getUser() 
 	{
-		return $this->addressBooks;
+		return $this->user;
 	}
-
+	
 	/**
-	 * Add address cook
-	 * @param addressBook
+	 * Set user
+	 * @param User
 	 * @return Contact
 	 */
-	public function addAddressBook(AddressBook $addressBook) 
+	public function setUser(User $user) 
 	{
-		$this->addressBooks->add($addressBook);
+		$this->user = $user;
 		return $this;
 	}
 }

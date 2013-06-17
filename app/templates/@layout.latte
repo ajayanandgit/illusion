@@ -19,6 +19,7 @@
 
 	<title>Účtovný systém</title>
 
+	<link rel="icon" href="favicon.ico" type="image/gif" sizes="16x16">
 	<link rel="stylesheet" href="{$basePath}/css/style.css" type="text/css">
 	<link rel="stylesheet" href="{$basePath}/css/bootstrap.css" type="text/css">
 	<link rel="stylesheet" href="{$basePath}/css/bootstrap-responsive.css" type="text/css">
@@ -86,24 +87,22 @@
 
 					<div class="btn-group pull-right">
 						<button class="btn dropdown-toggle" data-toggle="dropdown">
-							{$user->getIdentity()->username}
+							{$user->getIdentity()->username}&nbsp;
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu">
-						<li><a n:href="User:">Profil</a></li>
-						<li><a href="#">Nastavenia</a></li>
-						<li><a href="#">Jazyk</a></li>
+						<li><a n:href="User:">Nastavenia účtu</a></li>
 						<li class="divider"></li>
-						<li><a n:href="signOut!">Odhlásiť</a></li>
+						<li><a n:href="signOut!">Odhlásiť sa</a></li>
 						</ul>
 					</div>
 
 					<ul class="nav">
 						<li><a n:href="Homepage:">Úvod</a></li>
 						<li><a n:href="Company:">Moja firma</a></li>
-						<li><a n:href="Company:">Adresár</a></li>
+						<li><a n:href="Contact:">Adresár</a></li>
 						<li><a n:href="Company:">Sklad</a></li>
-						<li><a n:href="Company:">Peňažný denník</a></li>
+						<li><a n:href="Costs:">Peňažný denník</a></li>
 						<li><a n:href="Company:">Faktúry</a></li>
 						<li><a n:href="Company:">Bankové účty</a></li>
 					</ul>
@@ -137,6 +136,8 @@
 		</footer>
 
 	</div><!--/.fluid-container-->
+
+	{block script}{/block}
 
 </body>
 </html>

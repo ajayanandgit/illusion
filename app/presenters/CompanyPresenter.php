@@ -27,12 +27,12 @@ class CompanyPresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-		$myCompany = $this->em->getRepository('Company')->findOneBy(array('user' => $this->getUser()->getId()));
+		$usersCompany = $this->em->getRepository('Company')->findOneBy(array('user' => $this->getUser()->getId()));
 
-		if ($myCompany) {
-			$this->template->company = $myCompany;
+		if ($usersCompany) {
+			$this->template->company = $usersCompany;
 		} else {
-			$this->template->company = 'nic';
+			$this->template->company = NULL;
 		}
 		
 	}
@@ -41,8 +41,8 @@ class CompanyPresenter extends BasePresenter
 	/**
 	 * Edit company profile
 	 */
-	public function actionEdit() {
-		
+	public function actionEdit() 
+	{		
 		$this->company = $this->em->getRepository('Company')->findOneBy(array('user' => $this->getUser()->getId()));
 
 		if (!$this->company) {
@@ -52,15 +52,15 @@ class CompanyPresenter extends BasePresenter
 		$this['companyForm']->setDefaults(array(
 				'companyName' => $this->company->getCompanyName(),
 			));
-
 	}
+
 
 	/**
 	 * Form to edit company profile
 	 * @return Nette\Application\UI\Form
 	 */
-	protected function createComponentCompanyForm() {
-
+	protected function createComponentCompanyForm() 
+	{
 		$form = new Form();
 
 		$form->addText('companyName', 'Názov firmy', 50, 100)
@@ -73,11 +73,12 @@ class CompanyPresenter extends BasePresenter
 		return $form;
 	}
 
+
 	/**
 	* @param Nette\Application\UI\Form $form
 	*/
-	public function companyFormSubmitted(Form $form) {
-
+	public function companyFormSubmitted(Form $form) 
+	{
 		$id = $this->getUser()->getId();
 		$user = $this->em->getRepository('User')->findOneById($id);
 		

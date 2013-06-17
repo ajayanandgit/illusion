@@ -29,8 +29,8 @@ class SignPresenter extends BasePresenter
 			 ->setRequired('Please provide a password.')
 			 ->setAttribute('placeholder', 'heslo');
 
-		$form->addCheckbox('remember', 'Zapamätať si ma na tomto počítači')
-			 ->setAttribute('class', 'checkbox');;
+		$form->addCheckbox('remember', 'Zapamätať si ma')
+			 ->setAttribute('class', 'checkbox');
 
 		$form->addSubmit('send', 'Prihlásiť')
 			 ->setAttribute('class', 'btn btn-info');
