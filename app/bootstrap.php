@@ -26,6 +26,7 @@ $configurator->createRobotLoader()
 \Nella\Console\Config\Extension::register($configurator);
 \Nella\Doctrine\Config\Extension::register($configurator);
 \Nella\Doctrine\Config\MigrationsExtension::register($configurator);
+Kdyby\Replicator\Container::register();
 
 // Create Dependency Injection container from config.neon file
 $configurator->addConfig(__DIR__ . '/config/config.neon');

@@ -7,6 +7,7 @@
 	"require": {
 		"nella/doctrine": "@dev",
 		"nella/console": "@dev",
-		"doctrine/migrations": "@dev"
+		"doctrine/migrations": "@dev",
+		"kdyby/forms-replicator": "@dev"
 	}
 }

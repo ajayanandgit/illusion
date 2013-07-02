@@ -25,7 +25,6 @@ class Contact extends \Nette\Object
 	private $user;
 
 
-
 	/**
 	 * Get ID
 	 * @return int

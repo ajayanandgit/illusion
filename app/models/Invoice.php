@@ -1,6 +1,7 @@
 <?php
 
-use Doctrine\ORM\Mapping;
+use Doctrine\ORM\Mapping,
+		Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
@@ -16,13 +17,25 @@ class Invoice extends \Nette\Object
 	private $id;
 
 	/**
+	 * @Column(type="date")
+	 * @GeneratedValue
+	 */
+	private $invoiceDate;
+
+	/**
+	 * @Column(type="text")
+	 */
+	private $description;
+
+
+	/**
 	 * @ManyToOne(targetEntity="Company", inversedBy="costs")
 	 * @JoinColumn(name="company_id", referencedColumnName="id")
 	 **/
 	private $company;
 
 	/**
-	 * @ManyToMany(targetEntity="Item", inversedBy="invoices")
+	 * @ManyToMany(targetEntity="Items", inversedBy="invoices")
 	 * @JoinTable(name="invoices_items")
 	 */
 	private $items;
@@ -30,7 +43,7 @@ class Invoice extends \Nette\Object
 
 	public function __construct() 
 	{
-		$this->items = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->items = new ArrayCollection;
 	}
 
 
@@ -41,6 +54,35 @@ class Invoice extends \Nette\Object
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * Get invoice date
+	 * @return Invoice
+	 */
+	public function getDate()
+	{
+		return $this->invoiceDate;
+	}
+
+	/**
+	 * Get description
+	 * @return Invoice
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
+
+	/**
+	 * Set description
+	 * @param String
+	 * @return Invoice
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description;
+		return $this;
 	}
 
 	/**
@@ -55,11 +97,31 @@ class Invoice extends \Nette\Object
 	/**
 	 * Set company
 	 * @param Company
-	 * @return Cost
+	 * @return Invoice
 	 */
 	public function setCompany(Company $company)
 	{
 		$this->company = $company;
+		return $this;
+	}
+
+	/**
+	 * Get items
+	 * @return ArrayCollection
+	 */
+	public function getItems()
+	{
+		return $this->items;
+	}
+
+	/**
+	 * @param Item
+	 * @return Invoice
+	 */
+	public function addItems(Items $item)
+	{
+		$this->items->add($item);
+		$item->addInvoice($this);
 		return $this;
 	}
 }
