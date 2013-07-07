@@ -31,13 +31,18 @@ class Company extends \Nette\Object
 	private $user;
 
 	/**
+	 * @OneToMany(targetEntity="Invoice", mappedBy="company")
+	 */
+	private $invoices;
+
+	/**
 	 * @OneToMany(targetEntity="Costs", mappedBy="company")
 	 */
 	private $costs;
 
-
 	public function __construct() {
 		$this->costs = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->invoices = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 	
 
@@ -87,6 +92,28 @@ class Company extends \Nette\Object
 	{
 		return $this->user;
 	}
+
+	/**
+	 * Get invoices
+	 * @return ArrayCollection
+	 */
+	public function getInvoices()
+	{
+		return $this->invoices;
+	}
+
+	/**
+	 * Set invoice
+	 * @param Invoice
+	 * @return Company
+	 */
+	public function addInvoice(Invoice $invoice)
+	{
+		$this->invoices->add($invoice);
+		$invoice->setCompany($this);
+		return $this;
+	}
+
 
 	/**
 	 * Get Costs

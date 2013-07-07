@@ -28,8 +28,6 @@ class CostsPresenter extends BasePresenter {
 		$this->costsRepo = $repo;
 	}
 
-
-
 	protected function startup()
 	{
 		parent::startup();

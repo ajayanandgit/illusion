@@ -10,6 +10,8 @@ use Nette\Forms\Container;
  */
 class InvoicePresenter extends BasePresenter
 {
+	/** @var */
+	public $company;	
 
 	protected function startup()
 	{
@@ -18,11 +20,25 @@ class InvoicePresenter extends BasePresenter
 		if (!$this->getUser()->isLoggedIn()) {
 			$this->redirect('Sign:in');
 		}
+
+		$user_id = $this->getUser()->getId();
+		$this->company = $this->em->getRepository('Company')->findOneBy(array('user' => $user_id));
 	}
 
 	public function renderDefault()
 	{
-		
+
+	}
+
+	public function renderCreate()
+	{
+		$contacts = $this->em->getRepository('Contact')->findBy(array('user' => $this->getUser()->getId()));
+
+		if ($contacts) {
+			$this->template->contacts = $contacts;
+		} else {
+			$this->template->contacts = NULL;
+		}		
 	}
 
 	/**
@@ -36,6 +52,19 @@ class InvoicePresenter extends BasePresenter
 		$form->addGroup('Základné údaje');
 		$form->addText('description', 'Popis', 50, 100)
 			 ->addRule(Form::FILLED, 'Musíte zadať popis.');
+		
+		$customer = array(
+			'Europe' => array(
+				'CZ' => 'Czech republic',
+				'SK' => 'Slovakia',
+				'GB' => 'United Kingdom',
+			),
+			'CA' => 'Canada',
+			'US' => 'USA',
+			'?'  => 'other',
+		);
+		$form->addSelect('contact', 'Zákazník', $customer)
+			 ->setPrompt('Vyberte zákazníka');
 
 		//container for all items
 		$items = $form->addGroup('Položky');
@@ -57,6 +86,8 @@ class InvoicePresenter extends BasePresenter
 		$form->addGroup('');
 		$form->addSubmit("save", "Uložit");
 
+		$form->onSuccess[] = $this->invoiceFormSubmitted;
+
 		return $form;
 	}
 
@@ -65,16 +96,22 @@ class InvoicePresenter extends BasePresenter
 	*/
 	public function invoiceFormSubmitted(Form $form) 
 	{	
-		// $invoice = new Invoice;
-		// $invoice->setDescription($form->values->description)
-		// 		->setCompany($this->company);
+		$invoice = new Invoice;
+		$invoice->setDescription($form->values->description)
+				->setCompany($this->company);
 
-		// $this->em->persist($invoice);
 
-		// $this->flashMessage('Náklad bol úspešne zaevidovaný do databázy.', 'success');
+		foreach ($form['items']->values as $item) {
+			dump($item['name'] . ' ' . $item['quantity'] . ' ' . $item['value']);
+		}
+		exit;
+
+		$this->em->persist($invoice);
+
+		$this->flashMessage('Faktúra bola úspešne zaevidovaná do databázy.', 'success');
 		
-		// $this->em->flush();
-		// $this->redirect('Costs:');
+		$this->em->flush();
+		$this->redirect('Invoice:');
 	}
 
 }

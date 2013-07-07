@@ -27,9 +27,15 @@ class Invoice extends \Nette\Object
 	 */
 	private $description;
 
+	/**
+	 * @ManyToOne(targetEntity="Contact", inversedBy="invoices")
+	 * @JoinColumn(name="customer_id", referencedColumnName="id")
+	 */
+	private $customer;
+
 
 	/**
-	 * @ManyToOne(targetEntity="Company", inversedBy="costs")
+	 * @ManyToOne(targetEntity="Company", inversedBy="invoices")
 	 * @JoinColumn(name="company_id", referencedColumnName="id")
 	 **/
 	private $company;
@@ -102,6 +108,26 @@ class Invoice extends \Nette\Object
 	public function setCompany(Company $company)
 	{
 		$this->company = $company;
+		return $this;
+	}
+
+	/**
+	 * Get customer
+	 * @return Contact
+	 */
+	public function getCustomer()
+	{
+		return $this->customer;
+	}
+
+	/**
+	 * Set customer
+	 * @param Contact
+	 * @return Invoice
+	 */
+	public function setCustomer(Contact $customer)
+	{
+		$this->customer = $customer;
 		return $this;
 	}
 
