@@ -12,15 +12,8 @@ class Invoice extends \Nette\Object
 	 * @Id
 	 * @Column(type="integer")
 	 * @GeneratedValue
-	 * @var int
 	 */
 	private $id;
-
-	/**
-	 * @Column(type="date")
-	 * @GeneratedValue
-	 */
-	private $invoiceDate;
 
 	/**
 	 * @Column(type="text")
@@ -28,10 +21,9 @@ class Invoice extends \Nette\Object
 	private $description;
 
 	/**
-	 * @ManyToOne(targetEntity="Contact", inversedBy="invoices")
-	 * @JoinColumn(name="customer_id", referencedColumnName="id")
+	 * @Column(type="integer")
 	 */
-	private $customer;
+	private $customer_id;
 
 
 	/**
@@ -62,14 +54,25 @@ class Invoice extends \Nette\Object
 		return $this->id;
 	}
 
-	/**
-	 * Get invoice date
-	 * @return Invoice
-	 */
-	public function getDate()
-	{
-		return $this->invoiceDate;
-	}
+	// /**
+	//  * Get invoice date
+	//  * @return Invoice
+	//  */
+	// public function getInvoiceDate()
+	// {
+	// 	return $this->invoiceDate;
+	// }
+
+	// *
+	//  * Set invoice date
+	//  * @param Date
+	//  * @return Invoice
+	
+	// public function setInvoiceDate($invoiceDate)
+	// {
+	// 	$this->invoiceDate = $invoiceDate;
+	// 	return $this;
+	// }
 
 	/**
 	 * Get description
@@ -112,22 +115,22 @@ class Invoice extends \Nette\Object
 	}
 
 	/**
-	 * Get customer
-	 * @return Contact
+	 * Get customer id
+	 * @return Invoice
 	 */
-	public function getCustomer()
+	public function getCustomerId()
 	{
-		return $this->customer;
+		return $this->customer_id;
 	}
 
 	/**
-	 * Set customer
-	 * @param Contact
+	 * Set customer id
+	 * @param Integer
 	 * @return Invoice
 	 */
-	public function setCustomer(Contact $customer)
+	public function setCustomerId($customer_id)
 	{
-		$this->customer = $customer;
+		$this->customer_id = $customer_id;
 		return $this;
 	}
 
@@ -144,10 +147,10 @@ class Invoice extends \Nette\Object
 	 * @param Item
 	 * @return Invoice
 	 */
-	public function addItems(Items $item)
+	public function addItem(Items $item)
 	{
-		$this->items->add($item);
 		$item->addInvoice($this);
+		$this->items[] = $item;
 		return $this;
 	}
 }

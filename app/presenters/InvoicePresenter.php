@@ -1,9 +1,8 @@
 <?php
 
-use Nette\Application\UI\Form;
-use Nette\Application\BadRequestException;
-use Nette\Application\ForbiddenRequestException;
 use Nette\Forms\Container;
+use Nette\Application\UI\Form;
+use Nette\Forms\Controls\SubmitButton;
 
 /**
  * Invoices presenter.
@@ -11,7 +10,10 @@ use Nette\Forms\Container;
 class InvoicePresenter extends BasePresenter
 {
 	/** @var */
-	public $company;	
+	public $company;
+
+	/** @var */
+	public $contacts;	
 
 	protected function startup()
 	{
@@ -23,94 +25,117 @@ class InvoicePresenter extends BasePresenter
 
 		$user_id = $this->getUser()->getId();
 		$this->company = $this->em->getRepository('Company')->findOneBy(array('user' => $user_id));
+		$this->contacts = $this->em->getRepository('Contact')->findBy(array('user' => $this->getUser()->getId()));
 	}
+
+	// public function actionCreate()
+	// {
+	// 	if ($values = $this->getSession('values')->users) {
+	// 		$this['invoiceForm']->setDefaults($values);
+	// 	}
+	// }
 
 	public function renderDefault()
 	{
-
+		$this->template->invoices = $this->em->getRepository('Invoice')->findBy(array('company' => $this->company->getId()));
 	}
+
 
 	public function renderCreate()
 	{
-		$contacts = $this->em->getRepository('Contact')->findBy(array('user' => $this->getUser()->getId()));
-
-		if ($contacts) {
-			$this->template->contacts = $contacts;
-		} else {
-			$this->template->contacts = NULL;
-		}		
+		// $this->template->users = $this->getSession('values')->users;
 	}
 
+
+
 	/**
-	 * Form to create invoice
-	 * @return Nette\Application\UI\Form
+	 * @return Form
 	 */
-	protected function createComponentInvoiceForm() 
+	protected function createComponentInvoiceForm($name)
 	{
-		$form = new Form();
+		$form = new Form;
+
+		$presenter = $this;
+		$invalidateCallback = function () use ($presenter) {
+			/** @var \Nette\Application\UI\Presenter $presenter */
+			$presenter->invalidateControl('usersForm');
+		};
+
 
 		$form->addGroup('Základné údaje');
 		$form->addText('description', 'Popis', 50, 100)
 			 ->addRule(Form::FILLED, 'Musíte zadať popis.');
-		
-		$customer = array(
-			'Europe' => array(
-				'CZ' => 'Czech republic',
-				'SK' => 'Slovakia',
-				'GB' => 'United Kingdom',
-			),
-			'CA' => 'Canada',
-			'US' => 'USA',
-			'?'  => 'other',
-		);
-		$form->addSelect('contact', 'Zákazník', $customer)
+
+		$customer = array();
+
+		foreach ($this->contacts as $contact) 
+		{
+			$customer[$contact->getId()] = $contact->getName();
+		}
+
+		$form->addSelect('customer', 'Zákazník', $customer)
 			 ->setPrompt('Vyberte zákazníka');
 
-		//container for all items
-		$items = $form->addGroup('Položky');
-		$items = $form->addDynamic("items", function (Container $container) {
-			$container->addText("name", "Položka");
-			$container->addText("quantity", "Množstvo");
-			$container->addText("value", "Hodnota");
 
-			//button for removing the new node
-			$container->addSubmit("removeItem", "Odobrať položku")
-				->addRemoveOnClick();
-		}, 2);
+		// meno, továrnička, defaultný počet
+		$replicator = $form->addDynamic('items', function (Container $container) use ($invalidateCallback) {
+			$container->currentGroup = $container->form->addGroup('Položka', FALSE);
+			$container->addText('name', 'Položka')->setRequired();
+			$container->addText('quantity', 'Množstvo')->setRequired();
+			$container->addText('value', 'Hodnota')->setRequired();
 
-		/** @var \Kdyby\Replicator\Container $items */
-		//button for adding a new node
-		$items->addSubmit("addItem", "Pridať položku")
-			  ->addCreateOnClick(TRUE);
+			$container->addSubmit('removeAjax', 'Vymazať')
+				->setAttribute('class', 'ajax')
+				->addRemoveOnClick($invalidateCallback);
+		}, 1);
 
-		$form->addGroup('');
-		$form->addSubmit("save", "Uložit");
+		/** @var \Kdyby\Replicator\Container $replicator */
+		$replicator->addSubmit('addAjax', 'Pridať ďalšiu položku')
+			->setAttribute('class', 'ajax')
+			->addCreateOnClick($invalidateCallback);
 
-		$form->onSuccess[] = $this->invoiceFormSubmitted;
+		$form->addSubmit('sendAjax', 'Uložiť faktúru')
+			 ->setAttribute('class', 'ajax')
+			 ->onClick[] = callback($this, 'InvoiceFormSubmitted');
 
+		$this[$name] = $form;
+		$form->action .= '#snippet--invoicesForm';
 		return $form;
 	}
 
+
+
 	/**
-	* @param Nette\Application\UI\Form $form
-	*/
-	public function invoiceFormSubmitted(Form $form) 
-	{	
+	 * @param SubmitButton $button
+	 */
+	public function InvoiceFormSubmitted(SubmitButton $button)
+	{
+		// jenom naplnění šablony, bez přesměrování
+		// $this->getSession('values')->users = $button->form->values;
+
+		$form = $button->form->values;
+
 		$invoice = new Invoice;
-		$invoice->setDescription($form->values->description)
-				->setCompany($this->company);
-
-
-		foreach ($form['items']->values as $item) {
-			dump($item['name'] . ' ' . $item['quantity'] . ' ' . $item['value']);
-		}
-		exit;
-
-		$this->em->persist($invoice);
-
-		$this->flashMessage('Faktúra bola úspešne zaevidovaná do databázy.', 'success');
 		
+		$invoice->setDescription($form->description)
+				->setCompany($this->company)
+				->setCustomerId($form->customer);
+
+		foreach ($button->form['items']->values as $item) {
+			
+			$items = new Items;
+			$items->setName($item['name'])
+				  ->setQuantity($item['quantity'])
+				  ->setValue($item['value']);
+
+			$invoice->addItem($items);
+			$this->em->persist($items);
+		}
+		
+		$this->em->persist($invoice);
 		$this->em->flush();
+
+		$this->flashMessage('Faktúra bola úspešne zaevidovaná do databázy.', 'success');		
 		$this->redirect('Invoice:');
 	}
 

@@ -12,7 +12,6 @@ class Items extends \Nette\Object
 	 * @Id
 	 * @Column(type="integer")
 	 * @GeneratedValue
-	 * @var int
 	 */
 	private $id;
 
@@ -50,6 +49,14 @@ class Items extends \Nette\Object
 	public function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	 * BLBOST
+	 */
+	public function setId($id)
+	{
+		return $this->id = $id;
 	}
 
 	/**
@@ -119,7 +126,6 @@ class Items extends \Nette\Object
 	 */
 	public function addInvoice(Invoice $invoice)
 	{
-		$this->invoices->add($invoice);
-		return $this;
+		$this->invoices[] = $invoice;
 	}
 }
