@@ -63,6 +63,7 @@ class InvoicePresenter extends BasePresenter
 
 		$form->addGroup('Základné údaje');
 		$form->addText('description', 'Popis', 50, 100)
+			 ->setAttribute('class', 'form-control input-small')
 			 ->addRule(Form::FILLED, 'Musíte zadať popis.');
 
 		$customer = array();
@@ -73,28 +74,32 @@ class InvoicePresenter extends BasePresenter
 		}
 
 		$form->addSelect('customer', 'Zákazník', $customer)
-			 ->setPrompt('Vyberte zákazníka');
+			 ->setPrompt('Vyberte zákazníka')
+			 ->setAttribute('class', 'form-control');
 
 
 		// meno, továrnička, defaultný počet
 		$replicator = $form->addDynamic('items', function (Container $container) use ($invalidateCallback) {
 			$container->currentGroup = $container->form->addGroup('Položka', FALSE);
-			$container->addText('name', 'Položka')->setRequired();
-			$container->addText('quantity', 'Množstvo')->setRequired();
-			$container->addText('value', 'Hodnota')->setRequired();
+			$container->addText('name', 'Názov')->setRequired()
+					  ->setAttribute('class', 'form-control input-small');
+			$container->addText('quantity', 'Množstvo')->setRequired()
+					  ->setAttribute('class', 'form-control input-small');
+			$container->addText('value', 'Hodnota')->setRequired()
+					  ->setAttribute('class', 'form-control input-small');
 
 			$container->addSubmit('removeAjax', 'Vymazať')
-				->setAttribute('class', 'ajax')
+				->setAttribute('class', 'ajax btn btn-info btn-small')
 				->addRemoveOnClick($invalidateCallback);
 		}, 1);
 
 		/** @var \Kdyby\Replicator\Container $replicator */
 		$replicator->addSubmit('addAjax', 'Pridať ďalšiu položku')
-			->setAttribute('class', 'ajax')
+			->setAttribute('class', 'ajax btn btn-info btn-small')
 			->addCreateOnClick($invalidateCallback);
 
 		$form->addSubmit('sendAjax', 'Uložiť faktúru')
-			 ->setAttribute('class', 'ajax')
+			 ->setAttribute('class', 'ajax btn btn-info btn-small')
 			 ->onClick[] = callback($this, 'InvoiceFormSubmitted');
 
 		$this[$name] = $form;

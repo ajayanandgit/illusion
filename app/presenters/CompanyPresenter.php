@@ -64,9 +64,10 @@ class CompanyPresenter extends BasePresenter
 		$form = new Form();
 
 		$form->addText('companyName', 'Názov firmy', 50, 100)
-			 ->addRule(Form::FILLED, 'Musíte zadať názov firmy.');
+			 ->addRule(Form::FILLED, 'Musíte zadať názov firmy.')
+			 ->setAttribute('class', 'form-control input-small');
 		$form->addSubmit('submit', 'OK')
-			 ->setAttribute('class', 'btn btn-info');
+			 ->setAttribute('class', 'btn btn-info btn-small');
 
 		$form->onSuccess[] = $this->companyFormSubmitted;
 

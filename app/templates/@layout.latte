@@ -12,12 +12,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>Účtovný systém</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
 	<meta name="description" content="Nette Framework web application skeleton">
 	<meta name="robots" content="{$robots}" n:ifset="$robots">
-
-	<title>Účtovný systém</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" href="{$basePath}/favicon.ico" type="image/gif" sizes="16x16">
 	<link rel="stylesheet" href="{$basePath}/css/style.css" type="text/css">
@@ -62,18 +61,24 @@
 				<span class="icon-bar"></span>
 			</button>
 
-			<a class="navbar-brand" href="#">Title</a>
+			<a class="navbar-brand" n:href="Homepage:">Účtovný systém</a>
 
 			<div class="nav-collapse collapse navbar-responsive-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active">
-						<a href="#">Home</a>
+					<li>
+						<a n:href="Homepage:">Úvod</a>
 					</li>
 					<li>
-						<a href="#">Link</a>
+						<a n:href="Company:">Moja firma</a>
 					</li>
 					<li>
-						<a href="#">Link</a>
+						<a n:href="Contact:">Adresár</a>
+					</li>
+					<li>
+						<a n:href="Costs:">Peňažný denník</a>
+					</li>
+					<li>
+						<a n:href="Invoice:">Faktúry</a>
 					</li>
 				</ul>
 				
@@ -102,14 +107,10 @@
 
 	<div class="container-fluid">
 		<div class="row-fluid">
-			{if $user->isLoggedIn()}
-			<div class="span2">
-				<div class="well sidebar-nav">
-					<ul class="nav nav-list">
-						{include #sidebar}
-					</ul>
-				</div><!--/.well -->
-			</div><!--/span-->
+			{if $user->isLoggedIn()}			
+				<ul class="nav nav-pills nav-stacked span2">
+					{include #sidebar}
+				</ul>
 			{/if}
 
 			<div class="span9">

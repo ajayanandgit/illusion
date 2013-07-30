@@ -58,11 +58,15 @@ class CostsPresenter extends BasePresenter {
 		$form = new Form();
 
 		$form->addText('description', 'Popis', 50, 100)
-			 ->addRule(Form::FILLED, 'Musíte zadať popis nákladu.');
+			 ->addRule(Form::FILLED, 'Musíte zadať popis nákladu.')
+			 ->setAttribute('class', 'form-control input-small')
+			 ->setAttribute('placeholder', 'Popis nákladu');
 		$form->addText('value', 'Suma v EUR', 50, 100)
-			 ->addRule(Form::FILLED, 'Musíte zadať sumu.');
-		$form->addSubmit('submit', 'OK')
-			 ->setAttribute('class', 'btn btn-info');
+			 ->addRule(Form::FILLED, 'Musíte zadať sumu.')
+			 ->setAttribute('class', 'form-control input-small')
+			 ->setAttribute('placeholder', 'Hodnota');
+		$form->addSubmit('submit', 'Pridať náklad do zoznamu')
+			 ->setAttribute('class', 'btn btn-info btn-small');
 
 		$form->onSuccess[] = $this->costFormSubmitted;
 
