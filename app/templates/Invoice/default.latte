@@ -2,7 +2,7 @@
 
 	<h3>Vystavené faktúry</h3>
 
-	{? dump($invoices)}
+	{? // dump($invoices)}
 
 	<table class="table table-striped">
 
@@ -18,10 +18,17 @@
 		{foreach $invoices as $invoice}
 		
 			<tr>
+				<td>{$invoice->id}</td>
 				<td>{$invoice->description}</td>
-				<td>{$invoice->description}</td>
-				<td>{$invoice->description}</td>
+				<td>{$invoice->getCustomer()->getName()}</td>
+				<td><a href="#" class="display_items">Zobraziť viac</a></td>
 			</tr>
+			
+			{foreach $invoice->getItems() as $item}
+			<tr class="items">
+				<td>{$item->getName()}</td>
+			</tr>
+			{/foreach}
 		
 		{/foreach}
 		</tbody>
@@ -32,4 +39,19 @@
 
 {block sidebar}
 	<li><a n:href="Invoice:create">Vystaviť novú faktúru</a></li>
+{/block}
+
+{block script}
+
+	<script>
+
+		$('.items').hide();
+
+		$('.display_items').click(function()
+		{
+			$('.items').show();
+		});
+
+	</script>
+
 {/block}

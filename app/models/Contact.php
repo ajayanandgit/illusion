@@ -1,6 +1,7 @@
 <?php
 
-use Doctrine\ORM\Mapping;
+use Doctrine\ORM\Mapping,
+		Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
@@ -19,20 +20,21 @@ class Contact extends \Nette\Object
 	private $name;
 
 	/**
-     * @ManyToOne(targetEntity="User", inversedBy="contacts")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
+	 * @ManyToOne(targetEntity="User", inversedBy="contacts")
+	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 **/
 	private $user;
 
-	// *
-	//  * @OneToMany(targetEntity="Invoice", mappedBy="contact")
-	 
-	// private $invoices;
+	/**
+	 * @OneToMany(targetEntity="Invoice", mappedBy="contact")
+	 **/
+	private $invoices;
 
 
-	// public function __construct() {
-	// 	$this->invoices = new \Doctrine\Common\Collections\ArrayCollection();
-	// }
+	public function __construct() 
+	{
+		$this->invoices = new ArrayCollection;
+	}
 
 
 	/**
@@ -84,24 +86,24 @@ class Contact extends \Nette\Object
 		return $this;
 	}
 
-	// /**
-	//  * Get invoices
-	//  * @return ArrayCollection
-	//  */
-	// public function getInvoices()
-	// {
-	// 	return $this->invoices;
-	// }
+	/**
+	 * Get invoices
+	 * @return ArrayCollection
+	 */
+	public function getInvoices()
+	{
+		return $this->invoices;
+	}
 
-	// *
-	//  * Set invoice
-	//  * @param Invoice
-	//  * @return Company
+	/**
+	 * Add invoice
+	 * @param Invoice
+	 * @return Company
+	 */
 	 
-	// public function addInvoice(Invoice $invoice)
-	// {
-	// 	$this->invoices->add($invoice);
-	// 	$invoice->setCustomer($this);
-	// 	return $this;
-	// }
+	public function addInvoice(Invoice $invoice)
+	{
+		$this->invoices->add($invoice);
+		return $this;
+	}
 }

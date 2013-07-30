@@ -1,0 +1,17 @@
+<?php
+
+namespace Repositories;
+
+class InvoiceRepository extends \Nella\Doctrine\Repository {
+
+	public function getCustomerById($customer_id)
+	{
+		$query = $this->getEntityManager()->createQueryBuilder();
+		$query->select('c')
+			  ->from('Contact', 'c')
+			  ->where('c.id = :customer_id')->setParameter('customer_id', $customer_id);
+
+		return $query->getQuery()->getResult();
+	}
+
+}

@@ -4,7 +4,7 @@ use Doctrine\ORM\Mapping,
 		Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="InvoiceRepository") 
  */
 class Invoice extends \Nette\Object
 {
@@ -21,28 +21,22 @@ class Invoice extends \Nette\Object
 	private $description;
 
 	/**
-	 * @Column(type="integer")
-	 */
-	private $customer_id;
-
-
-	/**
 	 * @ManyToOne(targetEntity="Company", inversedBy="invoices")
 	 * @JoinColumn(name="company_id", referencedColumnName="id")
 	 **/
 	private $company;
 
 	/**
+	 * @ManyToOne(targetEntity="Contact", inversedBy="invoices")
+	 * @JoinColumn(name="customer_id", referencedColumnName="id")
+	 **/
+	private $customer;
+
+	/**
 	 * @ManyToMany(targetEntity="Items", inversedBy="invoices")
 	 * @JoinTable(name="invoices_items")
 	 */
 	private $items;
-
-
-	public function __construct() 
-	{
-		$this->items = new ArrayCollection;
-	}
 
 
 	/**
@@ -53,26 +47,6 @@ class Invoice extends \Nette\Object
 	{
 		return $this->id;
 	}
-
-	// /**
-	//  * Get invoice date
-	//  * @return Invoice
-	//  */
-	// public function getInvoiceDate()
-	// {
-	// 	return $this->invoiceDate;
-	// }
-
-	// *
-	//  * Set invoice date
-	//  * @param Date
-	//  * @return Invoice
-	
-	// public function setInvoiceDate($invoiceDate)
-	// {
-	// 	$this->invoiceDate = $invoiceDate;
-	// 	return $this;
-	// }
 
 	/**
 	 * Get description
@@ -115,22 +89,23 @@ class Invoice extends \Nette\Object
 	}
 
 	/**
-	 * Get customer id
-	 * @return Invoice
+	 * Get customer
+	 * @return Customer
 	 */
-	public function getCustomerId()
+	public function getCustomer()
 	{
-		return $this->customer_id;
+		return $this->customer;
 	}
 
 	/**
-	 * Set customer id
-	 * @param Integer
+	 * Set customer
+	 * @param Contact
 	 * @return Invoice
 	 */
-	public function setCustomerId($customer_id)
+	public function setCustomer(Contact $customer)
 	{
-		$this->customer_id = $customer_id;
+		$customer->addInvoice($this);
+		$this->customer = $customer;
 		return $this;
 	}
 

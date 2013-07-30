@@ -32,6 +32,13 @@ Kdyby\Replicator\Container::register();
 $configurator->addConfig(__DIR__ . '/config/config.neon');
 $container = $configurator->createContainer();
 
+/* This piece of code should resolve the time of expiration PROBLEM */
+// $container->session->setExpiration('+ 2 days', false);
+// if ($container->session->exists()) {
+// 		$container->session->start();
+
+// }
+
 // Setup router
 $container->router[] = new Route('index.php', 'Homepage:default', Route::ONE_WAY);
 $container->router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');

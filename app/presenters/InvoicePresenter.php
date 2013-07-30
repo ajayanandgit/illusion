@@ -13,7 +13,7 @@ class InvoicePresenter extends BasePresenter
 	public $company;
 
 	/** @var */
-	public $contacts;	
+	public $contacts;
 
 	protected function startup()
 	{
@@ -43,10 +43,9 @@ class InvoicePresenter extends BasePresenter
 
 	public function renderCreate()
 	{
-		// $this->template->users = $this->getSession('values')->users;
+		
 	}
-
-
+	
 
 	/**
 	 * @return Form
@@ -115,11 +114,14 @@ class InvoicePresenter extends BasePresenter
 
 		$form = $button->form->values;
 
+		$cid = $form->customer;
+		$customer = $this->em->getRepository('Contact')->findOneBy(array('id' => $cid));
+
 		$invoice = new Invoice;
 		
 		$invoice->setDescription($form->description)
 				->setCompany($this->company)
-				->setCustomerId($form->customer);
+				->setCustomer($customer);
 
 		foreach ($button->form['items']->values as $item) {
 			
@@ -131,7 +133,7 @@ class InvoicePresenter extends BasePresenter
 			$invoice->addItem($items);
 			$this->em->persist($items);
 		}
-		
+				
 		$this->em->persist($invoice);
 		$this->em->flush();
 
