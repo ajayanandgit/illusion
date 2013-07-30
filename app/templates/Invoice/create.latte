@@ -1,0 +1,28 @@
+{block content}
+<div id="wrapper">
+
+    {? // dump($items)}
+
+
+    {snippet usersForm}
+	{control invoiceForm begin}
+	{if !$control['invoiceForm']['items']->isSubmittedBy()}
+		{control invoiceForm errors}
+	{/if}
+	{control invoiceForm body}
+	{control invoiceForm end}
+    {/snippet}
+
+</div>
+{/block}
+
+
+{block head}
+	<style>
+
+	</style>
+{/block}
+
+{block sidebar}
+	<li><a n:href="Invoice:">&larr; späť</a></li>
+{/block}
