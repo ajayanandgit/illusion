@@ -54,7 +54,7 @@ div.flash.error {
 input[class=checkbox] + label {
 	position: static;
 	margin-top: -20px;
-	margin-left: 25px;
+	margin-left: 15px;
 }
 
 label {
