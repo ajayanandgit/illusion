@@ -35,7 +35,7 @@ class SignPresenter extends BasePresenter
 		$form->addCheckbox('remember', 'Zapamätať si ma')
 			 ->setAttribute('class', 'checkbox');
 
-		$form->addSubmit('send', 'Prihlásiť')
+		$form->addSubmit('login', 'Prihlásiť')
 			 ->setAttribute('class', 'btn btn-info');
 
 		$form->onSuccess[] = callback($this, 'signInFormSubmitted');

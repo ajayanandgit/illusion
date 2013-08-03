@@ -1,7 +1,6 @@
 body {
 	font: 12pt/1.4 "Trebuchet MS", "Geneva CE", lucida, sans-serif;
 	color: black;
-	background: none;
 	width: 100%;
 }
 
@@ -15,7 +14,9 @@ a {
 }
 
 
-/* Flash messages */
+/*
+ Flash messages 
+ --------------------------------------------------- */
 div.flash {
 	padding: .8em;
 	width: 50%;
@@ -50,7 +51,9 @@ div.flash.error {
 	-webkit-box-shadow: 0 0 5px #c33;
 }
 
-/* Forms styling */
+/*
+ Forms styling 
+ --------------------------------------------------- */
 input[class=checkbox] + label {
 	position: static;
 	margin-top: -20px;
@@ -62,7 +65,9 @@ label {
 	margin-top: -5px;
 }
 
-/* ===== Contacts ===== */
+/*
+ Contacts 
+ --------------------------------------------------- */
 .contact-list .contact {
 	cursor: pointer;
 }
@@ -70,3 +75,19 @@ label {
 .contact-list a {
 	padding-right: 10px;
 }
+
+/*
+ Sign in form 
+ --------------------------------------------------- */
+.login-form {
+	border-radius: 5px;
+	margin: 0 0 0 25px;
+	padding: 25px 0 75px 25px;
+	width: 940px;
+
+	-webkit-box-shadow: 0 0 5px #888;
+	   -moz-box-shadow: 0 0 5px #888;
+			box-shadow: 0 0 5px #888;
+}
+.login-form input { float: left; width: 290px; margin-right: 5px; }
+.login-form input.btn { margin-top: 1px; }

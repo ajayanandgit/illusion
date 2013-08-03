@@ -15,6 +15,9 @@ class InvoicePresenter extends BasePresenter
 	/** @var */
 	public $contacts;
 
+	/** @var */
+	public $invoice;
+
 	protected function startup()
 	{
 		parent::startup();
@@ -35,15 +38,34 @@ class InvoicePresenter extends BasePresenter
 	// 	}
 	// }
 
+	public function actionEdit($id)
+	{
+		$this->invoice = $this->em->getRepository('Invoice')->findOneBy(array('id' => $id));
+		$form = $this['invoiceForm'];
+
+		if (!$this->invoice) {
+			throw new BadRequestException;
+		}
+
+		$items = $this->invoice->getItems();
+
+		$form->setDefaults(array(
+			'description' => $this->invoice->getDescription(),
+			'create_date' => $this->invoice->getCreateDate(),
+			'delivery_date' => $this->invoice->getDeliveryDate(),
+			'due_date' => $this->invoice->getDueDate(),
+			'customer' => $this->invoice->getCustomer(),
+		));
+	}
+
 	public function renderDefault()
 	{
 		$this->template->invoices = $this->em->getRepository('Invoice')->findBy(array('company' => $this->company->getId()));
 	}
 
-
-	public function renderCreate()
+	public function renderDisplay($id)
 	{
-		
+		$this->template->invoice = $this->em->getRepository('Invoice')->findOneBy(array('id' => $id));
 	}
 	
 
@@ -65,6 +87,15 @@ class InvoicePresenter extends BasePresenter
 		$form->addText('description', 'Popis', 50, 100)
 			 ->setAttribute('class', 'form-control input-small')
 			 ->addRule(Form::FILLED, 'Musíte zadať popis.');
+		$form->addText('create_date', 'Dátum vystavenia', 50, 100)
+			 ->setAttribute('class', 'form-control input-small')
+			 ->addRule(Form::FILLED, 'Musíte vyplniť dátum.');
+		$form->addText('delivery_date', 'Dátum doručenia', 50, 100)
+			 ->setAttribute('class', 'form-control input-small')
+			 ->addRule(Form::FILLED, 'Musíte vyplniť dátum.');
+		$form->addText('due_date', 'Dátum splatnosti', 50, 100)
+			 ->setAttribute('class', 'form-control input-small')
+			 ->addRule(Form::FILLED, 'Musíte vyplniť dátum.');
 
 		$customer = array();
 
@@ -122,9 +153,16 @@ class InvoicePresenter extends BasePresenter
 		$cid = $form->customer;
 		$customer = $this->em->getRepository('Contact')->findOneBy(array('id' => $cid));
 
+		$create_date = date_create($form->create_date);
+		$delivery_date = date_create($form->delivery_date);
+		$due_date = date_create($form->due_date);
+
 		$invoice = new Invoice;
 		
 		$invoice->setDescription($form->description)
+				->setCreateDate($create_date)
+				->setDeliveryDate($delivery_date)
+				->setDueDate($due_date)
 				->setCompany($this->company)
 				->setCustomer($customer);
 

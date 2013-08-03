@@ -21,6 +21,21 @@ class Invoice extends \Nette\Object
 	private $description;
 
 	/**
+	 * @Column(type="datetime")
+	 */
+	private $create_date;
+
+	/**
+	 * @Column(type="datetime")
+	 */
+	private $delivery_date;
+
+	/**
+	 * @Column(type="datetime")
+	 */
+	private $due_date;
+
+	/**
 	 * @ManyToOne(targetEntity="Company", inversedBy="invoices")
 	 * @JoinColumn(name="company_id", referencedColumnName="id")
 	 **/
@@ -65,6 +80,63 @@ class Invoice extends \Nette\Object
 	public function setDescription($description)
 	{
 		$this->description = $description;
+		return $this;
+	}
+
+	/**
+	 * Get date of invoice's creation
+	 */
+	public function getCreateDate()
+	{
+		$date = $this->create_date;
+		$result = $date->format('d.m.Y');
+		return $result;
+	}
+
+	/**
+	 * Set date of invoice's creation
+	 */
+	public function setCreateDate(\DateTime $create_date)
+	{
+		$this->create_date = $create_date;
+		return $this;
+	}
+
+	/**
+	 * Get date of invoice's delivery
+	 */
+	public function getDeliveryDate()
+	{
+		$date = $this->delivery_date;
+		$result = $date->format('d.m.Y');
+		return $result;
+	}
+
+	/**
+	 * Set date of invoice's delivery
+	 */
+	public function setDeliveryDate(\DateTime $delivery_date)
+	{
+		$this->delivery_date = $delivery_date;
+		return $this;
+	}
+
+	/**
+	 * Get date of invoice's maturity
+	 */
+	public function getDueDate()
+	{
+		$date = $this->due_date;
+		$result = $date->format('d.m.Y');
+		return $result;
+	}
+
+	/**
+	 * Set date of invoice's maturity
+	 */
+	public function setDueDate(\DateTime $due_date)
+	{
+		$this->due_date = $due_date;
 		return $this;
 	}
 
