@@ -31,6 +31,11 @@ class Items extends \Nette\Object
 	private $value;
 
 	/**
+	 * @Column(type="string", length=10)
+	 */
+	private $unit;
+
+	/**
 	 * @ManyToMany(targetEntity="Invoice", mappedBy="items")
 	 */
 	private $invoices;
@@ -96,6 +101,26 @@ class Items extends \Nette\Object
 	public function setQuantity($quantity)
 	{
 		$this->quantity = $quantity;
+		return $this;
+	}
+
+	/**
+	 * Get unit of item
+	 * @return Item
+	 */
+	public function getUnit()
+	{
+		return $this->unit;
+	}
+
+	/**
+	 * Set unit of item
+	 * @param String
+	 * @return Item
+	 */
+	public function setUnit($unit)
+	{
+		$this->unit = (string)$unit;
 		return $this;
 	}
 

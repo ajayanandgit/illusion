@@ -21,6 +21,11 @@ class Invoice extends \Nette\Object
 	private $description;
 
 	/**
+	 * @Column(type="integer")
+	 */
+	private $totalsum;
+
+	/**
 	 * @Column(type="datetime")
 	 */
 	private $create_date;
@@ -48,10 +53,21 @@ class Invoice extends \Nette\Object
 	private $customer;
 
 	/**
+	 * @OneToMany(targetEntity="Payment", mappedBy="invoice")
+	 */
+	private $payments;
+
+	/**
 	 * @ManyToMany(targetEntity="Items", inversedBy="invoices")
 	 * @JoinTable(name="invoices_items")
 	 */
 	private $items;
+
+	
+	public function __construct() 
+	{
+		$this->payments = new ArrayCollection;
+	}
 
 
 	/**
@@ -80,6 +96,26 @@ class Invoice extends \Nette\Object
 	public function setDescription($description)
 	{
 		$this->description = $description;
+		return $this;
+	}
+
+	/**
+	 * Get total sum of invoice
+	 * @return Invoice
+	 */
+	public function getTotalSum()
+	{
+		return $this->totalsum;
+	}
+
+	/**
+	 * Set total sum of invoice
+	 * @param integer
+	 * @return Invoice
+	 */
+	public function setTotalSum($totalsum)
+	{
+		$this->totalsum = $totalsum;
 		return $this;
 	}
 
@@ -200,4 +236,26 @@ class Invoice extends \Nette\Object
 		$this->items[] = $item;
 		return $this;
 	}
+
+	/**
+	 * Get payments
+	 * @return ArrayCollection
+	 */
+	public function getPayments()
+	{
+		return $this->payments;
+	}
+
+	/**
+	 * Add payment
+	 * @param Payment
+	 * @return Company
+	 */
+	 
+	public function addPayment(Payment $payment)
+	{
+		$this->payments->add($payment);
+		return $this;
+	}
+
 }

@@ -18,6 +18,9 @@ class InvoicePresenter extends BasePresenter
 	/** @var */
 	public $invoice;
 
+	/** @persistent int */
+	public $act_invoice_id;
+
 	protected function startup()
 	{
 		parent::startup();
@@ -66,6 +69,7 @@ class InvoicePresenter extends BasePresenter
 	public function renderDisplay($id)
 	{
 		$this->template->invoice = $this->em->getRepository('Invoice')->findOneBy(array('id' => $id));
+		$this->act_invoice_id = $id;
 	}
 	
 
@@ -116,6 +120,9 @@ class InvoicePresenter extends BasePresenter
 					  ->setAttribute('class', 'form-control input-small');
 			$container->addText('quantity', 'Množstvo')->setRequired()
 					  ->setAttribute('class', 'form-control input-small');
+			$container->addText('unit', 'Merná jednotka')->setRequired()
+					  ->setAttribute('class', 'form-control input-small')
+					  ->setAttribute('placeholder', 'napr. kg, ks, hod');
 			$container->addText('value', 'Hodnota')->setRequired()
 					  ->setAttribute('class', 'form-control input-small');
 
@@ -138,17 +145,34 @@ class InvoicePresenter extends BasePresenter
 		return $form;
 	}
 
+	/**
+	 * @return Form
+	 */
+	protected function createComponentPaymentForm()
+	{
+		$form = new Form;
 
+		$form->addText('pay_date', 'Dátum splátky', 50, 100)
+			 ->setAttribute('class', 'form-control input-small')
+			 ->addRule(Form::FILLED, 'Musíte vyplniť dátum.');
+		$form->addText('payment', 'Splátka', 50, 100)
+			 ->setAttribute('class', 'form-control input-small');
+		// $form->addHidden($invoice_id);
+		$form->addSubmit('submit', 'Uložiť splátku faktúry')
+			 ->setAttribute('class', 'btn btn-info btn-small');
+
+		$form->onSuccess[] = $this->paymentFormSubmitted;
+
+		return $form;
+	}
 
 	/**
 	 * @param SubmitButton $button
 	 */
 	public function InvoiceFormSubmitted(SubmitButton $button)
 	{
-		// jenom naplnění šablony, bez přesměrování
-		// $this->getSession('values')->users = $button->form->values;
-
 		$form = $button->form->values;
+		$totalsum = 0;
 
 		$cid = $form->customer;
 		$customer = $this->em->getRepository('Contact')->findOneBy(array('id' => $cid));
@@ -171,17 +195,47 @@ class InvoicePresenter extends BasePresenter
 			$items = new Items;
 			$items->setName($item['name'])
 				  ->setQuantity($item['quantity'])
+				  ->setUnit($item['unit'])
 				  ->setValue($item['value']);
 
 			$invoice->addItem($items);
 			$this->em->persist($items);
+
+			// Total sum of invoice
+			$itemsum = $item['quantity'] * $item['value'];
+			$totalsum += $itemsum;
 		}
+
+		$invoice->setTotalSum($totalsum);
 				
 		$this->em->persist($invoice);
 		$this->em->flush();
 
 		$this->flashMessage('Faktúra bola úspešne zaevidovaná do databázy.', 'success');		
 		$this->redirect('Invoice:');
+	}
+
+	/**
+	* @param Nette\Application\UI\Form $form
+	*/
+	public function paymentFormSubmitted(Form $form) 
+	{	
+		$invoice = $this->em->getRepository('Invoice')->findOneBy(array('id' => $this->act_invoice_id));
+		
+		$pay_date = date_create($form->values->pay_date);
+		
+		$payment = new Payment;
+		$payment->setPayDate($pay_date)
+				->setPayment($form->values->payment)
+				->setInvoice($invoice);
+
+
+		$this->em->persist($payment);
+
+		$this->flashMessage('Splátka faktúry bola úspešne zaúčtovaná.', 'success');
+		
+		$this->em->flush();
+		$this->redirect('Invoice:display', $this->act_invoice_id);
 	}
 
 }

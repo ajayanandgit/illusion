@@ -1,0 +1,115 @@
+{block content}
+
+	{control paymentForm}
+
+	<div class="invoice-payment">
+	<p>Celková suma faktúry: {$invoice->getTotalSum()}€</p>
+	<p>Dlžná suma:
+	<?php
+		$paid = 0;
+		$perc = 0;
+		foreach ($invoice->getPayments() as $payment) {
+			$paid += $payment->getPayment();
+		}
+		if ($paid != 0)
+		{
+			$perc = $paid / $invoice->getTotalSum() * 100;
+		}
+		echo $paid;
+	?>€</p>
+	</div>
+	<div class="progress progress-striped">
+		<div class="progress-bar progress-bar-info" style="width: <?php if($perc) { echo $perc; } ?>%"></div>
+	</div>
+
+	<table class="table table-bordered">
+		<thead>
+			<tr class="active">
+				<th colspan="2">Základné informácie</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Popis</td>
+				<td>{$invoice->getDescription()}</td>
+			</tr>
+			<tr>
+				<td>Zákazník</td>
+				<td>{$invoice->getCustomer()->getName()}</td>
+			</tr>
+			<tr>
+				<td>Dátum vystavenia</td>
+				<td>{$invoice->getCreateDate()}</td>
+			</tr>
+			<tr>
+				<td>Dátum doručenia</td>
+				<td>{$invoice->getDeliveryDate()}</td>
+			</tr>
+			<tr>
+				<td>Dátum splatnosti</td>
+				<td>{$invoice->getDueDate()}</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-bordered">
+		<thead>
+			<tr class="active">
+				<th colspan="4">Položky faktúry</th>
+			</tr>
+			<tr>
+				<th>Názov</th>
+				<th>Množstvo</th>
+				<th>MJ</th>
+				<th>Hodnota</th>
+			</tr>
+		</thead>
+		<tbody>
+		{foreach $invoice->getItems() as $item}
+			<tr>
+				<td>{$item->getName()}</td>
+				<td>{$item->getQuantity()}</td>
+				<td>{$item->getUnit()}</td>
+				<td>{$item->getValue()}</td>
+			</tr>
+		{/foreach}
+		</tbody>
+	</table>
+	<table class="table table-bordered">
+		<thead>
+			<tr class="active">
+				<th colspan="2">Splátky faktúry</th>
+			</tr>
+			<tr>
+				<th>Dátum</th>
+				<th>Suma</th>
+			</tr>
+		</thead>
+		<tbody>
+		{foreach $invoice->getPayments() as $payment}
+			<tr>
+				<td>{$payment->getPayDate()}</td>
+				<td>{$payment->getPayment()}€</td>
+			</tr>
+		{/foreach}
+		</tbody>
+	</table>
+	
+
+{/block}
+
+{block sidebar}
+	<li><a n:href="Invoice:">&larr; späť</a></li>
+{/block}
+
+{block script}
+
+	<script>
+
+	$(function() 
+	{
+		$( "#frmpaymentForm-pay_date" ).datepicker();
+	});
+
+	</script>
+
+{/block}

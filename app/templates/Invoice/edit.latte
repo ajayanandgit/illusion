@@ -1,0 +1,40 @@
+{block content}
+	<div id="wrapper">
+
+		{snippet usersForm}
+		{control invoiceForm begin}
+		{if !$control['invoiceForm']['items']->isSubmittedBy()}
+			{control invoiceForm errors}
+		{/if}
+		{control invoiceForm body}
+		{control invoiceForm end}
+		{/snippet}
+
+	</div>
+{/block}
+
+
+{block head}
+	<style>
+
+	</style>
+{/block}
+
+{block script}
+
+	<script>
+
+	$(function() 
+	{
+		$( "#frminvoiceForm-create_date" ).datepicker();
+		$( "#frminvoiceForm-delivery_date" ).datepicker();
+		$( "#frminvoiceForm-due_date" ).datepicker();
+	});
+
+	</script>
+
+{/block}
+
+{block sidebar}
+	<li><a n:href="Invoice:">&larr; späť</a></li>
+{/block}
