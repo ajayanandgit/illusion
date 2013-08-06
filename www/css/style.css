@@ -76,6 +76,7 @@ label {
 	padding-right: 10px;
 }
 
+
 /*
  Sign in form 
  --------------------------------------------------- */
@@ -91,3 +92,32 @@ label {
 }
 .login-form input { float: left; width: 290px; margin-right: 5px; }
 .login-form input.btn { margin-top: 1px; }
+
+
+/*
+ Display invoice site
+ --------------------------------------------------- */
+ .payment-form {
+ 	width: 100%;
+ }
+ 
+ .payment-form input {
+ 	width: 200px;
+ 	float: left;
+ 	margin-right: 10px;
+ }
+
+.payment-form label {
+	font-weight: 100;
+	margin-top: 5px;
+	float: left;
+} 
+ 
+ .payment-form-border {
+ 	margin-top: 10px;
+ 	height: 1px;
+ }
+
+.invoice-payment-info {
+	margin: 75px 0 50px 0;
+}

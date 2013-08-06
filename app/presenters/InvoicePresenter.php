@@ -151,11 +151,14 @@ class InvoicePresenter extends BasePresenter
 	protected function createComponentPaymentForm()
 	{
 		$form = new Form;
+		$today = date("d.m.Y");
 
 		$form->addText('pay_date', 'Dátum splátky', 50, 100)
 			 ->setAttribute('class', 'form-control input-small')
+			 ->setAttribute('placeholder', $today)
 			 ->addRule(Form::FILLED, 'Musíte vyplniť dátum.');
 		$form->addText('payment', 'Splátka', 50, 100)
+			 ->setAttribute('placeholder', '100 €')
 			 ->setAttribute('class', 'form-control input-small');
 		// $form->addHidden($invoice_id);
 		$form->addSubmit('submit', 'Uložiť splátku faktúry')

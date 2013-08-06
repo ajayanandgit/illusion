@@ -1,25 +1,60 @@
 {block content}
 
-	{control paymentForm}
+	<a href="#" id="add-payment">+ Pridať splátku faktúry</a>
+	<div class="payment-form-border">
+	<div class="payment-form">
+	{form paymentForm}		
+		{label pay_date/}{input pay_date}
+		{label payment/}{input payment}
+		{input submit}
 
-	<div class="invoice-payment">
-	<p>Celková suma faktúry: {$invoice->getTotalSum()}€</p>
-	<p>Dlžná suma:
-	<?php
-		$paid = 0;
-		$perc = 0;
-		foreach ($invoice->getPayments() as $payment) {
-			$paid += $payment->getPayment();
-		}
-		if ($paid != 0)
-		{
-			$perc = $paid / $invoice->getTotalSum() * 100;
-		}
-		echo $paid;
-	?>€</p>
+	{/form paymentForm}
 	</div>
-	<div class="progress progress-striped">
-		<div class="progress-bar progress-bar-info" style="width: <?php if($perc) { echo $perc; } ?>%"></div>
+	</div>
+
+	<div class="invoice-payment-info">
+		
+		<?php
+
+			$paid = 0;
+			$perc = 0;
+			foreach ($invoice->getPayments() as $payment) {
+				$paid += $payment->getPayment();
+			}
+
+
+			if ($paid != 0) 
+			{
+				$perc = $paid / $invoice->getTotalSum() * 100;
+			
+				if ($paid < $invoice->getTotalSum()) {
+					$status = 'čiastočne uhradená';
+					$alert_type = '';
+				} 
+				else {
+					$status = 'uhradená';
+					$alert_type = '-success';
+				}
+			} 
+			else 
+			{
+				$status = 'neuhradená';
+				$alert_type = '-danger';
+			}
+
+		?>
+
+
+		<p>Celková suma faktúry: {$invoice->getTotalSum()}€</p>
+		<p>Zaplatené: <?php echo $paid; ?>€</p>
+		
+		<div class='alert alert<?php echo $alert_type;  ?>'>
+			Stav faktúry: <?php echo $status; ?>
+		</div>
+
+		<div class="progress progress-striped">
+			<div class="progress-bar progress-bar-info" style="width: <?php if($perc) { echo $perc; } ?>%"></div>
+		</div>
 	</div>
 
 	<table class="table table-bordered">
@@ -102,7 +137,6 @@
 {/block}
 
 {block script}
-
 	<script>
 
 	$(function() 
@@ -110,6 +144,11 @@
 		$( "#frmpaymentForm-pay_date" ).datepicker();
 	});
 
-	</script>
+	$('.payment-form').hide();
+	$('#add-payment').click(function(){
+		$('.payment-form').slideToggle();
+		return false;
+	});
 
+	</script>
 {/block}
