@@ -5,7 +5,7 @@ use Nette\Application\BadRequestException;
 use Nette\Application\ForbiddenRequestException;
 
 /**
- * Contact presenter.
+ * Costs presenter.
  */
 class CostsPresenter extends BasePresenter {
 
@@ -14,19 +14,6 @@ class CostsPresenter extends BasePresenter {
 
 	/** @var */
 	public $company;
-
-	/** @var \Repositories\CostsRepository */
-	protected $costsRepo;
-
-	/**
-	 * @param \Repositories\CostsRepository
-	 */
-	public function injectCostsRepository(\Repositories\CostsRepository $repo) {
-		if ($this->costsRepo) {
-			throw new Nette\InvalidStateException('CostsRepository has already been set');
-		}
-		$this->costsRepo = $repo;
-	}
 
 	protected function startup()
 	{

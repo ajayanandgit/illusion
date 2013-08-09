@@ -42,6 +42,8 @@ common:
 		costsRepository:
 			class: \Repositories\CostsRepository( @doctrine.entityManager, @database::getClassMetadata('Costs') )
 
+		contactRepository:
+			class: \Repositories\ContactRepository( @doctrine.entityManager, @database::getClassMetadata('Contact') )
 
 	factories:
 

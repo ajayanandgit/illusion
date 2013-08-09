@@ -2,27 +2,16 @@
 
 namespace Repositories;
 
-class ContactRepository extends \Nella\Doctrine\Repository {
-
-	public function getContactByCompany($company_id)
+class ContactRepository extends \Nella\Doctrine\Repository 
+{
+	public function getAlphaListContacts($user_id)
 	{
 		$query = $this->getEntityManager()->createQueryBuilder();
 		$query->select('c')
-			  ->from('Costs', 'c')
-			  ->where('c.company = :company_id')->setParameter('company_id', $company_id)
-			  ->orderBy('c.id', 'DESC');
+			  ->from('Contact', 'c')
+			  ->where('c.user = :user_id')->setParameter('user_id', $user_id)
+			  ->orderBy('c.name', 'ASC');
 
 		return $query->getQuery()->getResult();
 	}
-
-	public function getBalance($company_id)
-	{
-		$query = $this->getEntityManager()->createQueryBuilder();
-		$query->select('sum(c.value)')
-			  ->from('Costs', 'c')
-			  ->where('c.company = :company_id')->setParameter('company_id', $company_id);
-
-		return $query->getQuery()->getSingleResult();
-	}
-
 }

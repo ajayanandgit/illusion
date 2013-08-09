@@ -23,7 +23,8 @@ class ContactPresenter extends BasePresenter {
 
 	public function renderDefault()
 	{
-		$contacts = $this->em->getRepository('Contact')->findBy(array('user' => $this->getUser()->getId()));
+		// $contacts = $this->em->getRepository('Contact')->findBy(array('user' => $this->getUser()->getId()));
+		$contacts = $this->contactRepo->getAlphaListContacts($this->getUser()->getId());
 
 		if ($contacts) {
 			$this->template->contacts = $contacts;

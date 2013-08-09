@@ -2,8 +2,8 @@
 
 namespace Repositories;
 
-class CostsRepository extends \Nella\Doctrine\Repository {
-
+class CostsRepository extends \Nella\Doctrine\Repository 
+{
 	public function getCostsByCompany($company_id)
 	{
 		$query = $this->getEntityManager()->createQueryBuilder();
