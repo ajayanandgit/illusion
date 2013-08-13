@@ -31,8 +31,17 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	/** @var \Repositories\CostsRepository */
 	protected $costsRepo;
 
+	/** @var \Repositories\InvoiceRepository */
+	protected $invoiceRepo;
+
 	/** @var \Repositories\ContactRepository */
 	protected $contactRepo;
+
+	/** @var \Repositories\CashflowRepository */
+	protected $cashflowRepo;
+
+	/** @var \Repositories\PaymentRepository */
+	protected $paymentRepo;
 
 	/**
 	 * @param \Repositories\CostsRepository
@@ -45,6 +54,16 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	}
 
 	/**
+	 * @param \Repositories\InvoiceRepository
+	 */
+	public function injectInvoiceRepository(\Repositories\InvoiceRepository $invoiceRepo) {
+		if ($this->invoiceRepo) {
+			throw new Nette\InvalidStateException('InvoiceRepository has already been set');
+		}
+		$this->invoiceRepo = $invoiceRepo;
+	}
+
+	/**
 	 * @param \Repositories\ContactRepository
 	 */
 	public function injectContactRepository(\Repositories\ContactRepository $contactRepo) {
@@ -53,5 +72,24 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		}
 		$this->contactRepo = $contactRepo;
 	}
+
+	/**
+	 * @param \Repositories\CashflowRepository
+	 */
+	public function injectCashflowRepository(\Repositories\CashflowRepository $cashflowRepo) {
+		if ($this->cashflowRepo) {
+			throw new Nette\InvalidStateException('CashflowRepository has already been set');
+		}
+		$this->cashflowRepo = $cashflowRepo;
+	}
 	
+	/**
+	 * @param \Repositories\paymentRepository
+	 */
+	public function injectPaymentRepository(\Repositories\paymentRepository $paymentRepo) {
+		if ($this->paymentRepo) {
+			throw new Nette\InvalidStateException('paymentRepository has already been set');
+		}
+		$this->paymentRepo = $paymentRepo;
+	}
 }

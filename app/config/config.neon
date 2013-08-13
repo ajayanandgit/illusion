@@ -45,6 +45,15 @@ common:
 		contactRepository:
 			class: \Repositories\ContactRepository( @doctrine.entityManager, @database::getClassMetadata('Contact') )
 
+		invoiceRepository:
+			class: \Repositories\InvoiceRepository( @doctrine.entityManager, @database::getClassMetadata('Invoice') )
+
+		cashflowRepository:
+			class: \Repositories\CashflowRepository( @doctrine.entityManager, @database::getClassMetadata('Costs') )
+
+		paymentRepository:
+			class: \Repositories\PaymentRepository( @doctrine.entityManager, @database::getClassMetadata('Payment') )
+
 	factories:
 
 

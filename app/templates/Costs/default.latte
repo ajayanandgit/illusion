@@ -9,6 +9,7 @@
 		<thead>
 			<tr>
 				<th>#</th>
+				<th>Dátum</th>
 				<th>Popis nákladu</th>
 				<th>Suma</th>
 			</tr>
@@ -17,6 +18,7 @@
 		{foreach $costs as $cost}			
 			<tr>
 				<td>{$cost->getId()}</td>
+				<td>{$cost->getCostDate()}</td>
 				<td>{$cost->getDescription()}</td>
 				<td>{$cost->getValue()} €</td>
 			</tr>
@@ -35,11 +37,19 @@
 
 {block sidebar}
 	
-	<li><a href="">ahoj</a></li>
-	<li><a href="">ahoj</a></li>
-	<li><a href="">ahoj</a></li>
-	<li><a href="">ahoj</a></li>
+	
 	
 {/block}
 
+{block script}
 
+	<script>
+
+	$(function() 
+	{
+		$( "#frmcostForm-cost_date" ).datepicker();
+	});
+
+	</script>
+
+{/block}

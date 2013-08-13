@@ -8,24 +8,47 @@
 
 		<p><a href="#" class="btn btn-primary btn-large">Čítaj viac &raquo;</a></p>
 	</div>
-	
+
+
+	<h2>Náklady</h2>
+	<ul>
+		{foreach $costs as $cost}
+		<li>{$cost->getDescription()}</li>
+		{/foreach}
+	</ul>
+
+	<h2>Faktúry</h2>
+	<ul>
+		{foreach $invoices as $invoice}
+			<li>{$invoice->getCreateDate()} - {$invoice->getDescription()}</li>
+		{/foreach}
+	</ul>
+
+	<h2>Posledné prijaté splátky faktúr</h2>
+	<ul>
+		{foreach $payments as $payment}
+			<li>{$payment->getPayDate()} - {$payment->getPayment()} - {$payment->getInvoice()->getDescription()}</li>
+		{/foreach}
+	</ul>
+
+
+		<?php
+			// 
+			// Reverzne vypisovanie pola
+			// $j = 1;
+			// $output = "";
+			// $length = count( $invoices );
+
+			// while ( $length-- && $j++ ) {
+			// 	$invoice = $invoices[ $length ];
+			// 	$output .= "<li>{$invoice->getCreateDate()} - {$invoice->description}</li>";
+			// };
+
+			// echo $output;
+		?>
+
 {/block}
 
 {block sidebar}
-	<li class="nav-header">Menu</li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li class="nav-header">Sidebar</li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li class="nav-header">Sidebar</li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
-	<li><a href="#">Link</a></li>
+
 {/block}

@@ -80,7 +80,7 @@ class Company extends \Nette\Object
 	public function setUser(User $user) 
 	{
 		$this->user = $user;
-		$cashBook->setCompany($this);
+		$user->setCompany($this);
 		return $this;
 	}
 

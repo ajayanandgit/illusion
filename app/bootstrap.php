@@ -1,8 +1,5 @@
 <?php
 
-/**
- * My Application bootstrap file.
- */
 use Nette\Application\Routers\Route;
 
 

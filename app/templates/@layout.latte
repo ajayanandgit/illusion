@@ -82,6 +82,9 @@
 					<li>
 						<a n:href="Invoice:">Faktúry</a>
 					</li>
+					<li>
+						<a n:href="Cashflow:">Peňažný denník</a>
+					</li>
 				</ul>
 				
 				<form class="navbar-form pull-left" action="">
@@ -107,15 +110,15 @@
 	</div>
 	{/if}
 
-	<div class="container-fluid">
-		<div class="row-fluid">
+	<div class="container">
+		<div class="">
 			{if $user->isLoggedIn()}
 				<ul class="nav nav-pills nav-stacked span2">
 					{include #sidebar}
 				</ul>
 			{/if}
 
-			<div class="span9">
+			<div class="container">
 				{include #content}
 			</div><!--/span-->
 		</div><!--/row-->

@@ -26,6 +26,11 @@ class Costs extends \Nette\Object
 	private $value;
 
 	/**
+	 * @Column(type="datetime")
+	 */
+	private $cost_date;
+
+	/**
 	 * @ManyToOne(targetEntity="Company", inversedBy="costs")
 	 * @JoinColumn(name="company_id", referencedColumnName="id")
 	 **/
@@ -79,6 +84,26 @@ class Costs extends \Nette\Object
 	public function setValue($value)
 	{
 		$this->value = $value;
+		return $this;
+	}
+
+	/**
+	 * Get date of cost
+	 */
+	public function getCostDate()
+	{
+		// $date = $this->cost_date;
+		// $result = $date->format('d.m.Y');
+		
+		// return $result;
+	}
+
+	/**
+	 * Set date of cost
+	 */
+	public function setCostDate(\DateTime $cost_date)
+	{
+		$this->cost_date = $cost_date;
 		return $this;
 	}
 

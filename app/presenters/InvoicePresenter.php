@@ -21,18 +21,7 @@ class InvoicePresenter extends BasePresenter
 	/** @persistent int */
 	public $act_invoice_id;
 
-	/** @var \Repositories\InvoiceRepository */
-	// protected $invoiceRepo;
 
-	/**
-	 * @param \Repositories\InvoiceRepository
-	 */
-	// public function injectInvoiceRepository(\Repositories\InvoiceRepository $repo) {
-	// 	if ($this->invoiceRepo) {
-	// 		throw new Nette\InvalidStateException('InvoiceRepository has already been set');
-	// 	}
-	// 	$this->invoiceRepo = $repo;
-	// }
 
 	protected function startup()
 	{
@@ -76,8 +65,8 @@ class InvoicePresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-		$this->template->invoices = $this->em->getRepository('Invoice')->findBy(array('company' => $this->company->getId()));
-		// $this->template->invoices = $this->invoiceRepo->getOrderInvoices($this->company->getId());
+		// $this->template->invoices = $this->em->getRepository('Invoice')->findBy(array('company' => $this->company->getId()));
+		$this->template->invoices = $this->invoiceRepo->getOrderInvoices($this->company->getId());
 	}
 
 	public function renderDisplay($id)

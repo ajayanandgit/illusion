@@ -4,7 +4,7 @@ use Doctrine\ORM\Mapping,
 		Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity() 
+ * @Entity(repositoryClass="InvoiceRepository") 
  */
 class Invoice extends \Nette\Object
 {
@@ -14,6 +14,12 @@ class Invoice extends \Nette\Object
 	 * @GeneratedValue
 	 */
 	private $id;
+
+	/**
+	 * Invoice number
+	 * @Column(type="integer")
+	 */
+	// private $inum;
 
 	/**
 	 * @Column(type="text")
@@ -80,6 +86,31 @@ class Invoice extends \Nette\Object
 	}
 
 	/**
+	 * Get invoice number
+	 * @return integer
+	 */
+	// public function getInum()
+	// {
+	// 	return $this->inum;
+	// }
+
+	/**
+	 * Set invoice number
+	 * @param integer
+	 * @return integer
+	 */
+	// public function setInum()
+	// {
+	// 	$month = date("m");
+	// 	$year = date("Y");
+
+	// 	$inum = $year . $month;
+
+	// 	$this->inum = $inum;
+	// 	return $this;
+	// }
+
+	/**
 	 * Get description
 	 * @return Invoice
 	 */
@@ -126,6 +157,7 @@ class Invoice extends \Nette\Object
 	{
 		$date = $this->create_date;
 		$result = $date->format('d.m.Y');
+		
 		return $result;
 	}
 
@@ -145,6 +177,7 @@ class Invoice extends \Nette\Object
 	{
 		$date = $this->delivery_date;
 		$result = $date->format('d.m.Y');
+		
 		return $result;
 	}
 
@@ -164,6 +197,7 @@ class Invoice extends \Nette\Object
 	{
 		$date = $this->due_date;
 		$result = $date->format('d.m.Y');
+		
 		return $result;
 	}
 

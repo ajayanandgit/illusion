@@ -117,7 +117,7 @@ class User extends \Nette\Object
 	 */
 	public function setEmail($email)
 	{
-		$this->email = static::normalizeString($email);
+		$this->email = $email;
 		return $this;
 	}
 	
@@ -146,6 +146,15 @@ class User extends \Nette\Object
 	public function getCompany() 
 	{
 		return $this->company;
+	}
+
+	/**
+	 * Set User's company
+	 */
+	public function setCompany(Company $company)
+	{
+		$this->company = $company;
+		return $this;
 	}
 
 	/**

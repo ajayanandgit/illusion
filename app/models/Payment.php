@@ -4,7 +4,7 @@ use Doctrine\ORM\Mapping,
 		Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="PaymentRepository") 
  */
 class Payment extends \Nette\Object
 {

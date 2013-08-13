@@ -48,6 +48,9 @@ class CostsPresenter extends BasePresenter {
 			 ->addRule(Form::FILLED, 'Musíte zadať popis nákladu.')
 			 ->setAttribute('class', 'form-control input-small')
 			 ->setAttribute('placeholder', 'Popis nákladu');
+		$form->addText('cost_date', 'Dátum', 50, 100)
+			 ->setAttribute('class', 'form-control input-small')
+			 ->addRule(Form::FILLED, 'Musíte vyplniť dátum.');
 		$form->addText('value', 'Suma v EUR', 50, 100)
 			 ->addRule(Form::FILLED, 'Musíte zadať sumu.')
 			 ->setAttribute('class', 'form-control input-small')
@@ -65,10 +68,12 @@ class CostsPresenter extends BasePresenter {
 	*/
 	public function costFormSubmitted(Form $form) 
 	{	
+		$cost_date = date_create($form->values->cost_date);
 
 		$cost = new Costs;
 		$cost->setDescription($form->values->description)
 			 ->setValue($form->values->value)
+			 ->setCostDate($cost_date)
 			 ->setCompany($this->company);
 
 		$this->em->persist($cost);
