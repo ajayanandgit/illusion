@@ -32,6 +32,12 @@ class Payment extends \Nette\Object
 	private $invoice;
 
 	/**
+	 * @ManyToOne(targetEntity="Company", inversedBy="payments")
+	 * @JoinColumn(name="company_id", referencedColumnName="id")
+	 */
+	private $company;
+
+	/**
 	 * Get ID
 	 * @return integer
 	 */
@@ -87,13 +93,34 @@ class Payment extends \Nette\Object
 
 	/**
 	 * Set invoice
-	 * @param Contact
-	 * @return Invoice
+	 * @param Invoice
+	 * @return Payment
 	 */
 	public function setInvoice(Invoice $invoice)
 	{
 		$invoice->addPayment($this);
 		$this->invoice = $invoice;
+		return $this;
+	}
+
+	/**
+	 * Get company
+	 * @return Company
+	 */
+	public function getCompany()
+	{
+		return $this->company;
+	}
+
+	/**
+	 * Set company
+	 * @param Company
+	 * @return Payment
+	 */
+	public function setInvoice(Company $company)
+	{
+		$company->addPayment($this);
+		$this->company = $company;
 		return $this;
 	}
 

@@ -1,6 +1,7 @@
 <?php
 
-use Doctrine\ORM\Mapping;
+use Doctrine\ORM\Mapping,
+		Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity
@@ -40,9 +41,17 @@ class Company extends \Nette\Object
 	 */
 	private $costs;
 
-	public function __construct() {
-		$this->costs = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->invoices = new \Doctrine\Common\Collections\ArrayCollection();
+	/**
+	 * @OneToMany(targetEntity="Payment", mappedBy="company")
+	 */
+	private $payments;
+
+
+	public function __construct() 
+	{
+		$this->costs = new ArrayCollection;
+		$this->invoices = new ArrayCollection;
+		$this->payments = new ArrayCollection;
 	}
 	
 
@@ -114,7 +123,6 @@ class Company extends \Nette\Object
 		return $this;
 	}
 
-
 	/**
 	 * Get Costs
 	 * @return ArrayCollection
@@ -122,5 +130,26 @@ class Company extends \Nette\Object
 	public function getCosts()
 	{
 		return $this->costs;
+	}
+
+	/**
+	 * Get payments
+	 * @return ArrayCollection
+	 */
+	public function getPayments()
+	{
+		return $this->payments;
+	}
+
+	/**
+	 * Add payment
+	 * @param Payment
+	 * @return Company
+	 */
+	 
+	public function addPayment(Payment $payment)
+	{
+		$this->payments->add($payment);
+		return $this;
 	}
 }

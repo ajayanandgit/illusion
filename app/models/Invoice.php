@@ -283,7 +283,7 @@ class Invoice extends \Nette\Object
 	/**
 	 * Add payment
 	 * @param Payment
-	 * @return Company
+	 * @return Invoice
 	 */
 	 
 	public function addPayment(Payment $payment)
