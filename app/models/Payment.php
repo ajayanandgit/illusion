@@ -117,7 +117,7 @@ class Payment extends \Nette\Object
 	 * @param Company
 	 * @return Payment
 	 */
-	public function setInvoice(Company $company)
+	public function setCompany(Company $company)
 	{
 		$company->addPayment($this);
 		$this->company = $company;

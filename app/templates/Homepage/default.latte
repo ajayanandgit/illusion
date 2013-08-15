@@ -10,42 +10,65 @@
 	</div>
 
 
-	<h2>Náklady</h2>
-	<ul>
-		{foreach $costs as $cost}
-		<li>{$cost->getDescription()}</li>
-		{/foreach}
-	</ul>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Prehľad posledných nákladov</h2>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Dátum</th>
+						<th>Popis nákladu</th>
+						<th>Suma</th>
+					</tr>
+				</thead>
+				<tbody>
+				{foreach $costs as $cost}			
+					<tr>
+						<td>{$cost->getId()}</td>
+						<td>{$cost->getCostDate()}</td>
+						<td>{$cost->getDescription()}</td>
+						<td>{$cost->getValue()} €</td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="col-md-4">
+			<h2>Faktúry</h2>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Dátum</th>
+						<th>Popis</th>
+						<th>Celková suma</th>
+					</tr>
+				</thead>
+				<tbody>
+				{foreach $invoices as $invoice}			
+					<tr>
+						<td>{$invoice->getId()}</td>
+						<td>{$invoice->getCreateDate()}</td>
+						<td>{$invoice->getDescription()}</td>
+						<td>{$invoice->getTotalSum()} €</td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		</div>
 
-	<h2>Faktúry</h2>
-	<ul>
-		{foreach $invoices as $invoice}
-			<li>{$invoice->getCreateDate()} - {$invoice->getDescription()}</li>
-		{/foreach}
-	</ul>
+	</div><!-- END Row -->
 
 	<h2>Posledné prijaté splátky faktúr</h2>
 	<ul>
 		{foreach $payments as $payment}
-			<li>{$payment->getPayDate()} - {$payment->getPayment()} - {$payment->getInvoice()->getDescription()}</li>
+			<li>{$payment->getPayDate()} - {$payment->getPayment()}</li>
 		{/foreach}
 	</ul>
 
-
-		<?php
-			// 
-			// Reverzne vypisovanie pola
-			// $j = 1;
-			// $output = "";
-			// $length = count( $invoices );
-
-			// while ( $length-- && $j++ ) {
-			// 	$invoice = $invoices[ $length ];
-			// 	$output .= "<li>{$invoice->getCreateDate()} - {$invoice->description}</li>";
-			// };
-
-			// echo $output;
-		?>
+	<a n:href="Eciovni:generate">Vygenerovat fakturu</a>
 
 {/block}
 

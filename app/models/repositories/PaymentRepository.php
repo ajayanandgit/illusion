@@ -5,21 +5,14 @@ namespace Repositories;
 class PaymentRepository extends \Nella\Doctrine\Repository 
 {
 
-	public function getLatestPayments($company)
+	public function getLatestPayments($company_id)
 	{
-		// Funkcia vypise splatky podla jednotlivych faktur, neberie do uvahy cas
-		// $invoices = $company->getInvoices();
-
-		// foreach ($invoices as $invoice) {
-		// 	foreach ($invoice->getPayments() as $payment) {
-		// 		dump($payment->getPayment());
-		// 	}
-		// }
-
 		$query = $this->getEntityManager()->createQueryBuilder();
 		$query->select('p')
 			  ->from('Payment', 'p')
-			  ->orderBy('p.id', 'DESC');
+			  ->where('p.company = :company_id')->setParameter('company_id', $company_id)
+			  ->orderBy('p.pay_date', 'DESC')
+			  ->setMaxResults(5);
 
 		return $query->getQuery()->getResult();
 	}

@@ -31,11 +31,30 @@ class Authenticator extends Nette\Object implements NS\IAuthenticator
 	 */
 	public function authenticate(array $credentials)
 	{
-		list($username, $password) = $credentials;
-		$user = $this->users->findOneBy(array('username' => $username));
+		// LOGIN USING USERNAME
+		// list($username, $password) = $credentials;
+		// $user = $this->users->findOneBy(array('username' => $username));
+
+		// if (!$user) {
+		// 	throw new NS\AuthenticationException("User '$username' not found.", self::IDENTITY_NOT_FOUND);
+		// }
+
+		// if ($user->password !== $this->calculateHash($password)) {
+		// 	throw new NS\AuthenticationException("Invalid password.", self::INVALID_CREDENTIAL);
+		// }
+
+		// return new NS\Identity($user->id, $user->role, array(
+		// 	'username' => $user->username,
+		// 	'email' => $user->email,
+		// ));
+
+
+		// LOGIN USING EMAIL
+		list($email, $password) = $credentials;
+		$user = $this->users->findOneBy(array('email' => $email));
 
 		if (!$user) {
-			throw new NS\AuthenticationException("User '$username' not found.", self::IDENTITY_NOT_FOUND);
+			throw new NS\AuthenticationException("Používateľ sa nenašiel.", self::IDENTITY_NOT_FOUND);
 		}
 
 		if ($user->password !== $this->calculateHash($password)) {

@@ -233,7 +233,8 @@ class InvoicePresenter extends BasePresenter
 		$payment = new Payment;
 		$payment->setPayDate($pay_date)
 				->setPayment($form->values->payment)
-				->setInvoice($invoice);
+				->setInvoice($invoice)
+				->setCompany($this->company);
 
 
 		$this->em->persist($payment);

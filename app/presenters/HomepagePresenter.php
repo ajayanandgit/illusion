@@ -46,7 +46,7 @@ class HomepagePresenter extends BasePresenter
 	{
 		$this->template->costs = $this->costsRepo->getLastCostsByCompany($this->company->getId());
 		$this->template->invoices = $this->invoiceRepo->getLatestInvoices($this->company->getId());
-		$this->template->payments = $this->paymentRepo->getLatestPayments($this->company);
+		$this->template->payments = $this->paymentRepo->getLatestPayments($this->company->getId());
 	}
 
 }

@@ -22,9 +22,15 @@ class SignPresenter extends BasePresenter
 	{
 		$form = new UI\Form;
 		$form->getElementPrototype()->class('form-inline');
-		$form->addText('username', '')
-			 ->setRequired('Please provide a username.')
-			 ->setAttribute('placeholder', 'login')
+		// $form->addText('username', '')
+		// 	 ->setRequired('Please provide a username.')
+		// 	 ->setAttribute('placeholder', 'login')
+		// 	 ->setAttribute('class', 'form-control');
+		
+		$form->addText('email', '')
+			 //->addRule(Form::EMAIL, 'Prosim zadajte korektný e-mail.')
+			 ->setRequired('Prosim zadajte e-mail.')
+			 ->setAttribute('placeholder', 'email')
 			 ->setAttribute('class', 'form-control');
 
 		$form->addPassword('password', '')
@@ -54,7 +60,7 @@ class SignPresenter extends BasePresenter
 			} else {
 				$this->getUser()->setExpiration('+ 20 minutes', TRUE);
 			}
-			$this->getUser()->login($values->username, $values->password);
+			$this->getUser()->login($values->email, $values->password);
 			$this->redirect('Homepage:');
 
 		} catch (NS\AuthenticationException $e) {
