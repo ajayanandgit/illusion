@@ -21,7 +21,7 @@
 				<td>{$invoice->id}</td>
 				<td>{$invoice->description}</td>
 				<td>{$invoice->getCustomer()->getName()}</td>
-				<td><a href="{$basePath}/invoice/display/{$invoice->id}">Zobraziť faktúru</a></td>
+				<td><a n:href="Invoice:Display $invoice->id">Zobraziť faktúru</a></td>
 			</tr>
 		
 		{/foreach}

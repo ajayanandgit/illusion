@@ -21,7 +21,7 @@ class SignPresenter extends BasePresenter
 	protected function createComponentSignInForm()
 	{
 		$form = new UI\Form;
-		$form->getElementPrototype()->class('form-inline');
+		// $form->getElementPrototype()->class('form-inline');
 		// $form->addText('username', '')
 		// 	 ->setRequired('Please provide a username.')
 		// 	 ->setAttribute('placeholder', 'login')

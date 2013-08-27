@@ -4,12 +4,46 @@
 	
 	<h2></h2>
 	{if $company != NULL}
-	<table>
+	<table class="table table-bordered">
 		<tbody>
 			<tr>
 				<td>Názov firmy</td>
-				<td>&nbsp;&nbsp;&nbsp;&nbsp;{$company->getCompanyName()}</td>
-			</tr><!-- Table Row -->
+				<td>{$company->getCompanyName()}</td>
+			</tr>
+			<tr>
+				<td>Ulica</td>
+				<td>{$company->getStreet()}</td>
+			</tr>
+			<tr>
+				<td>Mesto</td>
+				<td>{$company->getCity()}</td>
+			</tr>
+			<tr>
+				<td>PSČ</td>
+				<td>{$company->getPostcode()}</td>
+			</tr>
+			<tr>
+				<td>IČO</td>
+				<td>{$company->getIco()}</td>
+			</tr>
+			<tr>
+				<td>DIČ</td>
+				<td>{$company->getDic()}</td>
+			</tr>
+			<tr>
+				<td>IČ DPH</td>
+				<td>{$company->getIcDph()}</td>
+			</tr>
+			<tr>
+				<td>Platca DPH</td>
+				<td>
+					{if $company->getVatPayer()}
+						áno
+					{else}
+						nie
+					{/if}
+				</td>
+			</tr>
 		</tbody>
 	</table>
 	{else}
@@ -19,13 +53,10 @@
 {/block}
 
 {block sidebar}
-	<li class="nav-header">Možnosti</li>
-
 	{if $company != NULL}
 		<li><a n:href="Company:edit">Upraviť profil</a></li>
 	{else}
 		<li><a n:href="Company:create">Vytvoriť profil</a></li>
-	{/if}
-	
+	{/if}	
 {/block}
 

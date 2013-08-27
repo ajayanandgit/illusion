@@ -1,3 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Happy+Monkey);
+
+/*
+ Main 
+ --------------------------------------------------- */
 body {
 	font: 12pt/1.4 "Trebuchet MS", "Geneva CE", lucida, sans-serif;
 	color: black;
@@ -68,6 +73,64 @@ label {
 
 
 /*
+ Sign in site
+ --------------------------------------------------- */
+
+.introduction {
+	background-color: #000;
+	color: white;
+	padding: 25px;
+	border-radius: 5px;
+	margin-bottom: 15px;
+	-webkit-box-shadow:  0px 0px 1px 2px rgba(0, 0, 0, 0.2);        
+        	box-shadow:  0px 0px 1px 2px rgba(0, 0, 0, 0.2);
+	opacity: 0.9;
+	/* IE10 Consumer Preview */ 
+	background-image: -ms-linear-gradient(top, #404040 0%, #000000 100%);
+	/* Mozilla Firefox */ 
+	background-image: -moz-linear-gradient(top, #404040 0%, #000000 100%);
+	/* Opera */ 
+	background-image: -o-linear-gradient(top, #404040 0%, #000000 100%);
+	/* Webkit (Safari/Chrome 10) */ 
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #404040), color-stop(1, #000000));
+	/* Webkit (Chrome 11+) */ 
+	background-image: -webkit-linear-gradient(top, #404040 0%, #000000 100%);
+	/* W3C Markup, IE10 Release Preview */ 
+	background-image: linear-gradient(to bottom, #404040 0%, #000000 100%);
+}
+
+.introduction h1 {
+	font-family: 'Happy Monkey', cursive;
+	text-align: center;
+}
+
+.introduction p {
+	text-align: center;
+	padding: 15px 0;
+}
+
+.sign-in-form {
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 25px;
+	border-radius: 5px;
+	-webkit-box-shadow:  0px 0px 1px 2px rgba(0, 0, 0, 0.2);        
+        	box-shadow:  0px 0px 1px 2px rgba(0, 0, 0, 0.2);
+	opacity: 0.8;
+	/* IE10 Consumer Preview */ 
+	background-image: -ms-linear-gradient(top, #FAFAFA 0%, #D6D6D6 100%);
+	/* Mozilla Firefox */ 
+	background-image: -moz-linear-gradient(top, #FAFAFA 0%, #D6D6D6 100%);
+	/* Opera */ 
+	background-image: -o-linear-gradient(top, #FAFAFA 0%, #D6D6D6 100%);
+	/* Webkit (Safari/Chrome 10) */ 
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FAFAFA), color-stop(1, #D6D6D6));
+	/* Webkit (Chrome 11+) */ 
+	background-image: -webkit-linear-gradient(top, #FAFAFA 0%, #D6D6D6 100%);
+	/* W3C Markup, IE10 Release Preview */ 
+	background-image: linear-gradient(to bottom, #FAFAFA 0%, #D6D6D6 100%);
+}
+
+/*
  Contacts 
  --------------------------------------------------- */
 .contact-list .contact {
@@ -106,3 +169,22 @@ label {
 .invoice-payment-info {
 	margin: 75px 0 50px 0;
 }
+
+
+/*
+ Sidebar
+ --------------------------------------------------- */
+.sidebar {
+	
+}
+
+
+/*
+ Footer 
+ --------------------------------------------------- */
+ footer {
+ 	padding: 25px 50px 15px 50px;
+ 	color: #333;
+ 	/* background-color: #bebebe; */
+ 	border-radius: 5px;
+ }

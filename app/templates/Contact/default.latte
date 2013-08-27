@@ -7,15 +7,15 @@
 
 {block sidebar}
 	
-	<li class="nav-header">Adresár</li>
-	
 	{if $contacts != NULL}
-		<div class="contact-list">
+		<!--<div class="contact-list">-->
 			{foreach $contacts as $contact}
-				<li class="contact">{$contact->getName()}</li>
-				<li class="options"><small><a n:href="User:Remove">Upraviť</a><a>Vymazať</a></small></li>
+				<li class="contact"><a href="#">{$contact->getName()}</a></li>
+				<li class="options"><small>
+					<a n:href="Contact:Edit $contact->getId()" class="label label-info">Upraviť</a>
+					<a n:href="removeContact! $contact->getId()" class="label label-danger">Vymazať</a></small></li>
 			{/foreach}
-		</div>
+		<!--</div>-->
 	{else}
 		<li>Žiadne kontakty</li>
 	{/if}

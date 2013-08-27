@@ -1,4 +1,9 @@
-{block content}	
+{block content}
+	
+	<div class="generate-invoice-button pull-right">
+		{var $id = $invoice->getId()}
+		<a n:href="Eciovni:generate $id" class="btn btn-primary">Uložiť faktúru do PDF</a>
+	</div>
 
 	<a href="#" id="add-payment">+ Pridať splátku faktúry</a>
 	<div class="payment-form-border">

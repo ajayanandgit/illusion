@@ -2,9 +2,75 @@
 
 {block content}
 
-	<img src="{$basePath}/images/login-header.jpg" class="img-rounded img-responsive fullPageWidth" alt="login-header">
+	<div class="row">
 
-	<legend>Prihlásenie</legend>
-	{control signInForm}
 
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8  introduction">
+			<h1>
+				<img src="../images/beta-logo.png" alt="illusion-logo" >
+				illusion
+			</h1>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer congue nulla quis tortor pretium, commodo mattis ipsum varius. Nullam pretium gravida est ut aliquet. Etiam laoreet cursus velit non luctus. Quisque pellentesque venenatis ultricies. Nunc et blandit leo, eget facilisis ligula. Quisque metus diam, convallis ut eros vitae, placerat egestas velit. In nec dignissim libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ac magna lorem. Aenean laoreet, ipsum quis ultrices lacinia, diam lorem congue risus, nec ornare ante nulla eu massa. Vestibulum sodales venenatis felis, quis pharetra nisi consectetur ac.
+			</p>
+			<p>
+				<button type="button" class="btn btn-primary btn-lg">Registrujte sa už dnes</button>
+			</p>
+		</div>
+
+	</div>
+
+	<div class="row">
+
+		<div class="col-lg-4"></div>
+		<div class="col-lg-4 sign-in-form">
+			<h1>Prihlásenie</h1>
+			<form action="/01_OnlineUctovnySystem/www/sign/in?do=signInForm-submit" method="post" id="frm-signInForm" class="form-horizontal">
+
+				<div class="form-group">
+					<label for="inputEmail1" class="col-lg-2 control-label">Email</label>
+					<div class="col-lg-10">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+							<input type="text" placeholder="email" class="form-control text" name="email" id="frmsignInForm-email" required="required" value="" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="inputEmail1" class="col-lg-2 control-label">Heslo</label>
+					<div class="col-lg-10">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+							<input type="password" placeholder="heslo" class="form-control text" name="password" id="frmsignInForm-password" required="required" />
+						</div>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<div class="col-lg-6">
+						<div class="checkbox">
+							<input type="checkbox" class="checkbox" name="remember" id="frmsignInForm-remember" /><label for="frmsignInForm-remember">Zapamätať si ma</label>
+						</div>
+					</div>
+					<div class="col-lg-6">
+					<input type="submit" class="btn btn-primary button pull-right" name="login" id="frmsignInForm-login" value="Prihlásiť" />
+					</div>
+				</div>
+
+			</form>
+
+		</div>
+		<div class="col-lg-4"></div>
+
+	</div>
+
+{/block}
+
+{block script}
+	<script>
+		$.backstretch("http://localhost/01_OnlineUctovnySystem/www/images/log-in-bg.jpg");
+	</script>
 {/block}

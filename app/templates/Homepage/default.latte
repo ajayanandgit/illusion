@@ -11,33 +11,9 @@
 
 
 	<div class="row">
-		<div class="col-md-4">
-			<h2>Prehľad posledných nákladov</h2>
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Dátum</th>
-						<th>Popis nákladu</th>
-						<th>Suma</th>
-					</tr>
-				</thead>
-				<tbody>
-				{foreach $costs as $cost}			
-					<tr>
-						<td>{$cost->getId()}</td>
-						<td>{$cost->getCostDate()}</td>
-						<td>{$cost->getDescription()}</td>
-						<td>{$cost->getValue()} €</td>
-					</tr>
-				{/foreach}
-				</tbody>
-			</table>
-		</div>
-		
-		<div class="col-md-4">
+		<div class="col-lg-12">
 			<h2>Faktúry</h2>
-			<table class="table table-hover">
+			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -58,20 +34,60 @@
 				</tbody>
 			</table>
 		</div>
-
 	</div><!-- END Row -->
 
-	<h2>Posledné prijaté splátky faktúr</h2>
-	<ul>
-		{foreach $payments as $payment}
-			<li>{$payment->getPayDate()} - {$payment->getPayment()}</li>
-		{/foreach}
-	</ul>
+	<div class="row">
+		<div class="col-lg-6">
+			<h2>Náklady</h2>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Dátum</th>
+						<th>Popis nákladu</th>
+						<th>Suma</th>
+					</tr>
+				</thead>
+				<tbody>
+				{foreach $costs as $cost}			
+					<tr>
+						<td>{$cost->getId()}</td>
+						<td>{$cost->getCostDate()}</td>
+						<td>{$cost->getDescription()}</td>
+						<td>{$cost->getValue()} €</td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		</div>
 
-	<a n:href="Eciovni:generate">Vygenerovat fakturu</a>
+		<div class="col-lg-6">
+			<h2>Príjmy</h2>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Dátum</th>
+						<th>Suma</th>
+					</tr>
+				</thead>
+				<tbody>
+				{foreach $payments as $payment}			
+					<tr>
+						<td>{$payment->getId()}</td>
+						<td>{$payment->getPayDate()}</td>
+						<td>{$payment->getPayment()} €</td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		</div>
+	</div><!-- END Row -->
 
 {/block}
 
 {block sidebar}
-
+	<li class="active"><a href="#">Home</a></li>
+	<li><a href="#">Profile</a></li>
+	<li><a href="#">Messages</a></li>
 {/block}

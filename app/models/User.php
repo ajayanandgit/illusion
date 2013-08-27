@@ -158,6 +158,18 @@ class User extends \Nette\Object
 	}
 
 	/**
+	 * Add contact
+	 * @param Contact
+	 * @return User
+	 */
+	 
+	public function addContact(Contact $contact)
+	{
+		$this->contacts->add($contact);
+		return $this;
+	}
+
+	/**
 	 * Get contacts
 	 * @return ArrayCollection
 	 */	
@@ -174,6 +186,6 @@ class User extends \Nette\Object
 	public function removeContact(Contact $contact)
 	{
 		$this->contacts->removeElement($contact);
-		return $this;
+		$contact->unsetUser();
 	}
 }

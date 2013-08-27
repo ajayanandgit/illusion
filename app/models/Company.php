@@ -15,15 +15,48 @@ class Company extends \Nette\Object
 	 * @Id
 	 * @Column(type="integer")
 	 * @GeneratedValue
-	 * @var int
 	 */
 	private $id;
 
 	/**
 	 * @Column(unique=true)
-	 * @var string
 	 */
 	private $companyName;
+
+	/**
+	 * @Column(type="string")
+	 */
+	private $street;
+
+	/**
+	 * @Column(type="string")
+	 */
+	private $city;
+
+	/**
+	 * @Column(type="integer")
+	 */
+	private $postcode;
+
+	/**
+	 * @Column(type="integer")
+	 */
+	private $ico;
+
+	/**
+	 * @Column(type="string")
+	 */
+	private $dic;
+
+	/**
+	 * @Column(type="string")
+	 */
+	private $icDph;
+
+	/**
+	 * @Column(type="boolean")
+	 */
+	private $vatPayer;
 
 	/**
 	 * @OneToOne(targetEntity="User", inversedBy="company", cascade="persist")
@@ -80,6 +113,133 @@ class Company extends \Nette\Object
 		$this->companyName = $companyName;
 		return $this;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getStreet()
+	{
+		return $this->street;
+	}
+
+	/**
+	 * @param string
+	 * @return Company
+	 */
+	public function setStreet($street)
+	{
+		$this->street = $street;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCity()
+	{
+		return $this->city;
+	}
+
+	/**
+	 * @param string
+	 * @return Company
+	 */
+	public function setCity($city)
+	{
+		$this->city = $city;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPostcode()
+	{
+		return $this->postcode;
+	}
+
+	/**
+	 * @param string
+	 * @return Company
+	 */
+	public function setPostcode($postcode)
+	{
+		$this->postcode = $postcode;
+		return $this;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getIco()
+	{
+		return $this->ico;
+	}
+
+	/**
+	 * @param integer
+	 * @return Company
+	 */
+	public function setIco($ico)
+	{
+		$this->ico = $ico;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDic()
+	{
+		return $this->dic;
+	}
+
+	/**
+	 * @param string
+	 * @return Company
+	 */
+	public function setDic($dic)
+	{
+		$this->dic = $dic;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getIcDph()
+	{
+		return $this->icDph;
+	}
+
+	/**
+	 * @param string
+	 * @return Company
+	 */
+	public function setIcDph($icDph)
+	{
+		$this->icDph = $icDph;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getVatPayer()
+	{
+		return $this->vatPayer;
+	}
+
+	/**
+	 * @param string
+	 * @return Company
+	 */
+	public function setVatPayer($vatPayer)
+	{
+		$this->vatPayer = $vatPayer;
+		return $this;
+	}
+
 
 	/**
 	 * Set User
