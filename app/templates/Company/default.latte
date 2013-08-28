@@ -34,16 +34,6 @@
 				<td>IČ DPH</td>
 				<td>{$company->getIcDph()}</td>
 			</tr>
-			<tr>
-				<td>Platca DPH</td>
-				<td>
-					{if $company->getVatPayer()}
-						áno
-					{else}
-						nie
-					{/if}
-				</td>
-			</tr>
 		</tbody>
 	</table>
 	{else}

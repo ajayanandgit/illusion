@@ -40,7 +40,7 @@ class Contact extends \Nette\Object
 	private $ico;
 
 	/**
-	 * @Column(type="string")
+	 * @Column(type="integer")
 	 */
 	private $dic;
 
@@ -49,10 +49,6 @@ class Contact extends \Nette\Object
 	 */
 	private $icDph;
 
-	/**
-	 * @Column(type="boolean")
-	 */
-	private $vatPayer;
 
 	/**
 	 * @ManyToOne(targetEntity="User", inversedBy="contacts")
@@ -206,24 +202,6 @@ class Contact extends \Nette\Object
 	public function setIcDph($icDph)
 	{
 		$this->icDph = $icDph;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getVatPayer()
-	{
-		return $this->vatPayer;
-	}
-
-	/**
-	 * @param string
-	 * @return Company
-	 */
-	public function setVatPayer($vatPayer)
-	{
-		$this->vatPayer = $vatPayer;
 		return $this;
 	}
 

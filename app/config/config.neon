@@ -9,9 +9,9 @@ common:
 		database:
 			driver: pdo_mysql
 			host: localhost
-			dbname: ous
-			user: root
-			password:
+			dbname: illusion
+			user: illusion_admin
+			password: 881115sedem454*
 			charset: utf8
 			collation: utf8_general_ci
 

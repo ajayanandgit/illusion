@@ -25,12 +25,6 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css">
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css" rel="stylesheet">
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-	<!--<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>-->
-	<script type="text/javascript" src="{$basePath}/js/bootstrap.js"></script>
-	<script type="text/javascript" src="{$basePath}/js/backstretch.js"></script>
-	<script src="//code.jquery.com/jquery.js"></script>
-
 	<style type="text/css">
 		body {
 			padding-top: 60px;
@@ -144,11 +138,12 @@
 
 	</div><!-- END Container -->
 	
-	{block script}
-	<script>
-		$.backstretch("../images/bg-main.jpg");
-	</script>	
+	{block scripts}	
+	<!--<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>-->
+	<script type="text/javascript" src="{$basePath}/js/bootstrap.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/backstretch.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	{/block}
-
 </body>
 </html>

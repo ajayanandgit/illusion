@@ -44,7 +44,7 @@ class Company extends \Nette\Object
 	private $ico;
 
 	/**
-	 * @Column(type="string")
+	 * @Column(type="integer")
 	 */
 	private $dic;
 
@@ -53,10 +53,6 @@ class Company extends \Nette\Object
 	 */
 	private $icDph;
 
-	/**
-	 * @Column(type="boolean")
-	 */
-	private $vatPayer;
 
 	/**
 	 * @OneToOne(targetEntity="User", inversedBy="company", cascade="persist")
@@ -221,25 +217,6 @@ class Company extends \Nette\Object
 		$this->icDph = $icDph;
 		return $this;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getVatPayer()
-	{
-		return $this->vatPayer;
-	}
-
-	/**
-	 * @param string
-	 * @return Company
-	 */
-	public function setVatPayer($vatPayer)
-	{
-		$this->vatPayer = $vatPayer;
-		return $this;
-	}
-
 
 	/**
 	 * Set User
