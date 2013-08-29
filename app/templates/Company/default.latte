@@ -44,9 +44,9 @@
 
 {block sidebar}
 	{if $company != NULL}
-		<li><a n:href="Company:edit">Upraviť profil</a></li>
+		<li><a n:href="Company:edit"><span class="glyphicon glyphicon-pencil"></span> Upraviť profil</a></li>
 	{else}
-		<li><a n:href="Company:create">Vytvoriť profil</a></li>
+		<li><a n:href="Company:create"><span class="glyphicon glyphicon-tags"></span> Vytvoriť profil</a></li>
 	{/if}	
 {/block}
 

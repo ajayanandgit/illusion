@@ -20,7 +20,27 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		return $this;
 	}
 
-	/* Logout function */
+
+	/**
+	 * Definition of menu items
+	 */
+	public function beforeRender()
+	{
+		parent::beforeRender();
+		$this->template->menuItems = array(
+			'Domov' => 'Homepage:',
+			'Moja firma' => 'Company:',
+			'Adresár' => 'Contact:',
+			'Náklady' => 'Costs:',
+			'Faktúry' => 'Invoice:',
+			'Peňažný denník' => 'CashFlow:',
+		);
+	}
+
+
+	/**
+	 * Logout function
+	 */
 	public function handleSignOut()
 	{
 		$this->getUser()->logout();

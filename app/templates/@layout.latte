@@ -14,98 +14,67 @@
 <head>
 	<title>Účtovný systém</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="description" content="Nette Framework web application skeleton">
+	<meta name="description" content="Illusion - financial information system">
+	<meta name="author" content="Daniel Misina">
 	<meta name="robots" content="{$robots}" n:ifset="$robots">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" href="{$basePath}/favicon.ico" type="image/gif" sizes="16x16">
 	<link rel="stylesheet" href="{$basePath}/css/style.css" type="text/css">
 	<link rel="stylesheet" href="{$basePath}/css/bootstrap.css" type="text/css">
-	<link rel="stylesheet" href="{$basePath}/css/bootstrap-responsive.css" type="text/css">
+	<link rel="stylesheet" href="{$basePath}/css/navbar.css" type="text/css">
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css">
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css" rel="stylesheet">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="{$basePath}/js/html5shiv.js"></script>
+		<script src="{$basePath}/js/respond.min.js"></script>
+	<![endif]-->
+	{if $user->isLoggedIn()}
+	{var $img = ''}
+	{else}
+	{var $img = 'log-in-bg'}
+	{/if}
 
-	<style type="text/css">
-		body {
-			padding-top: 60px;
-			padding-bottom: 40px;
-		}
-		.sidebar-nav {
-			padding: 9px 0;
-		}
-
-		@media (max-width: 980px) {
-			/* Enable use of floated navbar text */
-			.navbar-text.pull-right {
-				float: none;
-				padding-left: 5px;
-				padding-right: 5px;
-			}
-		}
+	<style>
+	body {
+		/*font: 12pt/1.4 "Trebuchet MS", "Geneva CE", lucida, sans-serif;*/
+		color: black;
+		width: 100%;
+		background: #f7f7f7 url('../images/<?php echo $img; ?>.jpg') no-repeat center center fixed;
+	    -webkit-background-size: cover;
+	    -moz-background-size: cover;
+	    -o-background-size: cover;
+	    background-size: cover;
+	}
 	</style>
 	{block head}{/block}
 </head>
 
 <body>
-	<script> document.body.className+=' js' </script>	
+	<div class="container">	
+	<script> document.body.className+=' js' </script>
 
-	{if $user->isLoggedIn()}	
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button class="navbar-toggle" data-target=".navbar-responsive-collapse" data-toggle="collapse" type="button">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" n:href="Homepage:">Illusion</a>
+		{if $user->isLoggedIn()}
+			<div class="header">			
+				<ul class="nav nav-tabs">
+					{foreach $menuItems as $item => $link}
+					<li {ifCurrent $link}class="active"{/ifCurrent}><a n:href="$link">{$item}</a></li>
+					{/foreach}
+					<li class="dropdown pull-right">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$user->getIdentity()->username} <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a n:href="User:"><span class="glyphicon glyphicon-euro"></span> Menové kurzy</a></li>
+							<li><a n:href="User:"><span class="glyphicon glyphicon-cog"></span> Nastavenia</a></li>
+							<li class="divider"></li>
+							<li><a n:href="signOut!">Odhlásiť sa</a></li>
+						</ul>
+					</li>
+				</ul>
 			</div>
+		{/if}
 
-			<div class="nav-collapse collapse navbar-responsive-collapse">
-				<ul class="nav navbar-nav">
-					<li>
-						<a n:href="Homepage:">Úvod</a>
-					</li>
-					<li>
-						<a n:href="Company:">Moja firma</a>
-					</li>
-					<li>
-						<a n:href="Contact:">Adresár</a>
-					</li>
-					<li>
-						<a n:href="Costs:">Náklady</a>
-					</li>
-					<li>
-						<a n:href="Invoice:">Faktúry</a>
-					</li>
-					<li>
-						<a n:href="Cashflow:">Peňažný denník</a>
-					</li>
-				</ul>
-				
-				<form class="navbar-form pull-left" action="">
-					<input class="form-control col-lg-8" type="text" placeholder="Search">
-				</form>
-
-				<ul class="nav navbar-nav navbar-right pull-right">
-					<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$user->getIdentity()->username} <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li><a n:href="User:">Menové kurzy</a></li>
-						<li><a n:href="User:">Jazyk</a></li>
-						<li><a n:href="User:">Nastavenia účtu</a></li>
-						<li class="divider"></li>
-						<li><a n:href="signOut!">Odhlásiť sa</a></li>
-					</ul>
-					</li>
-				</ul>
-
-			</div><!-- END nav-collapse -->
-		</div><!-- END container -->
-	</div><!-- END navbar -->
-	{/if}
-
-	<div class="container">
+	
 		<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}" id="flashmess">{$flash->message}</div>
 		<div class="row row-offcanvas row-offcanvas-right">
 
@@ -133,17 +102,19 @@
 
 		<hr>
 		<footer>
-			<p>&copy; Company 2013</p>
+			<p>&copy; Illusion 2013</p>
 		</footer>
 
 	</div><!-- END Container -->
 	
-	{block scripts}	
-	<!--<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>-->
+	<!--<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+	<script src="//code.jquery.com/jquery.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery.js"></script>-->
+	<script type="text/javascript" src="{$basePath}/js/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery-ui.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/bootstrap.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/backstretch.js"></script>
-	<script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	{/block}
+	{block script}{/block}
+	
 </body>
 </html>

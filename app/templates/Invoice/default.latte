@@ -2,8 +2,6 @@
 
 	<h3>Vystavené faktúry</h3>
 
-	{? // dump($invoices)}
-
 	<table class="table table-striped">
 
 		<thead>
@@ -11,17 +9,49 @@
 				<th>#</th>
 				<th>Popis</th>
 				<th>Zákazník</th>
+				<th>Stav</th>
 			</tr>
 		</thead>
 
 		<tbody>
 		{foreach $invoices as $invoice}
 
+			<?php
+				/**
+				 * This script do the check of invoice status
+				 */
+				$paid = 0;
+				$perc = 0;
+				foreach ($invoice->getPayments() as $payment) {
+					$paid += $payment->getPayment();
+				}
+
+				if ($paid != 0) 
+				{
+					$perc = $paid / $invoice->getTotalSum() * 100;
+				
+					if ($paid < $invoice->getTotalSum()) {
+						$status = 'čiastočne uhradená';
+						$alert_type = '-warning';
+					} 
+					else {
+						$status = 'uhradená';
+						$alert_type = '-success';
+					}
+				} 
+				else 
+				{
+					$status = 'neuhradená';
+					$alert_type = '-danger';
+				}
+			?>
+
 			<tr>
 				<td>{$invoice->id}</td>
 				<td>{$invoice->description}</td>
 				<td>{$invoice->getCustomer()->getName()}</td>
-				<td><a n:href="Invoice:Display $invoice->id">Zobraziť faktúru</a></td>
+				<td><a n:href="Invoice:Display $invoice->id"><span class="glyphicon glyphicon-expand"></span> Zobraziť faktúru</a></td>
+				<td><span class="label label<?php echo $alert_type;  ?>"><?php echo $status; ?></span></td>
 			</tr>
 		
 		{/foreach}
@@ -32,7 +62,7 @@
 {/block}
 
 {block sidebar}
-	<li><a n:href="Invoice:create">Vystaviť novú faktúru</a></li>
+	<li><a n:href="Invoice:create"><span class="glyphicon glyphicon-file"></span> Vystaviť novú faktúru</a></li>
 {/block}
 
 {block script}

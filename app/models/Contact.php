@@ -40,7 +40,7 @@ class Contact extends \Nette\Object
 	private $ico;
 
 	/**
-	 * @Column(type="integer")
+	 * @Column(type="string")
 	 */
 	private $dic;
 

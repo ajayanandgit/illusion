@@ -1,32 +1,36 @@
 {block content}
 	
-	<div class="generate-invoice-button pull-right">
-		{var $id = $invoice->getId()}
-		<a n:href="Eciovni:generate $id" class="btn btn-primary">Uložiť faktúru do PDF</a>
+	<!-- Modal for add payments -->
+	<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">Modal title</h4>
+	</div>
+	<div class="modal-body">
+		{form paymentForm}		
+			{label pay_date/}{input pay_date}
+			{label payment/}{input payment}
+			{input submit}
+			<button type="button" class="btn btn-default btn-small" data-dismiss="modal">Close</button>
+
+		{/form paymentForm}
+		</div>
+		<div class="modal-footer">
+		</div>
+		</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 	</div>
 
-	<a href="#" id="add-payment">+ Pridať splátku faktúry</a>
-	<div class="payment-form-border">
-	<div class="payment-form">
-	{form paymentForm}		
-		{label pay_date/}{input pay_date}
-		{label payment/}{input payment}
-		{input submit}
-
-	{/form paymentForm}
-	</div>
-	</div>
-
-	<div class="invoice-payment-info">
-		
+	<div class="col-lg-8">		
 		<?php
-
 			$paid = 0;
 			$perc = 0;
 			foreach ($invoice->getPayments() as $payment) {
 				$paid += $payment->getPayment();
 			}
-
 
 			if ($paid != 0) 
 			{
@@ -46,9 +50,7 @@
 				$status = 'neuhradená';
 				$alert_type = '-danger';
 			}
-
 		?>
-
 
 		<p>Celková suma faktúry: {$invoice->getTotalSum()}€</p>
 		<p>Zaplatené: <?php echo $paid; ?>€</p>
@@ -59,86 +61,89 @@
 
 		<div class="progress progress-striped">
 			<div class="progress-bar progress-bar-info" style="width: <?php if($perc) { echo $perc; } ?>%"></div>
-		</div>
-	</div>
+		</div>	
 
-	<table class="table table-bordered">
-		<thead>
-			<tr class="active">
-				<th colspan="2">Základné informácie</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Popis</td>
-				<td>{$invoice->getDescription()}</td>
-			</tr>
-			<tr>
-				<td>Zákazník</td>
-				<td>{$invoice->getCustomer()->getName()}</td>
-			</tr>
-			<tr>
-				<td>Dátum vystavenia</td>
-				<td>{$invoice->getCreateDate()}</td>
-			</tr>
-			<tr>
-				<td>Dátum doručenia</td>
-				<td>{$invoice->getDeliveryDate()}</td>
-			</tr>
-			<tr>
-				<td>Dátum splatnosti</td>
-				<td>{$invoice->getDueDate()}</td>
-			</tr>
-		</tbody>
-	</table>
-	<table class="table table-bordered">
-		<thead>
-			<tr class="active">
-				<th colspan="4">Položky faktúry</th>
-			</tr>
-			<tr>
-				<th>Názov</th>
-				<th>Množstvo</th>
-				<th>MJ</th>
-				<th>Hodnota</th>
-			</tr>
-		</thead>
-		<tbody>
-		{foreach $invoice->getItems() as $item}
-			<tr>
-				<td>{$item->getName()}</td>
-				<td>{$item->getQuantity()}</td>
-				<td>{$item->getUnit()}</td>
-				<td>{$item->getValue()}</td>
-			</tr>
-		{/foreach}
-		</tbody>
-	</table>
-	<table class="table table-bordered">
-		<thead>
-			<tr class="active">
-				<th colspan="2">Splátky faktúry</th>
-			</tr>
-			<tr>
-				<th>Dátum</th>
-				<th>Suma</th>
-			</tr>
-		</thead>
-		<tbody>
-		{foreach $invoice->getPayments() as $payment}
-			<tr>
-				<td>{$payment->getPayDate()}</td>
-				<td>{$payment->getPayment()}€</td>
-			</tr>
-		{/foreach}
-		</tbody>
-	</table>
+		<table class="table table-bordered">
+			<thead>
+				<tr class="active">
+					<th colspan="2">Základné informácie</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Popis</td>
+					<td>{$invoice->getDescription()}</td>
+				</tr>
+				<tr>
+					<td>Zákazník</td>
+					<td>{$invoice->getCustomer()->getName()}</td>
+				</tr>
+				<tr>
+					<td>Dátum vystavenia</td>
+					<td>{$invoice->getCreateDate()}</td>
+				</tr>
+				<tr>
+					<td>Dátum doručenia</td>
+					<td>{$invoice->getDeliveryDate()}</td>
+				</tr>
+				<tr>
+					<td>Dátum splatnosti</td>
+					<td>{$invoice->getDueDate()}</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="table table-bordered">
+			<thead>
+				<tr class="active">
+					<th colspan="4">Položky faktúry</th>
+				</tr>
+				<tr>
+					<th>Názov</th>
+					<th>Množstvo</th>
+					<th>MJ</th>
+					<th>Hodnota</th>
+				</tr>
+			</thead>
+			<tbody>
+			{foreach $invoice->getItems() as $item}
+				<tr>
+					<td>{$item->getName()}</td>
+					<td>{$item->getQuantity()}</td>
+					<td>{$item->getUnit()}</td>
+					<td>{$item->getValue()}</td>
+				</tr>
+			{/foreach}
+			</tbody>
+		</table>
+		<table class="table table-bordered">
+			<thead>
+				<tr class="active">
+					<th colspan="2">Splátky faktúry</th>
+				</tr>
+				<tr>
+					<th>Dátum</th>
+					<th>Suma</th>
+				</tr>
+			</thead>
+			<tbody>
+			{foreach $invoice->getPayments() as $payment}
+				<tr>
+					<td>{$payment->getPayDate()}</td>
+					<td>{$payment->getPayment()}€</td>
+				</tr>
+			{/foreach}
+			</tbody>
+		</table>
+
+	</div><!-- END col -->
 	
 
 {/block}
 
 {block sidebar}
 	<li><a n:href="Invoice:">&larr; späť</a></li>
+	<li><a data-toggle="modal" href="#paymentModal"><span class="glyphicon glyphicon-check"></span> Pridať splátku faktúry</a></li>
+	<li><a n:href="Eciovni:generate $invoice->getId()"><span class="glyphicon glyphicon-download-alt"></span> Uložiť faktúru do PDF</a></li>
 {/block}
 
 {block script}

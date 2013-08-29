@@ -44,15 +44,14 @@ class Company extends \Nette\Object
 	private $ico;
 
 	/**
-	 * @Column(type="integer")
+	 * @Column(type="string")
 	 */
-	private $dic;
+	private $dic_;
 
 	/**
 	 * @Column(type="string")
 	 */
-	private $icDph;
-
+	private $icDph_;
 
 	/**
 	 * @OneToOne(targetEntity="User", inversedBy="company", cascade="persist")
@@ -187,7 +186,7 @@ class Company extends \Nette\Object
 	 */
 	public function getDic()
 	{
-		return $this->dic;
+		return $this->dic_;
 	}
 
 	/**
@@ -196,7 +195,7 @@ class Company extends \Nette\Object
 	 */
 	public function setDic($dic)
 	{
-		$this->dic = $dic;
+		$this->dic_ = $dic;
 		return $this;
 	}
 
@@ -205,7 +204,7 @@ class Company extends \Nette\Object
 	 */
 	public function getIcDph()
 	{
-		return $this->icDph;
+		return $this->icDph_;
 	}
 
 	/**
@@ -214,7 +213,7 @@ class Company extends \Nette\Object
 	 */
 	public function setIcDph($icDph)
 	{
-		$this->icDph = $icDph;
+		$this->icDph_ = $icDph;
 		return $this;
 	}
 
