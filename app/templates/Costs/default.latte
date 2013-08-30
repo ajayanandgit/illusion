@@ -1,44 +1,59 @@
 {block content}
 
-	<h2>Náklady</h2>
-	{control costForm}
+	<!-- Modal for add payments -->
+	<div class="modal fade" id="costModal" tabindex="-1" role="dialog" aria-labelledby="costModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">Modal title</h4>
+	</div>
+	<div class="modal-body">
+		{control costForm}
+		<button type="button" class="btn btn-default btn-small" data-dismiss="modal">Zatvoriť</button>
 
-	<h3>Prehľad</h3>
+		</div>
+		<div class="modal-footer">
+		</div>
+		</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	</div>
 
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Dátum</th>
-				<th>Popis nákladu</th>
-				<th>Suma</th>
-			</tr>
-		</thead>
-		<tbody>
-		{foreach $costs as $cost}			
-			<tr>
-				<td>{$cost->getId()}</td>
-				<td>{$cost->getCostDate()}</td>
-				<td>{$cost->getDescription()}</td>
-				<td>{$cost->getValue()} €</td>
-			</tr>
+	<div class="col-lg-8">
+		<h3>Prehľad</h3>
+
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Dátum</th>
+					<th>Popis nákladu</th>
+					<th>Suma</th>
+				</tr>
+			</thead>
+			<tbody>
+			{foreach $costs as $cost}			
+				<tr>
+					<td>{$cost->getId()}</td>
+					<td>{$cost->getCostDate()}</td>
+					<td>{$cost->getDescription()}</td>
+					<td>{$cost->getValue()} €</td>
+				</tr>
+			{/foreach}
+			</tbody>
+		</table>
+
+		{foreach $balance as $bal}
+		<h4>Celkové náklady spolu: {$bal} €</h4>
 		{/foreach}
-		</tbody>
-	</table>
+	</div>
 
-	{foreach $balance as $bal}
-	<h4>Celkové náklady spolu: {$bal} €</h4>
-	{/foreach}
-
-
-	
-	
 {/block}
 
 {block sidebar}
-	
-	
-	
+	<li><a data-toggle="modal" href="#costModal"><span class="glyphicon glyphicon-check"></span> Pridať náklad</a></li>	
+	<li><a data-toggle="modal" href="#costModal"><span class="glyphicon glyphicon-stats"></span> Grafické zobrazenie</a></li>	
 {/block}
 
 {block script}
