@@ -74,7 +74,6 @@
 			</div>
 		{/if}
 
-	
 		<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}" id="flashmess">{$flash->message}</div>
 		<div class="row row-offcanvas row-offcanvas-right">
 
@@ -85,6 +84,76 @@
 							{include #sidebar}
 						</ul>
 					</div><!--/.well -->
+
+					{ifCurrentIn "Homepage:default"}
+						<?php
+							// Database connection details 
+							$db_srv = 'localhost';
+							$db_usr = 'root'; 
+							$db_pwd = ''; 
+							$db_name = 'ous';
+
+							// Charset information
+							$char_set = 'utf8';
+							$char_collation = 'utf8_general_ci';
+
+							// Establish connection
+							$connection = mysql_connect($db_srv,$db_usr,$db_pwd) or die(mysql_error()); 
+							$db = mysql_select_db($db_name) or die(mysql_error()); 
+
+							if (function_exists("mysql_set_charset")) {
+								mysql_set_charset($char_set, $connection);
+							}
+
+							$rates = "SELECT *
+									  FROM currency_rates";
+							$date = "SELECT `time`
+									 FROM currency_time
+									 WHERE `option` = 'actual_date'";
+
+							$result_rates = mysql_query($rates);
+							$result_date = mysql_query($date);
+						?>
+						<div class="well sidebar-nav">
+							<ul class="nav">
+								<li><h4>Menové kurzy</h4></li>
+								<li>&nbsp;</li>
+								<table class="table">
+								<?php
+
+									// dump (mysql_fetch_assoc($result_rates));
+									// exit;
+									while ($row = mysql_fetch_assoc($result_rates)) {
+										if ($row['currency'] == 'USD' ||
+											$row['currency'] == 'CZK' ||
+											$row['currency'] == 'GBP' ||
+											$row['currency'] == 'PLN')
+										{											
+											echo '<tr>';
+										 	echo '<td>';
+										 	echo '<img src="http://localhost/01_OnlineUctovnySystem/www/images/flag_icons/';
+										 	echo $row['currency'];
+										 	echo '.gif"> ';
+										 	echo $row['currency'];
+										 	echo '</td>';
+										 	echo '<td>' . $row['rate'] . '</td>';
+											echo '</tr>';
+										}
+									}
+								?>
+								</table>
+								<li><h6>
+									Aktuálne ku dňu:
+									<?php
+										while ($row = mysql_fetch_assoc($result_date)) {
+											$date = new DateTime($row['time']);
+											echo $date->format('d.m.Y');
+										}
+									?>
+								</h6></li>
+							</ul>
+						</div>
+					{/ifCurrentIn}
 				</div><!--/span-->
 			{/if}
 

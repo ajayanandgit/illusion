@@ -112,4 +112,15 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		}
 		$this->paymentRepo = $paymentRepo;
 	}
+
+	public function templatePrepareFilters($template)
+    {
+        $template->registerFilter($latte = $this->context->nette->createLatte());
+    
+        $set = Nette\Latte\Macros\MacroSet::install($latte->getCompiler());
+        $set->addMacro('ifCurrentIn', function($node, $writer)
+        {
+            return $writer->write('foreach (%node.array as $l) { if ($_presenter->isLinkCurrent($l)) { $_c = true; break; }} if (isset($_c)): ');
+        }, 'endif; unset($_c);');
+    }
 }

@@ -17,4 +17,14 @@ class PaymentRepository extends \Nella\Doctrine\Repository
 		return $query->getQuery()->getResult();
 	}
 
+
+	public function getCurrencyRates()
+	{
+		$query = $this->getEntityManager()->createQueryBuilder();
+		$query->select('c')
+			  ->from('currency_rates', 'c');
+
+		return $query->getQuery()->getResult();
+	}
+
 }

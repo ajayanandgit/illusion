@@ -11,6 +11,9 @@ class HomepagePresenter extends BasePresenter
 	/** @var */
 	public $company;
 
+	/** @var */
+	public $currency;
+
 	protected function startup()
 	{
 		parent::startup();
@@ -47,6 +50,7 @@ class HomepagePresenter extends BasePresenter
 		$this->template->costs = $this->costsRepo->getLastCostsByCompany($this->company->getId());
 		$this->template->invoices = $this->invoiceRepo->getLatestInvoices($this->company->getId());
 		$this->template->payments = $this->paymentRepo->getLatestPayments($this->company->getId());
+		// $this->template->rates = $this->paymentRepo->getCurrencyRates();
 	}
 
 }

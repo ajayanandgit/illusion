@@ -36,9 +36,9 @@ class Load
 		$request_url = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
 		$xml = simplexml_load_file($request_url) or die("Cannot load data.");
 
-		print_r('<pre>');
-		print_r($xml);
-		print_r('</pre>');
+		// print_r('<pre>');
+		// print_r($xml);
+		// print_r('</pre>');
 
 		$data = array(
 		'rates' => $xml->Cube->Cube->Cube,
@@ -46,8 +46,14 @@ class Load
 		$actTime = $xml->Cube->Cube['time'];
 
 
-		$update_time = "INSERT INTO currency_time
-						SET latestUpdate=now(), actTime='$actTime'";
+		$update_time = "UPDATE `currency_time` 
+						SET `time` = now() 
+						WHERE `option` = 'latest_update'";
+		mysql_query($update_time);
+
+		$update_time = "UPDATE `currency_time` 
+						SET `time` = '$actTime'
+						WHERE `option` = 'actual_date'";
 		mysql_query($update_time);
 
 
@@ -56,9 +62,9 @@ class Load
 			$name = $rate['name'];
 			$rate = $rate['rate'];
 
-			$update_rate = "INSERT INTO currency_rates (`currency`, `name`, `rate`)	
-							VALUES ('$currency', '$name', '$rate') 
-							ON DUPLICATE KEY UPDATE rate=$rate";
+			$update_rate = "UPDATE `currency_rates`
+							SET `rate` = '$rate'
+							WHERE `currency` = '$currency'";
 			mysql_query($update_rate);
 		}
 	}
