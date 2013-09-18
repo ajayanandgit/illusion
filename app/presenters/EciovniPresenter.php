@@ -36,12 +36,12 @@ class EciovniPresenter extends BasePresenter
 		return new Eciovni($this->data);
 	}
 
-	public function actionGenerate($id) 
+	public function actionGenerate($invoice_id) 
 	{
 		include_once(LIBS_DIR . '/mpdf/mpdf.php');
 		$mpdf = new \mPDF('utf-8');
 
-		$invoice = $this->em->getRepository('Invoice')->findOneBy(array('id' => $id));
+		$invoice = $this->em->getRepository('Invoice')->findOneBy(array('id' => $invoice_id));
 		$company = $invoice->getCompany();
 		$my_customer = $invoice->getCustomer();
 		$my_items = $invoice->getItems();
@@ -52,15 +52,15 @@ class EciovniPresenter extends BasePresenter
 		$dateExp->modify('+14 days');
 		$variableSymbol = '1234';
 
-		$supplierBuilder = new ParticipantBuilder($company->getCompanyName(), 'Uličná', '11', 'Praha 3 - Žižkov', '13000');
-		$supplier = $supplierBuilder->setIn('12345678')->setTin('CZ12345678')->setAccountNumber('123456789 / 1111')->build();
-		$customerBuilder = new ParticipantBuilder($my_customer->getName(), 'Cizácká', '3', 'Praha 9 - Prosek', '19000');
-		$customer = $customerBuilder->setAccountNumber('123456789 / 1111')->build();
+		$supplierBuilder = new ParticipantBuilder($company->getCompanyName(), $company->getStreet(), '', $company->getCity(), $company->getPostcode());
+		$supplier = $supplierBuilder->setIn($company->getIco())->setTin($company->getDic())->setAccountNumber($company->getAccountNumber())->build();
+		$customerBuilder = new ParticipantBuilder($my_customer->getName(), $my_customer->getStreet(), '', $company->getCity(), $company->getPostcode());
+		$customer = $customerBuilder->setIn($my_customer->getIco())->setTin($my_customer->getDic())->setAccountNumber('123456789 / 1111')->build();
 
 		$items = array();
 		$i = 0;
 		foreach ($my_items as $item) {
-			$items[$i] = new ItemImpl($item->getName(), 1, 900, TaxImpl::fromPercent(22));
+			$items[$i] = new ItemImpl($item->getName(), $item->getQuantity(), $item->getValue(), TaxImpl::fromPercent(22));
 			$i++;
 		}
 

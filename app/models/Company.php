@@ -54,6 +54,11 @@ class Company extends \Nette\Object
 	private $icDph_;
 
 	/**
+	 * @Column(type="string")
+	 */
+	private $accountNumber;
+
+	/**
 	 * @OneToOne(targetEntity="User", inversedBy="company", cascade="persist")
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */
@@ -214,6 +219,24 @@ class Company extends \Nette\Object
 	public function setIcDph($icDph)
 	{
 		$this->icDph_ = $icDph;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAccountNumber()
+	{
+		return $this->accountNumber;
+	}
+
+	/**
+	 * @param string
+	 * @return Company
+	 */
+	public function setAccountNumber($accountNumber)
+	{
+		$this->accountNumber = $accountNumber;
 		return $this;
 	}
 

@@ -6,7 +6,7 @@ header('Content-Type:text/html; charset=UTF-8');
 $db_srv = 'localhost';
 $db_usr = 'root'; 
 $db_pwd = ''; 
-$db_name = 'ous';
+$db_name = 'illusion';
 
 // Charset information
 $char_set = 'utf8';

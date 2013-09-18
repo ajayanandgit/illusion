@@ -87,5 +87,12 @@
 
 {block sidebar}
 	<li><a href="#"><span class="glyphicon glyphicon-th"></span> Základné informácie</a></li>
+	<li><a n:href="Invoice:unpaid"><span class="glyphicon glyphicon-bell"></span> Neuhradené faktúry 
+			<span class="badge pull-right">
+				<?php 
+					$result = count($unpaidInvoices);
+					echo $result;
+				?>
+			</span></a></li>
 	<li><a n:href="Invoice:create"><span class="glyphicon glyphicon-file"></span> Vystaviť novú faktúru</a></li>
 {/block}

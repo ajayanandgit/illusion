@@ -28,4 +28,16 @@ class InvoiceRepository extends \Nella\Doctrine\Repository
 		return $query->getQuery()->getResult();
 	}
 
+	public function getUnpaidInvoices($company_id)
+	{
+		$query = $this->getEntityManager()->createQueryBuilder();
+		$query->select('i')
+			  ->from('Invoice', 'i')
+			  ->andWhere('i.company = :company_id')->setParameter('company_id', $company_id)
+			  ->andWhere('i.status = 0')
+			  ->orderBy('i.id', 'DESC');
+
+		return $query->getQuery()->getResult();
+	}
+
 }

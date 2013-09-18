@@ -9,7 +9,7 @@ common:
 		database:
 			driver: pdo_mysql
 			host: localhost
-			dbname: ous
+			dbname: illusion
 			user: root
 			password: 
 			charset: utf8
@@ -65,6 +65,6 @@ development < common:
 		database:
 			driver: pdo_mysql
 			host: localhost
-			dbname: ous
+			dbname: illusion
 			user: root
 			password: 

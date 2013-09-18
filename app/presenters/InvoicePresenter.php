@@ -69,6 +69,11 @@ class InvoicePresenter extends BasePresenter
 		$this->template->invoices = $this->invoiceRepo->getOrderInvoices($this->company->getId());
 	}
 
+	public function renderUnpaid()
+	{
+		$this->template->unpaidInvoices = $this->invoiceRepo->getUnpaidInvoices($this->company->getId());
+	}
+
 	public function renderDisplay($id)
 	{
 		$this->template->invoice = $this->em->getRepository('Invoice')->findOneBy(array('id' => $id));
@@ -226,8 +231,9 @@ class InvoicePresenter extends BasePresenter
 	*/
 	public function paymentFormSubmitted(Form $form) 
 	{	
+		$total = $form->values->payment;
 		$invoice = $this->em->getRepository('Invoice')->findOneBy(array('id' => $this->act_invoice_id));
-		
+				
 		$pay_date = date_create($form->values->pay_date);
 		
 		$payment = new Payment;
@@ -239,10 +245,22 @@ class InvoicePresenter extends BasePresenter
 
 		$this->em->persist($payment);
 
-		$this->flashMessage('Splátka faktúry bola úspešne zaúčtovaná.', 'success');
+		$this->flashMessage('Splátka faktúry bola pridaná.', 'success');
 		
 		$this->em->flush();
+
+		foreach ($invoice->getPayments() as $payment) {
+			$total += $payment->getPayment();
+		}
+		if ($total >= $invoice->getTotalSum()) $this->invoiceUpdateStatus($invoice);
+
 		$this->redirect('Invoice:display', $this->act_invoice_id);
 	}
 
+	public function invoiceUpdateStatus(Invoice $invoice)
+	{
+		$invoice->setStatus(1);
+		$this->em->persist($invoice);
+		$this->em->flush();
+	}
 }

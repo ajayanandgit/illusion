@@ -47,6 +47,11 @@ class Invoice extends \Nette\Object
 	private $due_date;
 
 	/**
+	 * @Column(type="boolean")
+	 */
+	private $status;
+
+	/**
 	 * @ManyToOne(targetEntity="Company", inversedBy="invoices")
 	 * @JoinColumn(name="company_id", referencedColumnName="id")
 	 **/
@@ -207,6 +212,26 @@ class Invoice extends \Nette\Object
 	public function setDueDate(\DateTime $due_date)
 	{
 		$this->due_date = $due_date;
+		return $this;
+	}
+
+	/**
+	 * Get status
+	 * @return boolean
+	 */
+	public function getStatus()
+	{
+		return $this->status;
+	}
+
+	/**
+	 * Set status
+	 * @param boolean
+	 * @return Invoice
+	 */
+	public function setStatus($status)
+	{
+		$this->status = $status;
 		return $this;
 	}
 

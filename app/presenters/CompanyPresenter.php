@@ -56,7 +56,8 @@ class CompanyPresenter extends BasePresenter
 				'postcode' => $this->company->getPostcode(),
 				'ico' => $this->company->getIco(),
 				'dic' => $this->company->getDic(),
-				'icDph' => $this->company->getIcDph()
+				'icDph' => $this->company->getIcDph(),
+				'accountNumber' => $this->company->getAccountNumber()
 			));
 	}
 
@@ -90,6 +91,9 @@ class CompanyPresenter extends BasePresenter
 		$form->addText('icDph', 'IČ DPH', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
 			 ->setAttribute('class', 'form-control input-small');
+		$form->addText('accountNumber', 'Číslo účtu', 50, 100)
+			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
+			 ->setAttribute('class', 'form-control input-small');
 		$form->addSubmit('submit', 'uložiť')
 			 ->setAttribute('class', 'btn btn-info btn-small');
 
@@ -117,6 +121,7 @@ class CompanyPresenter extends BasePresenter
 					->setIco($form->values->ico)
 					->setDic($form->values->dic)
 					->setIcDph($form->values->icDph)
+					->setAccountNumber($form->values->accountNumber)
 					->setUser($user);
 
 			$this->em->persist($company);
@@ -131,7 +136,8 @@ class CompanyPresenter extends BasePresenter
 						  ->setPostcode($form->values->postcode)
 						  ->setIco($form->values->ico)
 						  ->setDic($form->values->dic)
-						  ->setIcDph($form->values->icDph);
+						  ->setIcDph($form->values->icDph)
+						  ->setAccountNumber($form->values->accountNumber);
 
 			$this->flashMessage('Profil firmy bol upravený.', 'success');
 		}
