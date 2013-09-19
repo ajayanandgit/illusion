@@ -50,7 +50,7 @@ class EciovniPresenter extends BasePresenter
 		$dateNow = new DateTime();
 		$dateExp = new DateTime();
 		$dateExp->modify('+14 days');
-		$variableSymbol = '1234';
+		$variableSymbol = $invoice->getId();
 
 		$supplierBuilder = new ParticipantBuilder($company->getCompanyName(), $company->getStreet(), '', $company->getCity(), $company->getPostcode());
 		$supplier = $supplierBuilder->setIn($company->getIco())->setTin($company->getDic())->setAccountNumber($company->getAccountNumber())->build();
@@ -65,7 +65,7 @@ class EciovniPresenter extends BasePresenter
 		}
 
 
-		$dataBuilder = new DataBuilder(date('YmdHis'), 'Daňový doklad, č.', $supplier, $customer, $dateExp, $dateNow, $items);
+		$dataBuilder = new DataBuilder($invoice->getConstantSymbol(), 'Daňový doklad, č.', $supplier, $customer, $dateExp, $dateNow, $items);
 		$dataBuilder->setVariableSymbol($variableSymbol)->setDateOfVatRevenueRecognition($dateNow);
 		$data = $dataBuilder->build();
 		$this->data = $data;

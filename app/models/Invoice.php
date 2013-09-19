@@ -49,7 +49,12 @@ class Invoice extends \Nette\Object
 	/**
 	 * @Column(type="boolean")
 	 */
-	private $status;
+	private $status = 0;
+
+	/**
+	 * @Column(type="string", unique=true)
+	 */
+	private $constantSymbol;
 
 	/**
 	 * @ManyToOne(targetEntity="Company", inversedBy="invoices")
@@ -89,31 +94,6 @@ class Invoice extends \Nette\Object
 	{
 		return $this->id;
 	}
-
-	/**
-	 * Get invoice number
-	 * @return integer
-	 */
-	// public function getInum()
-	// {
-	// 	return $this->inum;
-	// }
-
-	/**
-	 * Set invoice number
-	 * @param integer
-	 * @return integer
-	 */
-	// public function setInum()
-	// {
-	// 	$month = date("m");
-	// 	$year = date("Y");
-
-	// 	$inum = $year . $month;
-
-	// 	$this->inum = $inum;
-	// 	return $this;
-	// }
 
 	/**
 	 * Get description
@@ -233,6 +213,23 @@ class Invoice extends \Nette\Object
 	{
 		$this->status = $status;
 		return $this;
+	}
+
+	/**
+	 * Get constant symbol
+	 */
+	public function getConstantSymbol()
+	{
+		return $this->constantSymbol;
+	}
+
+	/**
+	 * Set constant symbol
+	 * @return Invoice
+	 */
+	public function setConstantSymbol()
+	{
+		$this->constantSymbol = date('YmdHis');
 	}
 
 	/**

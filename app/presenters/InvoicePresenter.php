@@ -199,7 +199,8 @@ class InvoicePresenter extends BasePresenter
 				->setDeliveryDate($delivery_date)
 				->setDueDate($due_date)
 				->setCompany($this->company)
-				->setCustomer($customer);
+				->setCustomer($customer)
+				->setConstantSymbol();
 
 		foreach ($button->form['items']->values as $item) {
 			
