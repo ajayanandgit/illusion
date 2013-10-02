@@ -1,7 +1,80 @@
 {block content}
 
-	<h2>Pridať kontakt do adresára</h2>
-	{control contactForm}
+	<h2>Adresár</h2>
+	<div class="table-responsive">
+		<table id="sample-table-1" class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Spoločnosť</th>
+					<th class="hidden-480">Kontaktná osoba</th>
+					<th class="hidden-480">Ulica</th>
+					<th class="hidden-480">Mesto</th>
+					<th></th>					
+				</tr>
+			</thead>
+
+			<tbody>
+				{foreach $contacts as $contact}
+				<tr>
+					<td>{$contact->getName()}</td>
+					<td class="hidden-480">{$contact->getContactPerson()}</td>
+					<td class="hidden-480">{$contact->getStreet()}</td>
+					<td class="hidden-480">{$contact->getCity()}</td>
+
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a n:href="Contact:Profile $contact->getId()" class="btn btn-xs btn-success">
+								<i class="icon-zoom-in bigger-120"></i>
+							</a>
+
+							<a n:href="Contact:Edit $contact->getId()" class="btn btn-xs btn-info">
+								<i class="icon-edit bigger-120"></i>
+							</a>
+
+							<a n:href="removeContact! $contact->getId()" class="btn btn-xs btn-danger">
+								<i class="icon-trash bigger-120"></i>
+							</a>
+						</div>
+
+						<div class="visible-xs visible-sm hidden-md hidden-lg">
+							<div class="inline position-relative">
+								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+									<i class="icon-cog icon-only bigger-110"></i>
+								</button>
+
+								<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+									<li>
+										<a n:href="Contact:Profile $contact->getId()" class="tooltip-info" data-rel="tooltip" title="Zobraziť">
+											<span class="blue">
+												<i class="icon-zoom-in bigger-120"></i>
+											</span>
+										</a>
+									</li>
+
+									<li>
+										<a n:href="Contact:Edit $contact->getId()" class="tooltip-success" data-rel="tooltip" title="Upraviť">
+											<span class="green">
+												<i class="icon-edit bigger-120"></i>
+											</span>
+										</a>
+									</li>
+
+									<li>
+										<a n:href="removeContact! $contact->getId()" class="tooltip-error" data-rel="tooltip" title="Vymazať">
+											<span class="red">
+												<i class="icon-trash bigger-120"></i>
+											</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div><!-- /.table-responsive -->
 	
 {/block}
 
@@ -24,23 +97,7 @@
 
 {block script}
 
-	<script>
 
-		$('.options').hide();
-
-		$('.contact').click(function()
-		{
-			var contactsList = $(this).parent(),
-				options = $(this).next();
-				
-			contactsList.find('.options').slideUp();
-			options.not(':visible').slideDown();
-			
-			return false;
-				
-		});
-
-	</script>
 
 {/block}
 

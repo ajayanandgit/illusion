@@ -88,18 +88,18 @@ class Costs extends \Nette\Object
 	}
 
 	/**
-	 * Get date of cost
+	 * Get date of cost's creation
 	 */
 	public function getCostDate()
 	{
-		// $date = $this->cost_date;
-		// $result = $date->format('d.m.Y');
+		$date = $this->cost_date;
+		$result = $date->format('d.m.Y');
 		
-		// return $result;
+		return $result;
 	}
 
 	/**
-	 * Set date of cost
+	 * Set date of cost's creation
 	 */
 	public function setCostDate(\DateTime $cost_date)
 	{

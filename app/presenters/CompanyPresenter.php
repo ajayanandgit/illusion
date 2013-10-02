@@ -13,7 +13,7 @@ class CompanyPresenter extends BasePresenter
 	public $id;
 
 	/** @var object */
-	private $company;
+	public $company;
 
 
 	protected function startup()
@@ -25,45 +25,31 @@ class CompanyPresenter extends BasePresenter
 		}
 	}
 
-	public function renderDefault()
+	public function beforeRender()
 	{
-		$usersCompany = $this->em->getRepository('Company')->findOneBy(array('user' => $this->getUser()->getId()));
-
-		if ($usersCompany) {
-			$this->template->company = $usersCompany;
-		} else {
-			$this->template->company = NULL;
-		}
-		
+		$this->company = $this->em->getRepository('Company')->findOneBy(array('user' => $this->getUser()->getId()));
 	}
 
-
-	/**
-	 * Edit company profile
-	 */
-	public function actionEdit() 
+	public function renderDefault()
 	{		
-		$this->company = $this->em->getRepository('Company')->findOneBy(array('user' => $this->getUser()->getId()));
-
-		if (!$this->company) {
-			throw new BadRequestException;
-		}
-
-		$this['companyForm']->setDefaults(array(
-				'companyName' => $this->company->getCompanyName(),
-				'street' => $this->company->getStreet(),
-				'city' => $this->company->getCity(),
-				'postcode' => $this->company->getPostcode(),
-				'ico' => $this->company->getIco(),
-				'dic' => $this->company->getDic(),
-				'icDph' => $this->company->getIcDph(),
+		if ($this->company) 
+		{
+			$this['companyForm']->setDefaults(array(
+				'companyName' 	=> $this->company->getCompanyName(),
+				'contactPerson' => $this->company->getContactPerson(),
+				'street' 		=> $this->company->getStreet(),
+				'city' 			=> $this->company->getCity(),
+				'postcode' 		=> $this->company->getPostcode(),
+				'ico' 			=> $this->company->getIco(),
+				'dic' 			=> $this->company->getDic(),
+				'icDph' 		=> $this->company->getIcDph(),
 				'accountNumber' => $this->company->getAccountNumber()
 			));
+		}		
 	}
 
 
 	/**
-	 * Form to edit company profile
 	 * @return Nette\Application\UI\Form
 	 */
 	protected function createComponentCompanyForm() 
@@ -72,30 +58,33 @@ class CompanyPresenter extends BasePresenter
 
 		$form->addText('companyName', 'Názov firmy', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-large');
+		$form->addText('contactPerson', 'Kontaktná osoba', 50, 100)
+			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
+			 ->setAttribute('class', 'input-large');
 		$form->addText('street', 'Ulica', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-large');
 		$form->addText('city', 'Mesto', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-large');
 		$form->addText('postcode', 'PSČ', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-medium');
 		$form->addText('ico', 'IČO', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-medium');
 		$form->addText('dic', 'DIČ', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-medium');
 		$form->addText('icDph', 'IČ DPH', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-medium');
 		$form->addText('accountNumber', 'Číslo účtu', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
-		$form->addSubmit('submit', 'uložiť')
-			 ->setAttribute('class', 'btn btn-info btn-small');
+			 ->setAttribute('class', 'input-large');
+		$form->addSubmit('submit', 'Uložiť')
+			 ->setAttribute('class', 'btn btn-info');
 
 		$form->onSuccess[] = $this->companyFormSubmitted;
 
@@ -110,11 +99,13 @@ class CompanyPresenter extends BasePresenter
 	{
 		$id = $this->getUser()->getId();
 		$user = $this->em->getRepository('User')->findOneById($id);
+		$company = $this->em->getRepository('Company')->findOneBy(array('user' => $this->getUser()->getId()));
 		
-		if (!$this->company) {
+		if (!$company) {
 			
 			$company = new Company;
 			$company->setCompanyName($form->values->companyName)
+					->setContactPerson($form->values->contactPerson)
 					->setStreet($form->values->street)
 					->setCity($form->values->city)
 					->setPostcode($form->values->postcode)
@@ -130,14 +121,15 @@ class CompanyPresenter extends BasePresenter
 		} 
 		else {
 			
-			$this->company->setCompanyName($form->values->companyName)
-						  ->setStreet($form->values->street)
-						  ->setCity($form->values->city)
-						  ->setPostcode($form->values->postcode)
-						  ->setIco($form->values->ico)
-						  ->setDic($form->values->dic)
-						  ->setIcDph($form->values->icDph)
-						  ->setAccountNumber($form->values->accountNumber);
+			$company->setCompanyName($form->values->companyName)
+					->setContactPerson($form->values->contactPerson)
+					->setStreet($form->values->street)
+					->setCity($form->values->city)
+					->setPostcode($form->values->postcode)
+					->setIco($form->values->ico)
+					->setDic($form->values->dic)
+					->setIcDph($form->values->icDph)
+					->setAccountNumber($form->values->accountNumber);
 
 			$this->flashMessage('Profil firmy bol upravený.', 'success');
 		}

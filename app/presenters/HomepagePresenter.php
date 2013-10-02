@@ -47,10 +47,13 @@ class HomepagePresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-		$this->template->costs = $this->costsRepo->getLastCostsByCompany($this->company->getId());
-		$this->template->invoices = $this->invoiceRepo->getLatestInvoices($this->company->getId());
-		$this->template->payments = $this->paymentRepo->getLatestPayments($this->company->getId());
-		$this->template->unpaidInvoices = $this->invoiceRepo->getUnpaidInvoices($this->company->getId());
+		if ($this->company)
+		{
+			$this->template->costs = $this->costsRepo->getLastCostsByCompany($this->company->getId());
+			$this->template->invoices = $this->invoiceRepo->getLatestInvoices($this->company->getId());
+			$this->template->payments = $this->paymentRepo->getLatestPayments($this->company->getId());
+			$this->template->unpaidInvoices = $this->invoiceRepo->getUnpaidInvoices($this->company->getId());
+		}
 	}
 
 }

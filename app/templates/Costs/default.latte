@@ -1,70 +1,257 @@
 {block content}
 
-	<!-- Modal for add payments -->
-	<div class="modal fade" id="costModal" tabindex="-1" role="dialog" aria-labelledby="costModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-	<div class="modal-content">
-	<div class="modal-header">
-	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<h4 class="modal-title">Modal title</h4>
-	</div>
-	<div class="modal-body">
-		{control costForm}
-		<button type="button" class="btn btn-default btn-small" data-dismiss="modal">Zatvoriť</button>
+	<h4>Hodnota celkových nákladov: {$balance[1]} €</h4>
 
+	<a href="#" id="id-btn-dialog1" class="btn btn-info btn-sm"><i class="icon-inbox"></i> Pridať nákladovú položku</a>
+
+	<div id="dialog-message" class="hide">
+		<form action="{$basePath}/costs/?do=costForm-submit" method="post" id="frm-costForm">
+			<input type="text" class="form-control" placeholder="Popis nákladu" name="description" id="frmcostForm-description" required="required" data-nette-rules="{ op:':filled',msg:&quot;Mus\u00edte zada\u0165 popis n\u00e1kladu.&quot; }" value="" />
+			<input type="text" class="form-control" placeholder="Dátum" id="datepicker" name="cost_date" required="required" data-nette-rules="{ op:':filled',msg:&quot;Mus\u00edte vyplni\u0165 d\u00e1tum.&quot; }" value="" />
+			<input type="text" class="form-control" placeholder="Hodnota" name="value" id="frmcostForm-value" required="required" data-nette-rules="{ op:':filled',msg:&quot;Mus\u00edte zada\u0165 sumu.&quot; }" value="" />
+			<input type="submit" class="btn btn-info button" name="submit_" id="frmcostForm-submit" value="Pridať" />
+		</form>
+	</div><!-- #dialog-message -->
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="widget-box transparent">
+				<div class="widget-header widget-header-flat">
+					<h4 class="lighter">
+						<i class="icon-signal"></i>
+						Vývoj nákladov za posledné obdobie
+					</h4>
+
+					<div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="icon-chevron-up"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main padding-4">
+						<div id="sales-charts"></div>
+					</div><!-- /widget-main -->
+				</div><!-- /widget-body -->
+			</div><!-- /widget-box -->
 		</div>
-		<div class="modal-footer">
-		</div>
-		</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
 	</div>
 
-	<div class="col-lg-8">
-		<h3>Prehľad</h3>
-
-		<table class="table table-hover">
+	<h2>Adresár</h2>
+	<div class="table-responsive">
+		<table id="sample-table-1" class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
-					<th>#</th>
 					<th>Dátum</th>
 					<th>Popis nákladu</th>
 					<th>Suma</th>
+					<th></th>
 				</tr>
 			</thead>
+
 			<tbody>
 			{foreach $costs as $cost}			
 				<tr>
-					<td>{$cost->getId()}</td>
-					<td>{$cost->getCostDate()}</td>
+					<td>{*$cost->getCostDate()*}</td>
 					<td>{$cost->getDescription()}</td>
 					<td>{$cost->getValue()} €</td>
+					<td>
+						<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+							<a n:href="" class="btn btn-xs btn-info">
+								<i class="icon-edit bigger-120"></i>
+							</a>
+
+							<a n:href="" class="btn btn-xs btn-danger">
+								<i class="icon-trash bigger-120"></i>
+							</a>
+						</div>
+
+						<div class="visible-xs visible-sm hidden-md hidden-lg">
+							<div class="inline position-relative">
+								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
+									<i class="icon-cog icon-only bigger-110"></i>
+								</button>
+
+								<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+									<li>
+										<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+											<span class="blue">
+												<i class="icon-zoom-in bigger-120"></i>
+											</span>
+										</a>
+									</li>
+
+									<li>
+										<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+											<span class="green">
+												<i class="icon-edit bigger-120"></i>
+											</span>
+										</a>
+									</li>
+
+									<li>
+										<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+											<span class="red">
+												<i class="icon-trash bigger-120"></i>
+											</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</td>
 				</tr>
 			{/foreach}
 			</tbody>
 		</table>
-
-		{foreach $balance as $bal}
-		<h4>Celkové náklady spolu: {$bal} €</h4>
-		{/foreach}
-	</div>
+	</div>	
 
 {/block}
 
-{block sidebar}
-	<li><a data-toggle="modal" href="#costModal"><span class="glyphicon glyphicon-check"></span> Pridať náklad</a></li>	
-	<li><a href=""><span class="glyphicon glyphicon-signal"></span> Grafické zobrazenie</a></li>	
+
+{block head}
+
+	<link rel="stylesheet" href="{$basePath}/assets/css/jquery-ui-1.10.3.full.min.css" />
+
 {/block}
 
-{block script}
 
-	<script>
+{block plugins}
 
-	$(function() 
-	{
-		$( "#frmcostForm-cost_date" ).datepicker();
-	});
+	<!--[if lte IE 8]>
+		<script src="{$basePath}/assets/js/excanvas.min.js"></script>
+	<![endif]-->
 
+	<script src="{$basePath}/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="{$basePath}/assets/js/jquery.ui.touch-punch.min.js"></script>
+	<script src="{$basePath}/assets/js/jquery.slimscroll.min.js"></script>
+	<script src="{$basePath}/assets/js/jquery.easy-pie-chart.min.js"></script>
+	<script src="{$basePath}/assets/js/jquery.sparkline.min.js"></script>
+	<script src="{$basePath}/assets/js/flot/jquery.flot.min.js"></script>
+	<script src="{$basePath}/assets/js/flot/jquery.flot.pie.min.js"></script>
+	<script src="{$basePath}/assets/js/flot/jquery.flot.resize.min.js"></script>
+
+	<script src="{$basePath}/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+	<script src="{$basePath}/assets/js/jquery.ui.touch-punch.min.js"></script>
+
+{/block}
+
+
+{block scripts}
+	<script type="text/javascript">
+		jQuery(function($) {
+
+			costs = new Array(
+				{foreach $costs as $cost}
+				"{$cost->getValue()}"{if $iterator->last}{else},{/if}
+				{/foreach}
+			);
+		
+			var d1 = [];
+			for (var i = 0; i < costs.length; i++) {
+				d1.push([i, costs[i]]);
+			}
+
+			var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
+			$.plot("#sales-charts", [
+				{ label: "Vývoj nákladov", data: d1 }
+			], {
+				hoverable: true,
+				shadowSize: 0,
+				series: {
+					lines: { show: true },
+					points: { show: true }
+				},
+				xaxis: {
+					tickLength: 0
+				},
+				yaxis: {
+					ticks: 10,
+					min: {$minCost[1] * 0.2},
+					max: {$maxCost[1] * 1.2},
+					tickDecimals: 0
+				},
+				grid: {
+					backgroundColor: { colors: [ "#fff", "#fff" ] },
+					borderWidth: 1,
+					borderColor:'#555'
+				}
+			});			
+		
+		})
+
+		jQuery(function($) {
+		
+			$( "#datepicker" ).datepicker({
+				showOtherMonths: true,
+				selectOtherMonths: false,
+				//isRTL:true,
+		
+				
+				/*
+				changeMonth: true,
+				changeYear: true,
+				
+				showButtonPanel: true,
+				beforeShow: function() {
+					//change button colors
+					var datepicker = $(this).datepicker( "widget" );
+					setTimeout(function(){
+						var buttons = datepicker.find('.ui-datepicker-buttonpane')
+						.find('button');
+						buttons.eq(0).addClass('btn btn-xs');
+						buttons.eq(1).addClass('btn btn-xs btn-success');
+						buttons.wrapInner('<span class="bigger-110" />');
+					}, 0);
+				}
+				*/
+			});
+		
+		
+			//override dialog's title function to allow for HTML titles
+			$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+				_title: function(title) {
+					var $title = this.options.title || '&nbsp;'
+					if( ("title_html" in this.options) && this.options.title_html == true )
+						title.html($title);
+					else title.text($title);
+				}
+			}));
+		
+			$( "#id-btn-dialog1" ).on('click', function(e) {
+				e.preventDefault();
+		
+				var dialog = $( "#dialog-message" ).removeClass('hide').dialog({
+					modal: true,
+					title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='icon-inbox'></i> Pridať nákladovú položku</h4></div>",
+					title_html: true,
+					buttons: [ 
+						{
+							text: "Zatvoriť",
+							"class" : "btn btn-xs",
+							click: function() {
+								$( this ).dialog( "close" ); 
+							} 
+						},
+						// {
+						// 	// text: "OK",
+						// 	// "class" : "btn btn-primary btn-xs",
+						// 	// click: function() {
+						// 	// 	$( this ).dialog( "close" ); 
+						// 	// } 
+						// }
+					]
+				});
+		
+				/**
+				dialog.data( "uiDialog" )._title = function(title) {
+					title.html( this.options.title );
+				};
+				**/
+			});
+				
+		});
 	</script>
 
 {/block}

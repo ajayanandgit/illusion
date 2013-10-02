@@ -26,6 +26,11 @@ class Company extends \Nette\Object
 	/**
 	 * @Column(type="string")
 	 */
+	private $contactPerson;
+
+	/**
+	 * @Column(type="string")
+	 */
 	private $street;
 
 	/**
@@ -34,9 +39,9 @@ class Company extends \Nette\Object
 	private $city;
 
 	/**
-	 * @Column(type="integer")
+	 * @Column(type="string")
 	 */
-	private $postcode;
+	private $postcode_;
 
 	/**
 	 * @Column(type="integer")
@@ -117,6 +122,24 @@ class Company extends \Nette\Object
 	/**
 	 * @return string
 	 */
+	public function getContactPerson()
+	{
+		return $this->contactPerson;
+	}
+
+	/**
+	 * @param string
+	 * @return Company
+	 */
+	public function setContactPerson($contactPerson)
+	{
+		$this->contactPerson = $contactPerson;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getStreet()
 	{
 		return $this->street;
@@ -155,7 +178,7 @@ class Company extends \Nette\Object
 	 */
 	public function getPostcode()
 	{
-		return $this->postcode;
+		return $this->postcode_;
 	}
 
 	/**
@@ -164,7 +187,7 @@ class Company extends \Nette\Object
 	 */
 	public function setPostcode($postcode)
 	{
-		$this->postcode = $postcode;
+		$this->postcode_ = $postcode;
 		return $this;
 	}
 

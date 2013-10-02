@@ -1,98 +1,18 @@
 {block content}
 
-	<div class="hero-unit">
-		<h1>Vitaj, {$user->getIdentity()->username} ... </h1>
-		<p>&nbsp;</p>
-		<p>&nbsp;&nbsp;&nbsp;Info o tom, že sa používateľ nachádza na úvodnej stránke, kde vidí cashflow firmy, poslednú vystavenú faktúru, zoznam najväčších dlžníkov a najlepších zákazníkov firmy.</p>
-		<p>&nbsp;&nbsp;&nbsp;Ďalej si používateľ môže nastaviť zobrazovanie aktuálnych kurzov, z toho vyplýva, že musím vyhútať implementáciu aplikácie <i>kurzy.danielmisina.sk</i> do tohto chaosu.</p>
+{/block}
 
-		<p><a href="#" class="btn btn-primary btn-large">Čítaj viac &raquo;</a></p>
-	</div>
 
-	<div class="row">
-		<div class="col-lg-12">
-			<h2>Faktúry</h2>
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Dátum</th>
-						<th>Popis</th>
-						<th>Celková suma</th>
-					</tr>
-				</thead>
-				<tbody>
-				{foreach $invoices as $invoice}			
-					<tr>
-						<td>{$invoice->getId()}</td>
-						<td>{$invoice->getCreateDate()}</td>
-						<td>{$invoice->getDescription()}</td>
-						<td>{$invoice->getTotalSum()} €</td>
-					</tr>
-				{/foreach}
-				</tbody>
-			</table>
-		</div>
-	</div><!-- END Row -->
-
-	<div class="row">
-		<div class="col-lg-6">
-			<h2>Náklady</h2>
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Dátum</th>
-						<th>Popis nákladu</th>
-						<th>Suma</th>
-					</tr>
-				</thead>
-				<tbody>
-				{foreach $costs as $cost}			
-					<tr>
-						<td>{$cost->getId()}</td>
-						<td>{$cost->getCostDate()}</td>
-						<td>{$cost->getDescription()}</td>
-						<td>{$cost->getValue()} €</td>
-					</tr>
-				{/foreach}
-				</tbody>
-			</table>
-		</div>
-
-		<div class="col-lg-6">
-			<h2>Príjmy</h2>
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Dátum</th>
-						<th>Suma</th>
-					</tr>
-				</thead>
-				<tbody>
-				{foreach $payments as $payment}			
-					<tr>
-						<td>{$payment->getId()}</td>
-						<td>{$payment->getPayDate()}</td>
-						<td>{$payment->getPayment()} €</td>
-					</tr>
-				{/foreach}
-				</tbody>
-			</table>
-		</div>
-	</div><!-- END Row -->
+{block head}
 
 {/block}
 
-{block sidebar}
-	<li><a href="#"><span class="glyphicon glyphicon-th"></span> Základné informácie</a></li>
-	<li><a n:href="Invoice:unpaid"><span class="glyphicon glyphicon-bell"></span> Neuhradené faktúry 
-			<span class="badge pull-right">
-				<?php 
-					$result = count($unpaidInvoices);
-					echo $result;
-				?>
-			</span></a></li>
-	<li><a n:href="Invoice:create"><span class="glyphicon glyphicon-file"></span> Vystaviť novú faktúru</a></li>
+
+{block plugins}
+
+{/block}
+
+
+{block scripts}
+
 {/block}

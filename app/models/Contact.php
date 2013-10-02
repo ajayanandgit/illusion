@@ -22,6 +22,11 @@ class Contact extends \Nette\Object
 	/**
 	 * @Column(type="string")
 	 */
+	private $contactPerson;
+
+	/**
+	 * @Column(type="string")
+	 */
 	private $street;
 
 	/**
@@ -94,6 +99,24 @@ class Contact extends \Nette\Object
 	public function setName($name) 
 	{
 		$this->name = (string)$name;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getContactPerson()
+	{
+		return $this->contactPerson;
+	}
+
+	/**
+	 * @param string
+	 * @return Contact
+	 */
+	public function setContactPerson($contactPerson)
+	{
+		$this->contactPerson = $contactPerson;
 		return $this;
 	}
 

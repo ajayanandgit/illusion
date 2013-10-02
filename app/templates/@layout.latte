@@ -10,180 +10,532 @@
  *}
 
 <!DOCTYPE html>
-<html>
-<head>
-	<title>Účtovný systém</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="description" content="Illusion - financial information system">
-	<meta name="author" content="Daniel Misina">
-	<meta name="robots" content="{$robots}" n:ifset="$robots">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Illusion</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="description" content="Illusion - financial information system">
+		<meta name="author" content="Daniel Misina">
+		<meta name="robots" content="{$robots}" n:ifset="$robots">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="icon" href="{$basePath}/favicon.ico" type="image/gif" sizes="16x16">
-	<link rel="stylesheet" href="{$basePath}/css/style.css" type="text/css">
-	<link rel="stylesheet" href="{$basePath}/css/bootstrap.css" type="text/css">
-	<link rel="stylesheet" href="{$basePath}/css/navbar.css" type="text/css">
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css">
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css" rel="stylesheet">
-	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-		<script src="{$basePath}/js/html5shiv.js"></script>
-		<script src="{$basePath}/js/respond.min.js"></script>
-	<![endif]-->
-	{if $user->isLoggedIn()}
-	{var $img = ''}
-	{else}
-	{var $img = 'log-in-bg'}
-	{/if}
+		<link rel="icon" href="{$basePath}/favicon.ico" type="image/gif" sizes="16x16">
 
-	<style>
-	body {
-		/*font: 12pt/1.4 "Trebuchet MS", "Geneva CE", lucida, sans-serif;*/
-		color: black;
-		width: 100%;
-		background: #f7f7f7 url('../images/<?php echo $img; ?>.jpg') no-repeat center center fixed;
-	    -webkit-background-size: cover;
-	    -moz-background-size: cover;
-	    -o-background-size: cover;
-	    background-size: cover;
-	}
-	</style>
-	{block head}{/block}
-</head>
+		<!-- basic styles -->
 
-<body>
-	<div class="container">	
-	<script> document.body.className+=' js' </script>
+		<link href="{$basePath}/assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="{$basePath}/assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="{$basePath}/css/style.css" type="text/css">
 
-		{if $user->isLoggedIn()}
-			<div class="header">			
-				<ul class="nav nav-tabs">
-					{foreach $menuItems as $item => $link}
-					<li {ifCurrent $link}class="active"{/ifCurrent}><a n:href="$link">{$item}</a></li>
-					{/foreach}
-					<li class="dropdown pull-right">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{$user->getIdentity()->username} <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a n:href="User:">Menové kurzy</a></li>
-							<li><a n:href="User:">Nastavenia</a></li>
-							<li class="divider"></li>
-							<li><a n:href="signOut!">Odhlásiť sa</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-		{/if}
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="{$basePath}/assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
 
-		<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}" id="flashmess">{$flash->message}</div>
-		<div class="row row-offcanvas row-offcanvas-right">
+		<!-- page specific plugin styles -->
+		{block head}{/block}
 
-			{if $user->isLoggedIn()}
-				<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
-					<div class="well sidebar-nav">
-						<ul class="nav">
-							{include #sidebar}
-						</ul>
-					</div><!--/.well -->
+		<!-- fonts -->
 
-					{ifCurrentIn "Homepage:default"}
-						<?php
-							// Database connection details 
-							$db_srv = 'localhost';
-							$db_usr = 'root'; 
-							$db_pwd = ''; 
-							$db_name = 'illusion';
+		<link rel="stylesheet" href="{$basePath}/assets/css/ace-fonts.css" />
 
-							// Charset information
-							$char_set = 'utf8';
-							$char_collation = 'utf8_general_ci';
+		<!-- custom styles -->
 
-							// Establish connection
-							$connection = mysql_connect($db_srv,$db_usr,$db_pwd) or die(mysql_error()); 
-							$db = mysql_select_db($db_name) or die(mysql_error()); 
+		<link rel="stylesheet" href="{$basePath}/css/style.css" />
+		
+		<!-- ace styles -->
 
-							if (function_exists("mysql_set_charset")) {
-								mysql_set_charset($char_set, $connection);
-							}
+		<link rel="stylesheet" href="{$basePath}/assets/css/ace.min.css" />
+		<link rel="stylesheet" href="{$basePath}/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="{$basePath}/assets/css/ace-skins.min.css" />
 
-							$rates = "SELECT *
-									  FROM currency_rates";
-							$date = "SELECT `time`
-									 FROM currency_time
-									 WHERE `option` = 'actual_date'";
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="{$basePath}/assets/css/ace-ie.min.css" />
+		<![endif]-->
 
-							$result_rates = mysql_query($rates);
-							$result_date = mysql_query($date);
-						?>
-						<div class="well sidebar-nav">
-							<ul class="nav">
-								<li><h4>Menové kurzy</h4></li>
-								<li>&nbsp;</li>
-								<table class="table">
-								<?php
+		<!-- inline styles related to this page -->
 
-									// dump (mysql_fetch_assoc($result_rates));
-									// exit;
-									while ($row = mysql_fetch_assoc($result_rates)) {
-										if ($row['currency'] == 'USD' ||
-											$row['currency'] == 'CZK' ||
-											$row['currency'] == 'GBP' ||
-											$row['currency'] == 'PLN')
-										{											
-											echo '<tr>';
-										 	echo '<td>';
-										 	echo '<img src="http://localhost/01_OnlineUctovnySystem/www/images/flag_icons/';
-										 	echo $row['currency'];
-										 	echo '.gif"> ';
-										 	echo $row['currency'];
-										 	echo '</td>';
-										 	echo '<td>' . $row['rate'] . '</td>';
-											echo '</tr>';
-										}
-									}
-								?>
-								</table>
-								<li><h6>
-									Aktuálne ku dňu:
-									<?php
-										while ($row = mysql_fetch_assoc($result_date)) {
-											$date = new DateTime($row['time']);
-											echo $date->format('d.m.Y');
-										}
-									?>
-								</h6></li>
+		<!-- ace settings handler -->
+
+		<script src="{$basePath}/assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="{$basePath}/assets/js/html5shiv.js"></script>
+		<script src="{$basePath}/assets/js/respond.min.js"></script>
+		<![endif]-->
+
+		{ifCurrentIn "Sign:In"}
+		<style>
+		body {
+			width: 100%;
+			background: #f7f7f7 url('../images/log-in-bg.jpg') no-repeat center center fixed;
+		    -webkit-background-size: cover;
+		    -moz-background-size: cover;
+		    -o-background-size: cover;
+		    background-size: cover;
+		}
+		</style>
+		{/ifCurrentIn}
+
+
+	</head>
+
+	<body {ifCurrentIn "Sign:In"}class="login-layout"{/ifCurrentIn}>
+	
+		{ifCurrentIn "Sign:In"}
+			{block loginPage}{/block}
+		{else}
+		<div class="navbar navbar-default" id="navbar">
+			<script type="text/javascript">
+				try{ ace.settings.check('navbar' , 'fixed') }catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+				<div class="navbar-header pull-left">
+					<a href="#" class="navbar-brand">
+						<small>
+							<i class="icon-lightbulb"></i>
+							illusion
+						</small>
+					</a><!-- /.brand -->
+				</div><!-- /.navbar-header -->
+
+				<div class="navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="grey">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="icon-tasks"></i>
+								<span class="badge badge-grey">4</span>
+							</a>
+
+							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="icon-ok"></i>
+									4 Tasks to complete
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">Software Update</span>
+											<span class="pull-right">65%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:65%" class="progress-bar "></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">Hardware Upgrade</span>
+											<span class="pull-right">35%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:35%" class="progress-bar progress-bar-danger"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">Unit Testing</span>
+											<span class="pull-right">15%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:15%" class="progress-bar progress-bar-warning"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">Bug Fixes</span>
+											<span class="pull-right">90%</span>
+										</div>
+
+										<div class="progress progress-mini progress-striped active">
+											<div style="width:90%" class="progress-bar progress-bar-success"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										See tasks with details
+										<i class="icon-arrow-right"></i>
+									</a>
+								</li>
 							</ul>
+						</li>
+
+						<li class="purple">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="icon-bell-alt icon-animated-bell"></i>
+								<span class="badge badge-important">8</span>
+							</a>
+
+							<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="icon-warning-sign"></i>
+									8 Notifications
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">
+												<i class="btn btn-xs no-hover btn-pink icon-comment"></i>
+												New Comments
+											</span>
+											<span class="pull-right badge badge-info">+12</span>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<i class="btn btn-xs btn-primary icon-user"></i>
+										Bob just signed up as an editor ...
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">
+												<i class="btn btn-xs no-hover btn-success icon-shopping-cart"></i>
+												New Orders
+											</span>
+											<span class="pull-right badge badge-success">+8</span>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">
+												<i class="btn btn-xs no-hover btn-info icon-twitter"></i>
+												Followers
+											</span>
+											<span class="pull-right badge badge-info">+11</span>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										See all notifications
+										<i class="icon-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="green">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="icon-envelope icon-animated-vertical"></i>
+								<span class="badge badge-success">5</span>
+							</a>
+
+							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="icon-envelope-alt"></i>
+									5 Messages
+								</li>
+
+								<li>
+									<a href="#">
+										<img src="assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+										<span class="msg-body">
+											<span class="msg-title">
+												<span class="blue">Alex:</span>
+												Ciao sociis natoque penatibus et auctor ...
+											</span>
+
+											<span class="msg-time">
+												<i class="icon-time"></i>
+												<span>a moment ago</span>
+											</span>
+										</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<img src="assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+										<span class="msg-body">
+											<span class="msg-title">
+												<span class="blue">Susan:</span>
+												Vestibulum id ligula porta felis euismod ...
+											</span>
+
+											<span class="msg-time">
+												<i class="icon-time"></i>
+												<span>20 minutes ago</span>
+											</span>
+										</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<img src="assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+										<span class="msg-body">
+											<span class="msg-title">
+												<span class="blue">Bob:</span>
+												Nullam quis risus eget urna mollis ornare ...
+											</span>
+
+											<span class="msg-time">
+												<i class="icon-time"></i>
+												<span>3:15 pm</span>
+											</span>
+										</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="inbox.html">
+										See all messages
+										<i class="icon-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="light-blue">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<span class="user-info">
+									Vitaj, {$user->getIdentity()->username}
+								</span>
+
+								<i class="icon-caret-down"></i>
+							</a>
+
+							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a href="#">
+										<i class="icon-cog"></i>
+										Nastavenia
+									</a>
+								</li>
+
+								<li>
+									<a n:href="User:">
+										<i class="icon-user"></i>
+										Profil
+									</a>
+								</li>
+
+								<li class="divider"></li>
+
+								<li>
+									<a n:href="signOut!">
+										<i class="icon-off"></i>
+										Odhlásiť
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul><!-- /.ace-nav -->
+				</div><!-- /.navbar-header -->
+			</div><!-- /.container -->
+		</div>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ ace.settings.check('main-container' , 'fixed') }catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ ace.settings.check('sidebar' , 'fixed') }catch(e){}
+					</script>
+
+					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+							<button class="btn btn-success">
+								<i class="icon-signal"></i>
+							</button>
+
+							<button class="btn btn-info">
+								<i class="icon-pencil"></i>
+							</button>
+
+							<button class="btn btn-warning">
+								<i class="icon-group"></i>
+							</button>
+
+							<button class="btn btn-danger">
+								<i class="icon-cogs"></i>
+							</button>
 						</div>
-					{/ifCurrentIn}
-				</div><!--/span-->
-			{/if}
 
-			{if $user->isLoggedIn()}				
-        		<div class="col-xs-12 col-sm-9">
-					{include #content}
-				</div>				
-			{else}
-				<div class="col-lg-12">
-					{include #content}
+						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+							<span class="btn btn-success"></span>
+
+							<span class="btn btn-info"></span>
+
+							<span class="btn btn-warning"></span>
+
+							<span class="btn btn-danger"></span>
+						</div>
+					</div><!-- #sidebar-shortcuts -->
+
+					<ul class="nav nav-list">
+						<li>
+							<a n:href="Homepage:">
+								<i class="icon-home"></i>
+								<span class="menu-text"> Domov </span>
+							</a>
+						</li>
+
+						<li>
+							<a n:href="Company:">
+								<i class="icon-briefcase"></i>
+								<span class="menu-text"> Moja firma </span>
+							</a>
+						</li>
+
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-book"></i>
+								<span class="menu-text"> Adresár </span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+								<li>
+									<a n:href="Contact:">
+										<i class="icon-double-angle-right"></i>
+										Zobraziť kontakty
+									</a>
+								</li>
+								
+								<li>
+									<a n:href="Contact:create">
+										<i class="icon-double-angle-right"></i>
+										Pridať kontakt
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a n:href="Costs:">
+								<i class="icon-bar-chart"></i>
+								<span class="menu-text"> Náklady </span>
+							</a>
+						</li>
+
+						<li>
+							<a n:href="Invoice:">
+								<i class="icon-folder-open"></i>
+								<span class="menu-text"> Faktúry </span>
+							</a>
+						</li>
+
+					</ul><!-- /.nav-list -->
+
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+
+					<script type="text/javascript">
+						try{ ace.settings.check('sidebar' , 'collapsed') }catch(e){}
+					</script>
 				</div>
-			{/if}
 
-		</div><!-- END Row -->
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ ace.settings.check('breadcrumbs' , 'fixed') }catch(e){}
+						</script>
 
-		<hr>
-		<footer>
-			<p>&copy; Illusion 2013</p>
-		</footer>
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
 
-	</div><!-- END Container -->
+					<div class="page-content">
+						<div class="row">
+							<div class="col-xs-12">
+								<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}" id="flashmess">{$flash->message}</div>
+								<!-- PAGE CONTENT BEGINS -->
+
+								{block content}{/block}
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->				
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+		{/ifCurrentIn}<!-- END ifCurrent "is not" Sign:In  -->
+
+
+
+
+	<!-- Basic scripts -->
+
+		<!--[if !IE]> -->
+
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='/01_OnlineUctovnySystem/www/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+		<script type="text/javascript">
+		 window.jQuery || document.write("<script src='{$basePath}/assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+		</script>
+		<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='/01_OnlineUctovnySystem/www/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="{$basePath}/assets/js/bootstrap.min.js"></script>
+		<script src="{$basePath}/assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts & inline scripts related to this page -->
+
+		{block plugins}{/block}
+
+		<!-- Ace scripts -->
+
+		<script src="{$basePath}/assets/js/ace-elements.min.js"></script>
+		<script src="{$basePath}/assets/js/ace.min.js"></script>
+
+		<!-- inline scripts related to this page -->
+
+		{block scripts}{/block}
 	
-	<!--<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
-	<script src="//code.jquery.com/jquery.js"></script>
-	<script type="text/javascript" src="{$basePath}/js/jquery.js"></script>-->
-	<script type="text/javascript" src="{$basePath}/js/jquery-1.9.1.js"></script>
-	<script type="text/javascript" src="{$basePath}/js/jquery-ui.js"></script>
-	<script type="text/javascript" src="{$basePath}/js/bootstrap.js"></script>
-	<script type="text/javascript" src="{$basePath}/js/backstretch.js"></script>
-	{block script}{/block}
-	
-</body>
+	</body>
 </html>

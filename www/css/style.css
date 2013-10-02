@@ -7,33 +7,10 @@ body {
 
 }
 
-a img { border: none; }
-a {
-	cursor: pointer;
-}
-
-#ajax-spinner {
-	display: none;
-}
-
-.header {
-	margin-bottom: 25px;
-}
-
 
 /*
  Forms styling 
  --------------------------------------------------- */
-input[class=checkbox] + label {
-	position: static;
-	margin-top: -20px;
-	margin-left: 15px;
-}
-
-label {
-	padding-right: 10px;
-	margin-top: -5px;
-}
 
 
 /*
@@ -97,13 +74,6 @@ label {
 /*
  Contacts 
  --------------------------------------------------- */
-.contact-list .contact {
-	cursor: pointer;
-}
-
-.contact-list a {
-	padding-right: 10px;
-}
 
 
 /*
@@ -117,9 +87,6 @@ label {
 /*
  Footer 
  --------------------------------------------------- */
- footer {
- 	padding: 25px 50px 15px 50px;
- 	color: #333;
- 	/* background-color: #bebebe; */
- 	border-radius: 5px;
- }
+footer {
+
+}

@@ -26,15 +26,21 @@ class ContactPresenter extends BasePresenter {
 
 	public function renderDefault()
 	{
-		// $contacts = $this->em->getRepository('Contact')->findBy(array('user' => $this->getUser()->getId()));
-		$contacts = $this->contactRepo->getAlphaListContacts($this->getUser()->getId());
+		$contacts = $this->em->getRepository('Contact')->findBy(array('user' => $this->getUser()->getId()));
+		// $contacts = $this->contactRepo->getAlphaListContacts($this->getUser()->getId());
 
 		if ($contacts) {
 			$this->template->contacts = $contacts;
-		} else {
-			$this->template->contacts = NULL;
-		}
-		
+		} 
+		else 
+		{
+			$this->redirect('Contact:create');
+		}		
+	}
+
+	public function renderProfile($contactId)
+	{
+		$this->template->contact = $this->em->getRepository('Contact')->findOneBy(array('id' => $contactId));
 	}
 
 	/**
@@ -83,27 +89,27 @@ class ContactPresenter extends BasePresenter {
 
 		$form->addText('name', 'Názov', 50, 100)
 			 ->addRule(Form::FILLED, 'Musíte zadať názov.')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-xlarge');
 		$form->addText('street', 'Ulica', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-xlarge');
 		$form->addText('city', 'Mesto', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-xlarge');
 		$form->addText('postcode', 'PSČ', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-xlarge');
 		$form->addText('ico', 'IČO', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-xlarge');
 		$form->addText('dic', 'DIČ', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-xlarge');
 		$form->addText('icDph', 'IČ DPH', 50, 100)
 			 ->addRule(Form::FILLED, 'Vyplňte prosím toto pole')
-			 ->setAttribute('class', 'form-control input-small');
+			 ->setAttribute('class', 'input-xlarge');
 		$form->addSubmit('submit', 'uložiť')
-			 ->setAttribute('class', 'btn btn-info btn-small');
+			 ->setAttribute('class', 'btn btn-app btn-light btn-xs');
 
 
 		$form->onSuccess[] = $this->contactFormSubmitted;

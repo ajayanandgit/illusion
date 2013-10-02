@@ -10,6 +10,7 @@
 				<th>Popis</th>
 				<th>Zákazník</th>
 				<th>Stav</th>
+				<th></th>
 			</tr>
 		</thead>
 
@@ -50,8 +51,8 @@
 				<td>{$invoice->id}</td>
 				<td>{$invoice->description}</td>
 				<td>{$invoice->getCustomer()->getName()}</td>
-				<td><a n:href="Invoice:Display $invoice->id"><span class="glyphicon glyphicon-expand"></span> Zobraziť faktúru</a></td>
-				<td><span class="label label<?php echo $alert_type;  ?>"><?php echo $status; ?></span></td>
+				<td><a n:href="Invoice:Display $invoice->id"><i class="icon-external-link"></i> Zobraziť faktúru</a></td>
+				<td><span class="label label<?php echo $alert_type;  ?> arrowed-in-right arrowed"><?php echo $status; ?></span></td>
 			</tr>
 		
 		{/foreach}

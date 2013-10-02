@@ -1,76 +1,236 @@
-{var $robots = noindex}
+{block loginPage}
 
-{block content}
+	<div class="main-container">
+		<div class="main-content">
+			<div class="row">
+				<div class="space-12"></div>
+				<div class="col-sm-6 col-sm-offset-3 introduction">
+					<h1>
+						<img src="../images/beta-logo.png" alt="illusion-logo" >
+						illusion
+					</h1>
+					<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
+					Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. 
+					Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. 
+					Mauris placerat eleifend leo.</p>
+				</div>
+				<div class="col-sm-10 col-sm-offset-1">
+					<div class="login-container">
+						<div class="space-6"></div>
 
-	<div class="row">
+						<div class="position-relative">
+							<div id="login-box" class="login-box visible widget-box no-border">
+								<div class="widget-body">
+									<div class="widget-main">
+										<h4 class="header blue lighter bigger">
+											<i class="icon-coffee green"></i>
+											Prihlásenie do systému
+										</h4>
+
+										<div class="space-6"></div>
+
+										
+										<form action="http://localhost/01_OnlineUctovnySystem/www/sign/in?do=signInForm-submit" method="post" id="frm-signInForm" class="form-horizontal">
+											<fieldset>
+												<label class="block clearfix">													
+													<span class="block input-icon input-icon-right">
+														<input type="text" placeholder="email" class="form-control text" name="email" id="frmsignInForm-email" required="required" value="" />
+														<i class="icon-user"></i>
+													</span>
+												</label>
+
+												<label class="block clearfix">
+													<span class="block input-icon input-icon-right">
+														<input type="password" placeholder="heslo" class="form-control text" name="password" id="frmsignInForm-password" required="required" />
+														<i class="icon-lock"></i>
+													</span>
+												</label>
 
 
-		<div class="col-lg-2"></div>
-		<div class="col-lg-8  introduction">
-			<h1>
-				<img src="../images/beta-logo.png" alt="illusion-logo" >
-				illusion
-			</h1>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer congue nulla quis tortor pretium, commodo mattis ipsum varius. Nullam pretium gravida est ut aliquet. Etiam laoreet cursus velit non luctus. Quisque pellentesque venenatis ultricies. Nunc et blandit leo, eget facilisis ligula. Quisque metus diam, convallis ut eros vitae, placerat egestas velit. In nec dignissim libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ac magna lorem. Aenean laoreet, ipsum quis ultrices lacinia, diam lorem congue risus, nec ornare ante nulla eu massa. Vestibulum sodales venenatis felis, quis pharetra nisi consectetur ac.
-			</p>
-			<p>
-				<button type="button" class="btn btn-primary btn-lg">Registrujte sa už dnes</button>
-			</p>
+												<div class="space"></div>
+
+												<div class="clearfix">
+													<label class="inline">
+														<input type="checkbox" class="ace" name="remember" id="frmsignInForm-remember" />
+														<span class="lbl"> Zostať prihlásený</span>
+													</label>
+
+													<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" name="login" id="frmsignInForm-login">
+														<i class="icon-key"></i>
+														Prihlásiť
+													</button>
+												</div>
+
+												<div class="space-4"></div>
+											</fieldset>
+										</form>
+									</div><!-- /widget-main -->
+
+									<div class="toolbar clearfix">
+										<div>
+											<a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
+												<i class="icon-arrow-left"></i>
+												Zabudol som heslo
+											</a>
+										</div>
+
+										<div>
+											<a href="#" onclick="show_box('signup-box'); return false;" class="user-signup-link">
+												Registrácia
+												<i class="icon-arrow-right"></i>
+											</a>
+										</div>
+									</div>
+								</div><!-- /widget-body -->
+							</div><!-- /login-box -->
+
+							<div id="forgot-box" class="forgot-box widget-box no-border">
+								<div class="widget-body">
+									<div class="widget-main">
+										<h4 class="header red lighter bigger">
+											<i class="icon-key"></i>
+											Obnova hesla
+										</h4>
+
+										<div class="space-6"></div>
+										<p>
+											Zadajte e-mail, kam Vám zašleme dočasné heslo, ktoré bude slúžiť na nastavenie nového prístupového hesla do systému.
+										</p>
+
+										<form>
+											<fieldset>
+												<label class="block clearfix">
+													<span class="block input-icon input-icon-right">
+														<input type="email" class="form-control" placeholder="Email" />
+														<i class="icon-envelope"></i>
+													</span>
+												</label>
+
+												<div class="clearfix">
+													<button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+														<i class="icon-lightbulb"></i>
+														Odoslať
+													</button>
+												</div>
+											</fieldset>
+										</form>
+									</div><!-- /widget-main -->
+
+									<div class="toolbar center">
+										<a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">
+											Späť na prihlásenie
+											<i class="icon-arrow-right"></i>
+										</a>
+									</div>
+								</div><!-- /widget-body -->
+							</div><!-- /forgot-box -->
+
+							<div id="signup-box" class="signup-box widget-box no-border">
+								<div class="widget-body">
+									<div class="widget-main">
+										<h4 class="header green lighter bigger">
+											<i class="icon-group blue"></i>
+											Registrácia
+										</h4>
+
+										<div class="space-6"></div>
+										<p> Enter your details to begin: </p>
+
+										<form>
+											<fieldset>
+												<label class="block clearfix">
+													<span class="block input-icon input-icon-right">
+														<input type="email" class="form-control" placeholder="Email" />
+														<i class="icon-envelope"></i>
+													</span>
+												</label>
+
+												<label class="block clearfix">
+													<span class="block input-icon input-icon-right">
+														<input type="text" class="form-control" placeholder="Username" />
+														<i class="icon-user"></i>
+													</span>
+												</label>
+
+												<label class="block clearfix">
+													<span class="block input-icon input-icon-right">
+														<input type="password" class="form-control" placeholder="Password" />
+														<i class="icon-lock"></i>
+													</span>
+												</label>
+
+												<label class="block clearfix">
+													<span class="block input-icon input-icon-right">
+														<input type="password" class="form-control" placeholder="Repeat password" />
+														<i class="icon-retweet"></i>
+													</span>
+												</label>
+
+												<label class="block">
+													<input type="checkbox" class="ace" />
+													<span class="lbl">
+														I accept the
+														<a href="#">User Agreement</a>
+													</span>
+												</label>
+
+												<div class="space-24"></div>
+
+												<div class="clearfix">
+													<button type="reset" class="width-30 pull-left btn btn-sm">
+														<i class="icon-refresh"></i>
+														Reset
+													</button>
+
+													<button type="button" class="width-65 pull-right btn btn-sm btn-success">
+														Register
+														<i class="icon-arrow-right icon-on-right"></i>
+													</button>
+												</div>
+											</fieldset>
+										</form>
+									</div>
+
+									<div class="toolbar center">
+										<a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">
+											<i class="icon-arrow-left"></i>
+											Back to login
+										</a>
+									</div>
+								</div><!-- /widget-body -->
+							</div><!-- /signup-box -->
+						</div><!-- /position-relative -->
+					</div>
+				</div><!-- /.col -->
+			</div><!-- /.row -->
 		</div>
+	</div><!-- /.main-container -->
 
-	</div>
-
-	<div class="row">
-
-		<div class="col-lg-4"></div>
-		<div class="col-lg-4 sign-in-form">
-			<h1>Prihlásenie</h1>
-			<form action="http://localhost/01_OnlineUctovnySystem/www/sign/in?do=signInForm-submit" method="post" id="frm-signInForm" class="form-horizontal">
-
-				<div class="form-group">
-					<label for="inputEmail1" class="col-lg-2 control-label">Email</label>
-					<div class="col-lg-10">
-						<div class="input-group">
-							<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-							<input type="text" placeholder="email" class="form-control text" name="email" id="frmsignInForm-email" required="required" value="" />
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="inputEmail1" class="col-lg-2 control-label">Heslo</label>
-					<div class="col-lg-10">
-						<div class="input-group">
-							<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-							<input type="password" placeholder="heslo" class="form-control text" name="password" id="frmsignInForm-password" required="required" />
-						</div>
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<div class="col-lg-6">
-						<div class="checkbox">
-							<input type="checkbox" class="checkbox" name="remember" id="frmsignInForm-remember" /><label for="frmsignInForm-remember">Zapamätať si ma</label>
-						</div>
-					</div>
-					<div class="col-lg-6">
-					<input type="submit" class="btn btn-primary button pull-right" name="login" id="frmsignInForm-login" value="Prihlásiť" />
-					</div>
-				</div>
-
-			</form>
-
-
-		</div>
-		<div class="col-lg-4"></div>
-
-	</div>
 {/block}
 
-{block script}
-	<script>
-		$.backstretch("../images/log-in-bg.jpg");
+{block head}
+
+	<style>
+	/*body {
+		background: url('../images/log-in-bg.jpg') no-repeat center center fixed;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+	}*/
+	</style>
+
+{/block}
+
+{block scripts}
+
+	<!-- Inline scripts related to this page -->
+
+	<script type="text/javascript">
+		function show_box(id) {
+		 jQuery('.widget-box.visible').removeClass('visible');
+		 jQuery('#'+id).addClass('visible');
+		}
 	</script>
+
 {/block}
